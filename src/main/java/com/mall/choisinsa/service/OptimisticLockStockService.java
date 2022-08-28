@@ -4,22 +4,20 @@ import com.mall.choisinsa.domain.Stock;
 import com.mall.choisinsa.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @RequiredArgsConstructor
 @Service
-public class StockService {
+public class OptimisticLockStockService {
 
     private final StockRepository stockRepository;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public synchronized void decrease(Long id, Long quantity) {
-        Stock stock = stockRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException());
+    @Transactional
+    public void decrease(Long id, Long quantity) {
+        Stock stock = stockRepository.findByIdWithOptimisticLock(id);
 
         stock.decrease(quantity);
-
         stockRepository.save(stock);
     }
 }

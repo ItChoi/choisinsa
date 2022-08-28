@@ -1,4 +1,4 @@
-package com.mall.choisinsa.service;
+package com.mall.choisinsa.facade;
 
 import com.mall.choisinsa.domain.Stock;
 import com.mall.choisinsa.repository.StockRepository;
@@ -15,12 +15,9 @@ import java.util.concurrent.Executors;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class StockServiceTest {
-
+class NamedLockStockFacadeTest {
     @Autowired
-    private StockService stockService;
-    @Autowired
-    private PessimisticLockStockService pessimisticLockStockService;
+    private NamedLockStockFacade namedLockStockFacade;
     @Autowired
     private StockRepository stockRepository;
 
@@ -36,15 +33,6 @@ class StockServiceTest {
     }
 
     @Test
-    void stock_decrease() {
-        stockService.decrease(1L, 1L);
-        Stock stock = stockRepository.findById(1L)
-                .orElseThrow(() -> new IllegalArgumentException());
-
-        assertEquals(99, stock.getQuantity());
-    }
-
-    @Test
     public void 동시에_100개의_요청() throws InterruptedException {
         // 실패 이유: 레이스 컨디션이 일어났기 떄문.
         // 둘 이상의 스레드가 공유 데이터에 엑세스 할 수 있고, 동시에 변경을 하려 할 때 발생하는 문제
@@ -57,8 +45,7 @@ class StockServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    //stockService.decrease(1L, 1L);
-                    pessimisticLockStockService.decrease(1L, 1L);
+                    namedLockStockFacade.decrease(1L, 1L);
                 } finally {
                     latch.countDown();
                 }
@@ -69,5 +56,4 @@ class StockServiceTest {
         Stock stock = stockRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException());
         assertEquals(0L, stock.getQuantity());
     }
-
 }
