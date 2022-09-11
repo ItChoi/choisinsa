@@ -1,0 +1,43 @@
+spring:
+  messages:
+    basename: messages
+  profiles:
+    include: database,aws,oauth2
+
+  # 스프링 부트 - 서버 기동 안하고 UI 화면에서 즉각 변경 데이터 볼 수 있도록 지원
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      format_sql: true
+      default_batch_fetch_size: 500
+      use_sql_comments: true
+    open-in-view: true
+    session:
+      store-type: jdbc
+  session:
+    jdbc:
+      initialize-schema: always
+
+  servlet:
+    multipart:
+      file-size-threshold: 1MB
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
