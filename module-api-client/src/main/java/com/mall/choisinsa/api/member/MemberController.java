@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/members")
 public class MemberController {
     private final StockService stockService;
+    //private final MemberService
 
 
 
