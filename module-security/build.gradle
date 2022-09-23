@@ -3,5 +3,5 @@ jar { enabled = true }
 
 dependencies {
     implementation project(":module-common")
-    implementation project(":module-core")
+//    implementation project(":module-core")
 }
