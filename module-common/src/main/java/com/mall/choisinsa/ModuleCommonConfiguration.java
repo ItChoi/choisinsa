@@ -12,8 +12,8 @@ import org.springframework.context.annotation.FilterType;
 @SpringBootConfiguration
 @ComponentScan(excludeFilters = { @ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
         @ComponentScan.Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
-public class ModuleCommonCinfiguration {
+public class ModuleCommonConfiguration {
     public static void main(String[] args) {
-        SpringApplication.run(ModuleCommonCinfiguration.class, args);
+        SpringApplication.run(ModuleCommonConfiguration.class, args);
     }
 }

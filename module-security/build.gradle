@@ -3,5 +3,7 @@ jar { enabled = true }
 
 dependencies {
     implementation project(":module-common")
-    implementation project(":module-core")
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    runtimeOnly 'mysql:mysql-connector-java'
 }

@@ -12,10 +12,10 @@ import org.springframework.context.annotation.FilterType;
 @SpringBootConfiguration
 @ComponentScan(excludeFilters = { @ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
         @ComponentScan.Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
-public class CoreConfiguration {
+public class ModuleCoreConfiguration {
 
     public static void main(String[] args) {
-        SpringApplication.run(CoreConfiguration.class, args);
+        SpringApplication.run(ModuleCoreConfiguration.class, args);
     }
 
 }

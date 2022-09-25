@@ -17,6 +17,10 @@ public class RedisLockRepository {
                 .setIfAbsent(generateKey(key), "lock", Duration.ofMillis(3_000));
     }
 
+    public Boolean unlock(Long key) {
+        return redisTemplate.delete(generateKey(key));
+    }
+
     private String generateKey(Long key) {
         return key.toString();
     }
