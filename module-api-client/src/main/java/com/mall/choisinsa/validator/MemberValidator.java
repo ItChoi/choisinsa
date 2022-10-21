@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * 검증 테스트 클래스 (Validation)
+ */
 @Component
 public class MemberValidator implements Validator {
 

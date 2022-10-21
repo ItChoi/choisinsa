@@ -1,15 +1,15 @@
 package com.mall.choisinsa.api.member;
 
+import com.mall.choisinsa.annotation.LoginMember;
+import com.mall.choisinsa.domain.member.Member;
 import com.mall.choisinsa.dto.response.ResponseWrapper;
 import com.mall.choisinsa.service.StockService;
 import com.mall.choisinsa.validator.MemberValidator;
 import com.mall.choisinsa.service.member.MemberService;
+import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,6 +25,15 @@ public class MemberController {
     public void init(WebDataBinder dataBinder) {
         dataBinder.addValidators(memberValidator);
     }
+
+    // @LoginMember -> ArgumentResolver 로직 완성 후 사용하기.
+    @GetMapping
+    public ResponseWrapper getMember(Member member) {
+        System.out.println("");
+        throw new IllegalArgumentException();
+        //return null;
+    }
+
 
     @PostMapping
     public ResponseWrapper postMember() {

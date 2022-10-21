@@ -4,6 +4,7 @@ import com.mall.choisinsa.filter.PermitAllFilter;
 import com.mall.choisinsa.service.SecurityMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,9 +25,9 @@ public class SecurityMemberConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authz) -> authz
+                /*.authorizeHttpRequests((authz) -> authz
                         .anyRequest().authenticated()
-                )
+                )*/
                 .httpBasic(Customizer.withDefaults())
                 .userDetailsService(securityMemberService)
                 .authenticationProvider(authenticationProvider);
@@ -46,7 +47,7 @@ public class SecurityMemberConfig {
         return new String[]{
                 "/img/**",
                 "/h2-console/**",
-                "favicon.ico"
+                "favicon.ico",
         };
     }
 
