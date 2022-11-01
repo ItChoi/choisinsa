@@ -2,5 +2,7 @@
 dependencies {
     implementation project(":module-common")
     implementation project(":module-core")
-//    implementation project(":module-security")
+    implementation project(":module-security")
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }

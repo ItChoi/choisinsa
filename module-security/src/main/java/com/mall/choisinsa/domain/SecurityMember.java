@@ -23,6 +23,8 @@ public class SecurityMember extends BaseDateTimeEntity {
     @Column
     private String loginId;
     @Column
+    private String password;
+    @Column
     private String name;
     @Column
     private String email;

@@ -2,6 +2,12 @@ server:
   port: 8080
 
 spring:
+  profiles:
+    include: configuration, jwt
+
+---
+
+spring:
   config:
     activate:
       on-profile: configuration

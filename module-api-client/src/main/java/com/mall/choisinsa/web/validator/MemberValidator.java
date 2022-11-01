@@ -1,4 +1,4 @@
-package com.mall.choisinsa.validator;
+package com.mall.choisinsa.web.validator;
 
 import com.mall.choisinsa.domain.member.Member;
 import org.springframework.stereotype.Component;

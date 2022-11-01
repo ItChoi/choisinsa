@@ -38,4 +38,5 @@ out/
 
 
 application-database.yml
+application-jwt.yml
 sql/**
