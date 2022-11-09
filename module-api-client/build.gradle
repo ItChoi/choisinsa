@@ -6,3 +6,13 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
 }
+
+//sourceSets {
+//    main {
+//        resources {
+//            srcDirs += [
+//                    project(':module-configuration').sourceSets.main.resources
+//            ]
+//        }
+//    }
+//}

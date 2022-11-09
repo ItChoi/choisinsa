@@ -23,9 +23,9 @@ public class SecurityAuthority extends BaseDateTimeEntity {
     @Column
     private AuthorityType authority;
 
-    @Column
+    @Column(name = "is_display")
     private boolean display;
 
-    @Column
+    @Column(name = "is_direct_config")
     private boolean directConfig;
 }

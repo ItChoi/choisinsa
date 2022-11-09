@@ -15,7 +15,7 @@ public class SecurityMemberDto extends User {
     private String nickName;
 
     public SecurityMemberDto(Long memberId, String loginId, String password, String nickName, Collection<? extends GrantedAuthority> authorities) {
-        super(loginId, null, authorities);
+        super(loginId, password, authorities);
         this.memberId = memberId;
         this.loginId = loginId;
         this.password = password;

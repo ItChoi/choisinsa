@@ -3,11 +3,6 @@ server:
 
 spring:
   profiles:
-    include: configuration, jwt
+    include: database,aws,oauth2,jwt,configuration
 
 ---
-
-spring:
-  config:
-    activate:
-      on-profile: configuration

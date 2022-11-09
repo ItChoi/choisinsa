@@ -2,8 +2,10 @@ package com.mall.choisinsa.dto.response;
 
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 @AllArgsConstructor
 public class ResponseWrapper {
     private HttpStatus status;

@@ -4,7 +4,9 @@ import com.mall.choisinsa.domain.member.Member;
 import com.mall.choisinsa.dto.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.dto.request.member.MemberLoginRequestDto;
 import com.mall.choisinsa.dto.response.ResponseWrapper;
+import com.mall.choisinsa.dto.response.member.MemberLoginResponseDto;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
+import com.mall.choisinsa.repository.member.MemberRepository;
 import com.mall.choisinsa.service.SecurityMemberService;
 import com.mall.choisinsa.service.StockService;
 import com.mall.choisinsa.web.validator.MemberValidator;
@@ -19,11 +21,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/members")
 public class MemberController {
-    private final StockService stockService;
-    private final MemberValidator memberValidator;
+    //private final StockService stockService;
+    //private final MemberValidator memberValidator;
     private final MemberService memberService;
     private final SecurityMemberService securityMemberService;
-    private final PasswordEncoder passwordEncoder;
+
 
     // 이 컨트롤에 있는 메소드 호출마다 이 검증을 적용하게 된다. 메소드마다 검증 대상은 @Validated 추가
     /*@InitBinder
@@ -33,7 +35,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseWrapper login(@Validated @RequestBody MemberLoginRequestDto requestDto) {
-        return ResponseWrapper.ok(securityMemberService.login(requestDto.getLoginId(), requestDto.getPassword()));
+        return ResponseWrapper.ok(new MemberLoginResponseDto(securityMemberService.login(requestDto.getLoginId(), requestDto.getPassword())));
     }
 
 
@@ -42,8 +44,7 @@ public class MemberController {
     @GetMapping
     public ResponseWrapper getMember(Member member) {
         System.out.println("");
-        throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
-        //return null;
+        return null;
     }
 
 
