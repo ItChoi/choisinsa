@@ -1,6 +1,6 @@
 package com.mall.choisinsa.api.item;
 
-import com.mall.choisinsa.dto.item.ItemRequestDto;
+import core.dto.item.ItemRequestDto;
 import com.mall.choisinsa.dto.response.ResponseWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -38,5 +38,10 @@ out/
 
 
 application-database.yml
+application-self-verification.yml
+
 application-jwt.yml
 sql/**
+
+iamport-verification.*
+**/secret/**

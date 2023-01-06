@@ -1,7 +1,7 @@
 package com.mall.choisinsa.web.exception.advice;
 
-import com.mall.choisinsa.dto.exception.ErrorResult;
-import com.mall.choisinsa.dto.exception.ErrorTypeAdviceException;
+import com.mall.choisinsa.common.exception.ErrorResult;
+import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import jdk.jshell.spi.ExecutionControl.UserException;
 import lombok.extern.slf4j.Slf4j;

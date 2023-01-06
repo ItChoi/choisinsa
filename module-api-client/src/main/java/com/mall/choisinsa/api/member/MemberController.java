@@ -1,20 +1,13 @@
 package com.mall.choisinsa.api.member;
 
-import com.mall.choisinsa.domain.member.Member;
-import com.mall.choisinsa.dto.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.dto.request.member.MemberLoginRequestDto;
+import core.dto.request.member.MemberLoginRequestDto;
+import core.dto.request.member.MemberRegisterRequestDto;
 import com.mall.choisinsa.dto.response.ResponseWrapper;
-import com.mall.choisinsa.dto.response.member.MemberLoginResponseDto;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.repository.member.MemberRepository;
-import com.mall.choisinsa.service.SecurityMemberService;
-import com.mall.choisinsa.service.StockService;
-import com.mall.choisinsa.web.validator.MemberValidator;
-import com.mall.choisinsa.service.member.MemberService;
+import core.dto.response.member.MemberLoginResponseDto;
+import com.mall.choisinsa.security.service.SecurityMemberService;
+import core.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -35,24 +28,29 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseWrapper login(@Validated @RequestBody MemberLoginRequestDto requestDto) {
-        return ResponseWrapper.ok(new MemberLoginResponseDto(securityMemberService.login(requestDto.getLoginId(), requestDto.getPassword())));
+        return ResponseWrapper.ok(
+                new MemberLoginResponseDto(securityMemberService.login(requestDto.getLoginId(), requestDto.getPassword()))
+        );
     }
 
 
 
     // @LoginMember -> ArgumentResolver 로직 완성 후 사용하기.
-    @GetMapping
-    public ResponseWrapper getMember(Member member) {
-        System.out.println("");
-        return null;
+    @GetMapping("/{memberId}")
+    public ResponseWrapper getMember(@PathVariable Long memberId) {
+        return ResponseWrapper.ok(memberService.findMemberById(memberId));
     }
 
 
     @PostMapping
-    public ResponseWrapper postMember() {
-
-        return null;
+    public ResponseWrapper postMember(@Validated @RequestBody MemberRegisterRequestDto requestDto) {
+        memberService.saveMember(requestDto);
+        return ResponseWrapper.ok();
     }
 
+    @GetMapping("/{loginId}/recommender")
+    public ResponseWrapper canRecommendByLoginId(@PathVariable("loginId") String loginId) {
+        return ResponseWrapper.ok(memberService.canRecommendByLoginId(loginId));
+    }
 }
 

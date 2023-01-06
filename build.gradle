@@ -1,7 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.8'
     id 'java'
 }
 
@@ -10,19 +9,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 }
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
+repositories {
+    mavenCentral()
 }
 
-tasks.named('test') {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
-}
 
 allprojects {
 
@@ -31,7 +21,6 @@ allprojects {
 subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'org.asciidoctor.convert'
     apply plugin: 'java'
 
     group = 'com.mall'
@@ -70,4 +59,8 @@ subprojects {
         useJUnitPlatform()
     }
 
+}
+
+bootJar {
+    enabled = false
 }

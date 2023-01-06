@@ -1,6 +1,6 @@
 package com.mall.choisinsa.web.validator;
 
-import com.mall.choisinsa.domain.member.Member;
+import core.domain.member.Member;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

@@ -1,7 +1,7 @@
 package com.mall.choisinsa.web;
 
 import com.mall.choisinsa.annotation.LoginMember;
-import com.mall.choisinsa.domain.member.Member;
+import core.domain.member.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
