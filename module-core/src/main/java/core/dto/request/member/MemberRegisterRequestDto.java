@@ -1,7 +1,8 @@
 package core.dto.request.member;
 
 import com.mall.choisinsa.enumeration.member.GenderType;
-import com.mall.choisinsa.util.EncryptionUtil;
+import com.mall.choisinsa.enumeration.member.LoginType;
+import com.mall.choisinsa.util.security.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
 import lombok.Getter;
@@ -18,14 +19,17 @@ public class MemberRegisterRequestDto {
     private String password;
     @NotBlank
     private String email;
+    @NotNull
+    private LoginType loginType;
     @Valid
     private MemberDetailRegisterRequestDto memberDetail;
 
-    public Member toMember() {
+    public Member toMember(String encodePassword) {
         return Member.builder()
                 .loginId(this.loginId)
-                .password(EncryptionUtil.DecryptionUtil.decrypt(this.password))
-                .email(EncryptionUtil.encrypt(this.email))
+                .password(encodePassword)
+                .email(EncryptionUtil.getEncryptByPlainText(this.email))
+                .loginType(this.loginType)
                 .build();
     }
 

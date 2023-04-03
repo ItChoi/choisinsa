@@ -39,8 +39,9 @@ out/
 
 application-database.yml
 application-self-verification.yml
-
 application-jwt.yml
+application-oauth.yml
+
 sql/**
 
 iamport-verification.*

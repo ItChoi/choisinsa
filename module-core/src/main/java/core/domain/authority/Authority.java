@@ -1,7 +1,7 @@
 package core.domain.authority;
 
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
-import com.mall.choisinsa.enumeration.security.AuthorityType;
+import core.domain.common.BaseDateTimeEntity;
+import com.mall.choisinsa.enumeration.authority.AuthorityType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,11 +18,14 @@ public class Authority extends BaseDateTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private AuthorityType authority;
+    private AuthorityType type;
 
-    @Column(name = "is_display")
-    private boolean display;
+    @Column
+    private Boolean isDisplay;
 
-    @Column(name = "is_direct_config")
-    private boolean directConfig;
+    @Column
+    private Boolean isUseMenuAuthority;
+
+    @Column
+    private Boolean isAdminAuthority;
 }

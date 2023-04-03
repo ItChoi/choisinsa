@@ -5,7 +5,7 @@ import core.repository.event.EventRepository;
 import com.mall.choisinsa.enumeration.ActiveStatus;
 import com.mall.choisinsa.enumeration.event.EventType;
 import core.repository.event.EventParticipantRepository;
-import com.mall.choisinsa.util.DateUtil;
+import com.mall.choisinsa.util.date.DateUtil;
 import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

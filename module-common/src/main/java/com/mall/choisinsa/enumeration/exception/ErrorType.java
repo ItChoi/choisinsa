@@ -21,7 +21,10 @@ public enum ErrorType {
     EXPIRED_JWT_TOKEN(HttpStatus.INTERNAL_SERVER_ERROR, "만료된 JWT 토큰입니다."),
     UNSUPPORTED_JWT_TOKEN(HttpStatus.INTERNAL_SERVER_ERROR, "지원하지 않는 JWT 토큰입니다."),
     INVALID_JWT_TOKEN(HttpStatus.INTERNAL_SERVER_ERROR, "유효하지 않은 JWT 토큰입니다."),
-    MISMATCH_REQUEST(HttpStatus.BAD_REQUEST, "입력하신 정보가 일치하지 않습니다.");
+    MISMATCH_REQUEST(HttpStatus.BAD_REQUEST, "입력하신 정보가 일치하지 않습니다."),
+    NOT_EXISTS_REQUIRED_DATA(HttpStatus.BAD_REQUEST, "필수 데이터가 존재하지 않습니다."),
+    MISMATCH_AUTHORITY(HttpStatus.BAD_REQUEST, "권한이 일치하지 않습니다.");
+
 
     private final HttpStatus httpStatus;
     private final String message;

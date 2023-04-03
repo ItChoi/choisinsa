@@ -1,5 +1,18 @@
+plugins {
+    // QueryDSL 플러그인 추가
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+// queryDsl version 정보 추가
+/*buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}*/
+
 bootJar { enabled = false }
 jar { enabled = true }
+
 
 dependencies {
     implementation project(":module-common")
@@ -9,4 +22,44 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.redisson:redisson-spring-boot-starter:3.17.7'
+
+    // Querydsl 추가 시작
+    implementation 'com.querydsl:querydsl-jpa'
+    implementation 'com.querydsl:querydsl-apt'
+
+    // web client
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+}
+
+/*
+ * queryDSL 설정 추가
+ */
+// querydsl에서 사용할 경로 설정
+def querydslDir = "$buildDir/generated/querydsl"
+// JPA 사용 여부와 사용할 경로를 설정
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+// build 시 사용할 sourceSet 추가
+sourceSets {
+    main.java.srcDir querydslDir
+}
+// querydsl 컴파일시 사용할 옵션 설정
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+// querydsl 이 compileClassPath 를 상속하도록 설정
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
+// clean 태스크와 cleanGeneatedDir 태스크 중 취향에 따라서 선택하세요.
+/** clean 태스크 실행시 QClass 삭제 */
+clean {
+    delete file('src/main/generated') // 인텔리제이 Annotation processor 생성물 생성위치
 }

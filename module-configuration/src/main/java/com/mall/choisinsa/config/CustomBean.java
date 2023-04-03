@@ -1,7 +1,12 @@
 package com.mall.choisinsa.config;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.persistence.EntityManager;
+
+@RequiredArgsConstructor
 @Configuration
 public class CustomBean {
 
@@ -13,4 +18,5 @@ public class CustomBean {
         messageSource.setDefaultEncoding("utf-8");
         return messageSource;
     }*/
+
 }

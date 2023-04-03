@@ -1,6 +1,6 @@
 package core.domain.member;
 
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
+import core.domain.common.BaseDateTimeEntity;
 import com.mall.choisinsa.enumeration.member.GenderType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

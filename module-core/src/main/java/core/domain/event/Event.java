@@ -1,6 +1,6 @@
 package core.domain.event;
 
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
+import core.domain.common.BaseDateTimeEntity;
 import com.mall.choisinsa.enumeration.ActiveStatus;
 import com.mall.choisinsa.enumeration.EntryFeeType;
 import com.mall.choisinsa.enumeration.event.EventMethod;

@@ -1,6 +1,6 @@
 package core.domain.menu;
 
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
+import core.domain.common.BaseDateTimeEntity;
 import com.mall.choisinsa.enumeration.menu.MenuIncludeApiUrlStatus;
 import lombok.*;
 
@@ -27,7 +27,7 @@ public class MenuIncludeDetailApiUrl extends BaseDateTimeEntity {
     @Column
     private String apiUrl;
 
-    @Enumerated(EnumType.STRING)
+    /*@Enumerated(EnumType.STRING)
     @Column
-    private MenuIncludeApiUrlStatus status;
+    private MenuIncludeApiUrlStatus status;*/
 }

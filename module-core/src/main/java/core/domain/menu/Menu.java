@@ -1,10 +1,13 @@
 package core.domain.menu;
 
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
+import core.domain.authority.MenuDetailAuthority;
+import core.domain.common.BaseDateTimeEntity;
 import com.mall.choisinsa.enumeration.menu.MenuType;
+import core.domain.event.Event;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Builder
 @Getter
@@ -17,12 +20,25 @@ public class Menu extends BaseDateTimeEntity {
     @Id
     private Long id;
 
+    @OneToMany(mappedBy = "menu", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<MenuIncludeDetailApiUrl> menuIncludeDetailApiUrls;
+
+    @Column
+    private Long parentId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parentId", insertable = false, updatable = false)
+    private Menu parent;
+
+    @OneToMany(mappedBy = "parent",orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<Menu> children;
+
     @Enumerated(EnumType.STRING)
     @Column
     private MenuType type;
 
     @Column
-    private Long parentId;
+    private String name;
 
     @Column
     private Integer depth;
@@ -31,5 +47,5 @@ public class Menu extends BaseDateTimeEntity {
     private Integer displayOrder;
 
     @Column
-    private String apiUrl;
+    private Boolean isDisplay;
 }

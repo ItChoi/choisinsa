@@ -1,6 +1,6 @@
 package core.domain.event;
 
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
+import core.domain.common.BaseDateTimeEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

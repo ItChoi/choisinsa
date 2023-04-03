@@ -1,7 +1,9 @@
 package com.mall.choisinsa.security.filter;
 
 import com.mall.choisinsa.enumeration.exception.ErrorType;
+import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
+import com.mall.choisinsa.security.service.SecurityMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -22,11 +24,11 @@ public class JwtFilter extends GenericFilter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String jwt = resolveToken(httpServletRequest);
+        String token = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
-        if (StringUtils.hasText(jwt) && jwtTokenProvider.isValidJwtToken(jwt)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(jwt);
+        if (StringUtils.hasText(token) && jwtTokenProvider.isValidJwtToken(token)) {
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.debug("Security Context에 '{}' 인증 정보를 저장했습니다. uri: {}", authentication.getName(), requestURI);
         } else {

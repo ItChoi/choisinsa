@@ -34,8 +34,8 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(ErrorTypeAdviceException.class)
     public ResponseEntity<ErrorResult> errorTypeExHandler(ErrorTypeAdviceException e) {
-        log.error("[EXCEPTION] {}:", e);
         ErrorResult errorResult = e.getErrorResult();
+        log.error("[EXCEPTION] {}:", errorResult.getMessage());
         return new ResponseEntity<>(errorResult, errorResult.getHttpStatus());
     }
 

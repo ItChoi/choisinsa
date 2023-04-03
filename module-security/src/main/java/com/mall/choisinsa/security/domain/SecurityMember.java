@@ -1,22 +1,18 @@
 package com.mall.choisinsa.security.domain;
 
 import com.mall.choisinsa.enumeration.member.LoginType;
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "member")
-public class SecurityMember extends BaseDateTimeEntity {
+public class SecurityMember {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,8 +25,6 @@ public class SecurityMember extends BaseDateTimeEntity {
     private String name;
     @Column
     private String email;
-    @Column
-    private String recommenderLoginId;
     @Column
     private String nickName;
     @Column

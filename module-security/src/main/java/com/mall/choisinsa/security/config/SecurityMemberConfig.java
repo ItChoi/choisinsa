@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 //@EnableWebSecurity(debug = true)
+@Profile("client")
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
@@ -44,13 +47,14 @@ public class SecurityMemberConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> {
             web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                    .and().ignoring().antMatchers(getAnyMatchersForStaticPathes())
-                    .and().ignoring().antMatchers(getAnyMatchersForDynamicPathes());
+                    .and().ignoring().antMatchers(getAnyMatchersForStaticPaths())
+                    .and().ignoring().antMatchers(HttpMethod.GET, getMappingAnyMatchersForDynamicPaths())
+                    .and().ignoring().antMatchers(HttpMethod.POST, postMappingAnyMatchersForDynamicPaths());
 
         };
     }
 
-    private String[] getAnyMatchersForStaticPathes() {
+    private String[] getAnyMatchersForStaticPaths() {
         return new String[]{
                 "/img/**",
                 "/h2-console/**",
@@ -58,11 +62,20 @@ public class SecurityMemberConfig {
         };
     }
 
-    private String[] getAnyMatchersForDynamicPathes() {
+    private String[] getMappingAnyMatchersForDynamicPaths() {
+        return new String[]{
+                "/docs/**",
+                "/members/iamport-verification**",
+                "/api/kakao/oauth/authorization-code",
+                "/api/kakao/oauth/authorize"
+        };
+    }
+
+    private String[] postMappingAnyMatchersForDynamicPaths() {
         return new String[]{
                 "/api/members/login",
-                "/docs/**",
-                "/members/iamport-verification**"
+                "/api/members",
+                "/api/kakao/oauth/token"
         };
     }
 }

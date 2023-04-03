@@ -1,6 +1,5 @@
 package com.mall.choisinsa.security.domain;
 
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "member_authority")
-public class SecurityMemberAuthority extends BaseDateTimeEntity {
+public class SecurityMemberAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long memberId;

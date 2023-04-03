@@ -1,7 +1,15 @@
 package com.mall.choisinsa.security.provider;
 
+import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import com.mall.choisinsa.common.secret.ConstData;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
+import com.mall.choisinsa.security.domain.SecurityMember;
+import com.mall.choisinsa.security.dto.SecurityMemberDto;
+import com.mall.choisinsa.security.service.SecurityMemberService;
+import com.mall.choisinsa.security.service.SecurityUserDetailsService;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -20,19 +27,24 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+import static com.mall.choisinsa.security.service.SecurityUserDetailsService.toSecurityMemberDtoFromAuthorizedPrinciple;
+
 @Slf4j
 @Component
 public class JwtTokenProvider implements InitializingBean {
 
-    private static final String AUTHORITIES_KEY = "auth";
+
     private final String secret;
     private final long tokenValidityInMilliseconds;
+    private final SecurityUserDetailsService securityUserDetailsService;
     private Key key;
 
     public JwtTokenProvider(@Value("${jwt.member.secret}") String secret,
-                            @Value("${jwt.member.token-validity-in-seconds}") long tokenValidityInMilliseconds) {
+                            @Value("${jwt.member.token-validity-in-seconds}") long tokenValidityInMilliseconds,
+                            SecurityUserDetailsService securityUserDetailsService) {
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInMilliseconds;
+        this.securityUserDetailsService = securityUserDetailsService;
     }
 
     @Override
@@ -49,9 +61,11 @@ public class JwtTokenProvider implements InitializingBean {
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
+        SecurityMemberDto securityMemberDto = toSecurityMemberDtoFromAuthorizedPrinciple(authentication);
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
+                .claim(ConstData.JWT_USER_ID, securityMemberDto.getMemberId())
+                .claim(ConstData.AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
@@ -65,14 +79,29 @@ public class JwtTokenProvider implements InitializingBean {
                 .parseClaimsJws(token)
                 .getBody();
 
+        String username = claims.getSubject();
+        Long memberId = claims.get(ConstData.JWT_USER_ID, Long.class);
+        validateAuthMember(username, memberId);
+
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(
-                        claims.get(AUTHORITIES_KEY).toString().split(","))
+                        claims.get(ConstData.AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        User principal = new User(claims.getSubject(), "", authorities);
+        User principal = new User(username, "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    private void validateAuthMember(String username, Long memberId) {
+        if (!StringUtils.hasText(username) || memberId == null) {
+            throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+        }
+
+        SecurityMember securityMember = (SecurityMember) securityUserDetailsService.loadUserByMemberId(memberId);
+        if (!username.equals(securityMember.getLoginId())) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_REQUEST);
+        }
     }
 
     public boolean isValidJwtToken(String token) {
@@ -94,5 +123,4 @@ public class JwtTokenProvider implements InitializingBean {
 
         return false;
     }
-
 }

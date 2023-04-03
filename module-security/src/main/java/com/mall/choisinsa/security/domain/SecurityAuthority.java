@@ -1,32 +1,31 @@
 package com.mall.choisinsa.security.domain;
 
-import com.mall.choisinsa.enumeration.security.AuthorityType;
-import com.mall.choisinsa.domain.BaseDateTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.mall.choisinsa.enumeration.authority.AuthorityType;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "authority")
-public class SecurityAuthority extends BaseDateTimeEntity {
+public class SecurityAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column
-    private AuthorityType authority;
+    private AuthorityType type;
 
-    @Column(name = "is_display")
-    private boolean display;
+    @Column
+    private Boolean isDisplay;
 
-    @Column(name = "is_direct_config")
-    private boolean directConfig;
+    @Column
+    private Boolean isUseMenuAuthority;
+
+    @Column
+    private Boolean isAdminAuthority;
 }

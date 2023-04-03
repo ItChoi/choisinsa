@@ -13,6 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -39,7 +42,6 @@ class MemberControllerTest extends ClientApplicationBaseTest {
 
     @Test
     void test() throws Exception {
-
         BDDMockito.given(memberService.canRecommendByLoginId(any())).willReturn(true);
         this.mockMvc.perform(get("/api/members/{loginId}/recommender", "test")
                         .accept(MediaType.APPLICATION_JSON))
@@ -54,6 +56,5 @@ class MemberControllerTest extends ClientApplicationBaseTest {
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN).description("true: 추천 가능, false: 추천 불가능")
                         )
                 ));
-
     }
 }
