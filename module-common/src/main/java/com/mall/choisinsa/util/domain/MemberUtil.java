@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 public class MemberUtil {
 
     public class MemberValidator {
+
         public static void validateLoginOrThrow(String loginId,
                                                 String password) {
 
@@ -16,19 +17,28 @@ public class MemberUtil {
             }
 
             if (!MemberRegEx.isAvailableLoginId(loginId)) {
-                throw new ErrorTypeAdviceException(ErrorType.NOT_AVAILABLE_LOGIN_ID);
+                throw new ErrorTypeAdviceException(ErrorType.NOT_AVAILABLE_DATA, "아이디");
             }
 
         }
 
         public static void validateRegisterOrThrow(String loginId,
-                                                   String password) {
+                                                   String password,
+                                                   String email) {
 
             validateLoginOrThrow(loginId, password);
 
             if (!MemberRegEx.isAvailablePassword(password)) {
-                throw new ErrorTypeAdviceException(ErrorType.NOT_AVAILABLE_PASSWORD);
+                throw new ErrorTypeAdviceException(ErrorType.NOT_AVAILABLE_DATA, "비밀번호");
             }
+
+            if (!isAvailableEmail(email)) {
+                throw new ErrorTypeAdviceException(ErrorType.NOT_AVAILABLE_DATA, "이메일");
+            }
+        }
+
+        public static boolean isAvailableEmail(String email) {
+            return MemberRegEx.isAvailableEmail(email);
         }
 
     }

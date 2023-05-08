@@ -1,15 +1,16 @@
-package core.dto.kakao.service;
+package core.service.oauth2.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import core.dto.kakao.dto.KakaoOauthAuthorizationCodeDto;
-import core.dto.kakao.dto.KakaoOauthTokenDto;
-import core.dto.kakao.dto.request.KakaoAuthorizeCodeRequestDto;
-import core.dto.kakao.dto.request.KakaoOauthTokenRequestDto;
+import core.dto.request.oauth2.Oauth2LoginRequestDto;
+import core.dto.general.KakaoOauthTokenDto;
+import core.dto.request.kakao.KakaoAuthorizeCodeRequestDto;
+import core.dto.request.kakao.KakaoOauthTokenRequestDto;
+import core.dto.response.oauth2.Oauth2LoginResponseDto;
 import core.service.authority.MemberCertificationService;
-import core.service.http.HttpCommunication;
+import core.http.HttpCommunication;
 import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,14 +27,14 @@ public class KakaoService {
     private final HttpCommunication httpCommunication;
     private final MemberCertificationService memberCertificationService;
 
-    @Value("${oauth.service.kakao.client_id}")
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String clientId;
-    @Value("${oauth.service.kakao.redirect_uri}")
+    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String redirectUri;
-    @Value("${oauth.service.kakao.client_secret}")
+    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
     private String clientSecret;
 
-    public Object authorizeOauth(KakaoOauthAuthorizationCodeDto requestDto) {
+    public Oauth2LoginResponseDto authorizeOauth(Oauth2LoginRequestDto requestDto) {
         String code = requestDto.getCode();
         if (!StringUtils.hasText(code)) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
@@ -54,14 +55,13 @@ public class KakaoService {
         );
 
         ObjectMapper objectMapper = new ObjectMapper();
-        KakaoOauthTokenDto test = objectMapper.convertValue(oauthCode, KakaoOauthTokenDto.class);
-        System.out.println("test");
-
-        return null;
+        KakaoOauthTokenDto oauth2TokenInfo = objectMapper.convertValue(oauthCode, KakaoOauthTokenDto.class);
+        // TODO 이메일 가져와서 체크 필요
+        return new Oauth2LoginResponseDto(oauth2TokenInfo.getAccess_token(), false);
     }
 
     @Nullable
-    public KakaoOauthAuthorizationCodeDto getAuthorizeCode(KakaoAuthorizeCodeRequestDto requestDto) {
+    public Oauth2LoginRequestDto getAuthorizeCode(KakaoAuthorizeCodeRequestDto requestDto) {
         Object obj = httpCommunication.requestGet(KAKAO_OAUTH_AUTHORIZE_URL, requestDto);
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -71,7 +71,7 @@ public class KakaoService {
 
         try {
             String jsonString = objectMapper.writeValueAsString(obj);
-            return objectMapper.readValue(jsonString, KakaoOauthAuthorizationCodeDto.class);
+            return objectMapper.readValue(jsonString, Oauth2LoginRequestDto.class);
         } catch (JsonProcessingException e) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }

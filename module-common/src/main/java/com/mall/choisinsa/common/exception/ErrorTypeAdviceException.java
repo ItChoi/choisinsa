@@ -14,4 +14,9 @@ public class ErrorTypeAdviceException extends RuntimeException {
         this.errorResult = new ErrorResult(errorType);
     }
 
+    public ErrorTypeAdviceException(ErrorType errorType,
+                                    String customStr) {
+        this.errorResult = new ErrorResult(errorType, customStr);
+    }
+
 }

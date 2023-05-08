@@ -1,4 +1,4 @@
-package core.service.http;
+package core.http;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;

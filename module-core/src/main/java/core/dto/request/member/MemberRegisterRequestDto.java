@@ -5,24 +5,33 @@ import com.mall.choisinsa.enumeration.member.LoginType;
 import com.mall.choisinsa.util.security.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@Builder
+@AllArgsConstructor
 @Getter
 public class MemberRegisterRequestDto {
-    @NotBlank
+    @NotBlank(groups = BasicMemberRegister.class)
     private String loginId;
     @NotBlank
     private String password;
-    @NotBlank
+    @NotBlank(groups = BasicMemberRegister.class)
     private String email;
     @NotNull
     private LoginType loginType;
     @Valid
     private MemberDetailRegisterRequestDto memberDetail;
+
+    @NotNull(groups = Oauth2MemberRegister.class)
+    private Boolean isAutoApplyWithSnsInfo;
+    @NotBlank(groups = Oauth2MemberRegister.class)
+    private String oauthAccessToken;
 
     public Member toMember(String encodePassword) {
         return Member.builder()
@@ -55,4 +64,11 @@ public class MemberRegisterRequestDto {
         }
     }
 
+    public interface Oauth2MemberRegister {
+
+    }
+
+    public interface BasicMemberRegister {
+
+    }
 }

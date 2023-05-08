@@ -15,4 +15,11 @@ public class ErrorResult {
         this.code = this.httpStatus.value();
         this.message = errorType.getMessage();
     }
+
+    public ErrorResult(ErrorType errorType,
+                       String customStr) {
+        this.httpStatus = errorType.getHttpStatus();
+        this.code = this.httpStatus.value();
+        this.message = ErrorType.formatErrorMsg(errorType, customStr);
+    }
 }

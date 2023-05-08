@@ -2,6 +2,7 @@ package com.mall.choisinsa.security.config;
 
 import com.mall.choisinsa.security.filter.JwtFilter;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
+import com.mall.choisinsa.security.service.Oauth2UserService;
 import com.mall.choisinsa.security.service.SecurityUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -26,6 +27,7 @@ public class SecurityMemberConfig {
     private final AuthenticationProvider authenticationProvider;
     private final SecurityUserDetailsService securityUserDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final Oauth2UserService oauth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,10 +36,15 @@ public class SecurityMemberConfig {
                         .anyRequest().authenticated()
                 )
                 .httpBasic().disable()
-                .userDetailsService(securityUserDetailsService)
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .userDetailsService(securityUserDetailsService)
+                    .authenticationProvider(authenticationProvider)
+                    .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login()
+                    .userInfoEndpoint()
+                    .userService(oauth2UserService);
+
         return http.build();
     }
 
@@ -67,7 +74,8 @@ public class SecurityMemberConfig {
                 "/docs/**",
                 "/members/iamport-verification**",
                 "/api/kakao/oauth/authorization-code",
-                "/api/kakao/oauth/authorize"
+                "/api/kakao/oauth/authorize",
+                "/login/oauth2/code/**"
         };
     }
 
@@ -75,6 +83,7 @@ public class SecurityMemberConfig {
         return new String[]{
                 "/api/members/login",
                 "/api/members",
+                "/api/members/{oauthLoginType}",
                 "/api/kakao/oauth/token"
         };
     }

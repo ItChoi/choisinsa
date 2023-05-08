@@ -1,4 +1,4 @@
-package core.dto.kakao.dto.request;
+package core.dto.request.kakao;
 
 import lombok.Getter;
 import lombok.Setter;

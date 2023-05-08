@@ -1,17 +1,19 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
+import com.mall.choisinsa.enumeration.SnsLoginType;
 import com.mall.choisinsa.security.service.SecurityMemberService;
 import core.dto.request.member.MemberLoginRequestDto;
 import core.dto.request.member.MemberRegisterRequestDto;
+import core.dto.request.member.MemberSnsLinkRequestDto;
 import core.dto.response.member.MemberLoginResponseDto;
-import core.service.http.HttpCommunication;
-import core.service.http.HttpWebClient;
+import core.http.HttpCommunication;
 import core.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import static core.dto.request.member.MemberRegisterRequestDto.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -45,7 +47,7 @@ public class MemberController {
 
 
     @PostMapping
-    public ResponseWrapper postMember(@Validated @RequestBody MemberRegisterRequestDto requestDto) {
+    public ResponseWrapper postMember(@Validated(BasicMemberRegister.class) @RequestBody MemberRegisterRequestDto requestDto) {
         memberService.saveMember(requestDto);
         return ResponseWrapper.ok();
     }
@@ -54,5 +56,24 @@ public class MemberController {
     public ResponseWrapper canRecommendByLoginId(@PathVariable("loginId") String loginId) {
         return ResponseWrapper.ok(memberService.canRecommendByLoginId(loginId));
     }
+
+    @PostMapping("/{email}/sns-link")
+    public ResponseWrapper linkSnsWithEmail(@PathVariable String email,
+                                            @Validated @RequestBody MemberSnsLinkRequestDto requestDto) {
+        memberService.linkMemberWithSns(email, requestDto);
+        return ResponseWrapper.ok();
+    }
+
+    @PostMapping("/{oauthLoginType}")
+    public ResponseWrapper login(@PathVariable SnsLoginType oauthLoginType,
+                                 @Validated(Oauth2MemberRegister.class) @RequestBody MemberRegisterRequestDto requestDto) {
+        return ResponseWrapper.ok(new MemberLoginResponseDto(memberService.saveMemberWithOauth2(oauthLoginType, requestDto)));
+    }
+
+    @GetMapping("/{email}/is-available")
+    public ResponseWrapper isAvailableEmail(@PathVariable String email) {
+        return ResponseWrapper.ok(memberService.isExistEmail(email));
+    }
+
 }
 

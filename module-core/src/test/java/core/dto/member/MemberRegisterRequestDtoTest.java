@@ -6,7 +6,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import core.dto.member.MemberRegisterRequestDto;
+import core.dto.request.member.MemberRegisterRequestDto;
 import org.junit.jupiter.api.Test;
 
 class MemberRegisterRequestDtoTest {
@@ -18,7 +18,7 @@ class MemberRegisterRequestDtoTest {
 
         MemberRegisterRequestDto dto = MemberRegisterRequestDto.builder()
             .loginId("")
-            .name("나의 이름은 말이올씨다.")
+            .email("test@test.com")
             .build();
 
         Set<ConstraintViolation<MemberRegisterRequestDto>> violations = validator.validate(dto);

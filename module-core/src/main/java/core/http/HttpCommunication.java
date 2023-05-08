@@ -1,6 +1,5 @@
-package core.service.http;
+package core.http;
 
-import core.dto.kakao.dto.request.KakaoAuthorizeCodeRequestDto;
 import org.springframework.http.MediaType;
 
 public interface HttpCommunication {
