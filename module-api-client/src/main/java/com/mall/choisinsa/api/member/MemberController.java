@@ -45,7 +45,6 @@ public class MemberController {
         return ResponseWrapper.ok(memberService.findMemberById(memberId));
     }
 
-
     @PostMapping
     public ResponseWrapper postMember(@Validated(BasicMemberRegister.class) @RequestBody MemberRegisterRequestDto requestDto) {
         memberService.saveMember(requestDto);

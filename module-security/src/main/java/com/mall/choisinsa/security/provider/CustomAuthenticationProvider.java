@@ -1,13 +1,14 @@
 package com.mall.choisinsa.security.provider;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
+import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import com.mall.choisinsa.security.service.SecurityUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +31,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         SecurityMemberDto securityMemberDto = (SecurityMemberDto) securityUserDetailsService.loadUserByUsername(loginId);
-
         validateMatchPasswordOrThrowException(password, securityMemberDto.getPassword());
 
         securityMemberDto.setPassword(null);

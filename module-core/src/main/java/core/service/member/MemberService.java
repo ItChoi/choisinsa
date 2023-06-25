@@ -110,6 +110,10 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public boolean isExistEmail(String email) {
+        if (StringUtils.hasText(email)) {
+            log.warn("[WARNNING]: {}", "이메일 존재 여부를 체크 할 수 없습니다.");
+            return false;
+        }
         return memberRepository.existsByEmail(email);
     }
 
@@ -142,5 +146,14 @@ public class MemberService {
         }
 
         memberSnsLinkService.saveMemberSnsLink(member.getId(), snsType);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isExistLoginId(String loginId) {
+        if (StringUtils.hasText(loginId)) {
+            log.warn("[WARNNING]: {}", "이메일 존재 여부를 체크 할 수 없습니다.");
+            return false;
+        }
+        return memberRepository.existsByLoginId(loginId);
     }
 }

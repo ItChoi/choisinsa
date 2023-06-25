@@ -24,9 +24,9 @@ public class Oauth2Controller {
     @GetMapping ("/login/oauth2/code/{loginType}")
     public ResponseWrapper getKakaoOauthAuthorizationCode(@PathVariable SnsLoginType loginType,
                                                           Oauth2LoginRequestDto requestDto) {
-        // TODO: 수정 필요, 로그인이 아니라, 액세스 토큰만 발급이고, 로그인 api 따로 구현 필요
         return ResponseWrapper.ok(oauth2Service.login(loginType, requestDto));
     }
+
 
     /*@PostMapping("/oauth/token")
     public ResponseWrapper getKakaoOauthToken(@RequestBody KakaoOauthTokenDto requestDto) {
