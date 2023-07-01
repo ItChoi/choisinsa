@@ -24,7 +24,8 @@ public enum ErrorType {
     NOT_EXISTS_REQUIRED_DATA(HttpStatus.BAD_REQUEST, "필수 데이터가 존재하지 않습니다."),
     MISMATCH_AUTHORITY(HttpStatus.BAD_REQUEST, "권한이 일치하지 않습니다."),
     ALREADY_EXISTS_DATA(HttpStatus.BAD_REQUEST, "%s이(가) 이미 존재합니다."),
-    ONLY_AVAILABLE_SERVICE_FOR_SITE(HttpStatus.BAD_REQUEST, "사이트 회원만 가능한 서비스입니다.");
+    ONLY_AVAILABLE_SERVICE_FOR_SITE(HttpStatus.BAD_REQUEST, "사이트 회원만 가능한 서비스입니다."),
+    CAN_NOT_JSON_CONVERT(HttpStatus.BAD_REQUEST, "json convert가 되지 않았습니다. 데이터를 확인해주세요.");
 
 
     private final HttpStatus httpStatus;

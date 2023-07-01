@@ -1,21 +1,21 @@
 package core.service.member;
 
-import com.mall.choisinsa.enumeration.SnsLoginType;
+import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.enumeration.member.LoginType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
-import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.service.SecurityMemberService;
 import com.mall.choisinsa.util.domain.MemberUtil.MemberValidator;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import core.domain.member.MemberSnsConnect;
 import core.dto.request.member.MemberRegisterRequestDto;
 import core.dto.request.member.MemberRegisterRequestDto.MemberDetailRegisterRequestDto;
 import core.dto.request.member.MemberSnsLinkRequestDto;
 import core.dto.response.member.MemberResponseDto;
 import core.repository.member.MemberDetailRepository;
 import core.repository.member.MemberRepository;
+import core.repository.member.MemberSnsConnectRepository;
 import core.service.event.EventService;
 import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final EventService eventService;
     private final MemberDetailRepository memberDetailRepository;
-    private final MemberSnsLinkService memberSnsLinkService;
+    private final MemberSnsConnectService memberSnsConnectService;
     private final SecurityMemberService securityMemberService;
 
     @Transactional(readOnly = true)
@@ -118,7 +118,7 @@ public class MemberService {
     }
 
     @Transactional
-    public String saveMemberWithOauth2(SnsLoginType loginType,
+    public String saveMemberWithOauth2(SnsType loginType,
                                        MemberRegisterRequestDto requestDto) {
         /**
          * 회원가입시 이메일, sns 로그인시 이메일 - 겹칠 가능성이 있다.
@@ -133,19 +133,19 @@ public class MemberService {
     @Transactional
     public void linkMemberWithSns(String email,
                                   MemberSnsLinkRequestDto requestDto) {
-        SnsLoginType snsType = requestDto.getSnsType();
-        if (!StringUtils.hasText(email) || snsType == null || !MemberValidator.isAvailableEmail(email)) {
+        SnsType snsType = requestDto.getSnsType();
+        if (snsType == null || !MemberValidator.isAvailableEmail(email)) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }
 
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.MEMBER_NOT_FOUND));
 
-        if (member.getLoginType() != LoginType.SITE) {
+        /*if (member.getLoginType() != LoginType.SITE) {
             throw new ErrorTypeAdviceException(ErrorType.ONLY_AVAILABLE_SERVICE_FOR_SITE);
-        }
+        }*/
 
-        memberSnsLinkService.saveMemberSnsLink(member.getId(), snsType);
+        memberSnsConnectService.saveMemberSnsConnect(member.getId(), snsType);
     }
 
     @Transactional(readOnly = true)
@@ -155,5 +155,19 @@ public class MemberService {
             return false;
         }
         return memberRepository.existsByLoginId(loginId);
+    }
+
+    @Nullable
+    @Transactional(readOnly = true)
+    public MemberSnsConnect findSnsMemberBySnsIdAndSnsType(String snsId,
+                                               SnsType snsType) {
+        return memberSnsConnectService.findBySnsIdAndSnsType(snsId, snsType)
+                .orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public Member findByIdOrThrow(Long memberId) {
+        return findById(memberId)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.MEMBER_NOT_FOUND));
     }
 }

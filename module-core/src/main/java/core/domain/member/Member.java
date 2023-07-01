@@ -1,8 +1,6 @@
 package core.domain.member;
 
-import com.mall.choisinsa.security.domain.SecurityAuthority;
 import core.domain.common.BaseDateTimeEntity;
-import com.mall.choisinsa.enumeration.member.LoginType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import lombok.*;
 
@@ -18,28 +16,30 @@ public class Member extends BaseDateTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
     @Column
     private String loginId;
+
     @Column
     private String password;
+
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
+
     @Column
     private String name;
+
     @Column
     private String email;
+
     @Column
     private String nickName;
+
     @Column
     private String phoneNumber;
+
     @Column
     private String profileFileUrl;
-    @Enumerated(EnumType.STRING)
-    @Column
-    private LoginType loginType;
-    // JWT 토큰에 하드 코딩으로 넣어서 구분하기로 결정
-    /*@Column
-    private Boolean isSimpleLogin;*/
 }
 
 

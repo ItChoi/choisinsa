@@ -2,7 +2,7 @@ package com.mall.choisinsa.web.exception.advice;
 
 import com.mall.choisinsa.common.exception.ErrorResult;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.SnsLoginType;
+import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import jdk.jshell.spi.ExecutionControl.UserException;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +26,10 @@ public class ExceptionControllerAdvice {
 
     @InitBinder
     private void initBinder(final WebDataBinder webDataBinder) {
-        webDataBinder.registerCustomEditor(SnsLoginType.class, new PropertyEditorSupport() {
+        webDataBinder.registerCustomEditor(SnsType.class, new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) throws IllegalArgumentException {
-                setValue(EnumUtils.findEnumInsensitiveCase(SnsLoginType.class, text));
+                setValue(EnumUtils.findEnumInsensitiveCase(SnsType.class, text));
             }
         });
     }

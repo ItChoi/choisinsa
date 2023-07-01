@@ -1,6 +1,6 @@
 package core.domain.member;
 
-import com.mall.choisinsa.enumeration.SnsLoginType;
+import com.mall.choisinsa.enumeration.SnsType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
@@ -11,12 +11,14 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-public class MemberSnsLink extends BaseDateTimeEntity {
+public class MemberSnsConnect extends BaseDateTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     @Column
     private Long memberId;
     @Column
-    private SnsLoginType snsType;
+    private String snsId;
+    @Column
+    private SnsType snsType;
 }

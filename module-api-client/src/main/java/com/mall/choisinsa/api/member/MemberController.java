@@ -1,11 +1,12 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
-import com.mall.choisinsa.enumeration.SnsLoginType;
+import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.security.service.SecurityMemberService;
 import core.dto.request.member.MemberLoginRequestDto;
 import core.dto.request.member.MemberRegisterRequestDto;
 import core.dto.request.member.MemberSnsLinkRequestDto;
+import core.dto.request.member.SnsMemberRegisterRequestDto;
 import core.dto.response.member.MemberLoginResponseDto;
 import core.http.HttpCommunication;
 import core.service.member.MemberService;
@@ -51,6 +52,19 @@ public class MemberController {
         return ResponseWrapper.ok();
     }
 
+    @PostMapping("/sns-member")
+    public ResponseWrapper postSnsMember() {
+
+        return ResponseWrapper.ok();
+    }
+
+    @PostMapping("/{snsType}")
+    public ResponseWrapper postSnsMember(@PathVariable SnsType snsType,
+                                         @Validated(Oauth2MemberRegister.class) @RequestBody SnsMemberRegisterRequestDto requestDto) {
+
+        return ResponseWrapper.ok(new MemberLoginResponseDto(memberService.saveMemberWithOauth2(snsType, requestDto)));
+    }
+
     @GetMapping("/{loginId}/recommender")
     public ResponseWrapper canRecommendByLoginId(@PathVariable("loginId") String loginId) {
         return ResponseWrapper.ok(memberService.canRecommendByLoginId(loginId));
@@ -61,12 +75,6 @@ public class MemberController {
                                             @Validated @RequestBody MemberSnsLinkRequestDto requestDto) {
         memberService.linkMemberWithSns(email, requestDto);
         return ResponseWrapper.ok();
-    }
-
-    @PostMapping("/{oauthLoginType}")
-    public ResponseWrapper login(@PathVariable SnsLoginType oauthLoginType,
-                                 @Validated(Oauth2MemberRegister.class) @RequestBody MemberRegisterRequestDto requestDto) {
-        return ResponseWrapper.ok(new MemberLoginResponseDto(memberService.saveMemberWithOauth2(oauthLoginType, requestDto)));
     }
 
     @GetMapping("/{email}/is-available")

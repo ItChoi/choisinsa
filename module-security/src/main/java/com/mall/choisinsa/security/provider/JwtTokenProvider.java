@@ -2,10 +2,10 @@ package com.mall.choisinsa.security.provider;
 
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.common.secret.ConstData;
+import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.dto.SecurityMemberDto;
-import com.mall.choisinsa.security.service.SecurityMemberService;
 import com.mall.choisinsa.security.service.SecurityUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -69,6 +69,12 @@ public class JwtTokenProvider implements InitializingBean {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
+    }
+
+    public String createTokenWithSnsLogin(SnsType loginType,
+                                          String oauth2Token) {
+
+        return null;
     }
 
     public Authentication getAuthentication(String token) {

@@ -3,25 +3,27 @@ package core.service.oauth2.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.authority.AuthorizationType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.enumeration.member.LoginType;
 import core.domain.member.Member;
+import core.domain.member.MemberSnsConnect;
 import core.dto.request.oauth2.Oauth2LoginRequestDto;
 import core.dto.general.KakaoOauthTokenDto;
 import core.dto.request.kakao.KakaoAuthorizeCodeRequestDto;
 import core.dto.request.kakao.KakaoOauthTokenRequestDto;
-import core.dto.response.oauth2.Oauth2LoginResponseDto;
+import core.dto.response.member.MemberSnsConnectInfoResponseDto;
+import core.dto.response.oauth2.Oauth2ResponseDto;
 import core.dto.response.oauth2.Oauth2UserResponseDto;
 import core.service.authority.MemberCertificationService;
 import core.http.HttpCommunication;
 import core.service.member.MemberService;
 import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -45,7 +47,7 @@ public class KakaoService {
     @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
     private String clientSecret;
 
-    public Oauth2LoginResponseDto authorizeOauth(Oauth2LoginRequestDto requestDto) {
+    public String authorizeOauth(Oauth2LoginRequestDto requestDto) {
         String code = requestDto.getCode();
         if (!StringUtils.hasText(code)) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
@@ -67,7 +69,7 @@ public class KakaoService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         KakaoOauthTokenDto oauth2TokenInfo = objectMapper.convertValue(oauthCode, KakaoOauthTokenDto.class);
-        return new Oauth2LoginResponseDto(oauth2TokenInfo.getAccess_token(), false);
+        return oauth2TokenInfo.getAccess_token();
     }
 
     @Nullable
@@ -87,17 +89,39 @@ public class KakaoService {
         }
     }
 
-    public Oauth2UserResponseDto getUser(String oauth2AcessToken) {
-        Object obj = httpCommunication.requestPostWithToken(KAKAO_GET_USER_URL, MediaType.APPLICATION_FORM_URLENCODED, AuthorizationType.AUTHORIZATION, oauth2AcessToken);
-        Oauth2UserResponseDto responseDto = getUserWithKakaoInfo(obj);
+    public Oauth2ResponseDto getUser(String oauth2AcessToken) {
+        Object obj = httpCommunication.requestPostWithToken(
+                KAKAO_GET_USER_URL,
+                MediaType.APPLICATION_FORM_URLENCODED,
+                AuthorizationType.AUTHORIZATION,
+                oauth2AcessToken);
 
-        responseDto.setExistsSnsLoginId(memberService.isExistLoginId(responseDto.getSnsLoginId()));
-        if (responseDto.isExistsSnsLoginId()) {
-            return responseDto;
+        Oauth2UserResponseDto snsUserInfo = getUserWithKakaoInfo(obj);
+        return new Oauth2ResponseDto(
+                getSnsConnectInfo(snsUserInfo.getId(), snsUserInfo.getSnsType(), snsUserInfo.getEmail()),
+                snsUserInfo
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public MemberSnsConnectInfoResponseDto getSnsConnectInfo(String snsId,
+                                                             SnsType snsType,
+                                                             String email) {
+        MemberSnsConnect memberSnsConnect = memberService.findSnsMemberBySnsIdAndSnsType(snsId, snsType);
+        if (memberSnsConnect == null) {
+            return new MemberSnsConnectInfoResponseDto(null, null);
         }
 
-        responseDto.setAlreadyEmail(memberService.isExistEmail(responseDto.getEmail()));
-        return responseDto;
+        boolean isAlreadyExistsEmail;
+        Member member = memberService.findByIdOrThrow(memberSnsConnect.getMemberId());
+        if (StringUtils.hasText(email) && email.equals(member.getEmail())) {
+            isAlreadyExistsEmail = memberService.isExistEmail(email);
+        }
+
+        responseDto.setHasSnsLogin(memberService.isExistLoginId(responseDto.getSnsLoginId()));
+        responseDto.setIsAlreadyExistEmail(memberService.isExistEmail(responseDto.getEmail()));
+
+        return new MemberSnsConnectInfoResponseDto(null, null);
     }
 
 
@@ -114,9 +138,9 @@ public class KakaoService {
             String email = ObjectUtils.nullSafeToString(kakaoAccount.get("email"));
             String gender = ObjectUtils.nullSafeToString(kakaoAccount.get("gender"));
 
-            return new Oauth2UserResponseDto(id, nickname, profile_image_url, email, gender, LoginType.KAKAO);
+            return new Oauth2UserResponseDto(id, nickname, profile_image_url, email, gender, SnsType.KAKAO);
         } catch (JsonProcessingException e) {
-            throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+            throw new ErrorTypeAdviceException(ErrorType.CAN_NOT_JSON_CONVERT);
         }
     }
 }

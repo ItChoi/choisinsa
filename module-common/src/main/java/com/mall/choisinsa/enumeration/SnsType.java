@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 
 @Getter
 @RequiredArgsConstructor
-public enum SnsLoginType {
+public enum SnsType {
     KAKAO("kakao", "카카오"),
     APPLIE("apple", "애플"),
     NAVER("naver", "네이버"),
@@ -16,12 +16,12 @@ public enum SnsLoginType {
     private final String value;
     private final String desc;
 
-    public static SnsLoginType matchToLowerCase(String value) {
+    public static SnsType matchToLowerCase(String value) {
         if (!StringUtils.hasText(value)) return null;
 
-        for (SnsLoginType snsLoginType : values()) {
-            if (snsLoginType.name().equalsIgnoreCase(value)) {
-                return snsLoginType;
+        for (SnsType snsType : values()) {
+            if (snsType.name().equalsIgnoreCase(value)) {
+                return snsType;
             }
         }
 

@@ -1,7 +1,7 @@
 package core.dto.request.member;
 
+import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.member.GenderType;
-import com.mall.choisinsa.enumeration.member.LoginType;
 import com.mall.choisinsa.util.security.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
@@ -24,7 +24,7 @@ public class MemberRegisterRequestDto {
     @NotBlank(groups = BasicMemberRegister.class)
     private String email;
     @NotNull
-    private LoginType loginType;
+    private SnsType snsType;
     @Valid
     private MemberDetailRegisterRequestDto memberDetail;
 
@@ -38,7 +38,6 @@ public class MemberRegisterRequestDto {
                 .loginId(this.loginId)
                 .password(encodePassword)
                 .email(EncryptionUtil.getEncryptByPlainText(this.email))
-                .loginType(this.loginType)
                 .build();
     }
 

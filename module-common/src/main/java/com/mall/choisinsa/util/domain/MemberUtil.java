@@ -38,7 +38,7 @@ public class MemberUtil {
         }
 
         public static boolean isAvailableEmail(String email) {
-            return MemberRegEx.isAvailableEmail(email);
+            return StringUtils.hasText(email) && MemberRegEx.isAvailableEmail(email);
         }
 
     }

@@ -1,6 +1,5 @@
 package com.mall.choisinsa.security.domain;
 
-import com.mall.choisinsa.enumeration.member.LoginType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,10 +30,6 @@ public class SecurityMember {
     private String phoneNumber;
     @Column
     private String profileFileUrl;
-    @Enumerated(EnumType.STRING)
-    @Column
-    private LoginType loginType;
-
 }
 
 

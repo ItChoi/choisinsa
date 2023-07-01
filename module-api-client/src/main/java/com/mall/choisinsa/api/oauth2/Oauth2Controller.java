@@ -1,7 +1,7 @@
 package com.mall.choisinsa.api.oauth2;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
-import com.mall.choisinsa.enumeration.SnsLoginType;
+import com.mall.choisinsa.enumeration.SnsType;
 import core.dto.request.oauth2.Oauth2LoginRequestDto;
 import core.service.oauth2.Oauth2Service;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class Oauth2Controller {
     }*/
 
     @GetMapping ("/login/oauth2/code/{loginType}")
-    public ResponseWrapper getKakaoOauthAuthorizationCode(@PathVariable SnsLoginType loginType,
+    public ResponseWrapper getKakaoOauthAuthorizationCode(@PathVariable SnsType loginType,
                                                           Oauth2LoginRequestDto requestDto) {
         return ResponseWrapper.ok(oauth2Service.login(loginType, requestDto));
     }

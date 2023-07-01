@@ -1,7 +1,6 @@
 package core.dto.response.member;
 
 import com.mall.choisinsa.enumeration.member.GenderType;
-import com.mall.choisinsa.enumeration.member.LoginType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import com.mall.choisinsa.util.security.EncryptionUtil;
 import core.domain.member.Member;
@@ -18,7 +17,6 @@ public class MemberResponseDto {
     private String nickName;
     private String phoneNumber;
     private String profileFileUrl;
-    private LoginType loginType;
     private MemberDetailResponseDto memberDetail;
 
     public MemberResponseDto(Member member,
@@ -32,7 +30,6 @@ public class MemberResponseDto {
         this.nickName = member.getNickName();
         this.phoneNumber = EncryptionUtil.getDecryptByEncryptedText(member.getPhoneNumber());
         this.profileFileUrl = member.getProfileFileUrl();
-        this.loginType = member.getLoginType();
         this.memberDetail = new MemberDetailResponseDto(memberDetail);
     }
 
