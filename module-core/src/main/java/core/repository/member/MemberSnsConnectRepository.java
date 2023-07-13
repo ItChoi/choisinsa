@@ -14,4 +14,6 @@ public interface MemberSnsConnectRepository extends JpaRepository<MemberSnsConne
     Optional<MemberSnsConnect> findBySnsIdAndSnsType(String snsId,
                                                      SnsType snsType);
 
+    boolean existsBySnsIdAndSnsType(String snsId,
+                                    SnsType snsType);
 }

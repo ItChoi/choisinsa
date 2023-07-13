@@ -17,21 +17,17 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Getter
 public class MemberRegisterRequestDto {
-    @NotBlank(groups = BasicMemberRegister.class)
+    @NotBlank
     private String loginId;
     @NotBlank
     private String password;
-    @NotBlank(groups = BasicMemberRegister.class)
+    @NotBlank
     private String email;
     @NotNull
     private SnsType snsType;
     @Valid
     private MemberDetailRegisterRequestDto memberDetail;
 
-    @NotNull(groups = Oauth2MemberRegister.class)
-    private Boolean isAutoApplyWithSnsInfo;
-    @NotBlank(groups = Oauth2MemberRegister.class)
-    private String oauthAccessToken;
 
     public Member toMember(String encodePassword) {
         return Member.builder()
@@ -61,13 +57,5 @@ public class MemberRegisterRequestDto {
                     .isAuthenticatePhone(this.isAuthenticatePhone)
                     .build();
         }
-    }
-
-    public interface Oauth2MemberRegister {
-
-    }
-
-    public interface BasicMemberRegister {
-
     }
 }

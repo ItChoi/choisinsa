@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Oauth2LoginResponseDto {
-    private SnsType loginType;
     private String jwtAccessToken;
     private String oauth2AcessToken;
+    private SnsType snsType;
     private Oauth2ResponseDto oauth2UserInfo;
 }

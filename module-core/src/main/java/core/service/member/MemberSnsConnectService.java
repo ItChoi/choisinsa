@@ -29,12 +29,16 @@ public class MemberSnsConnectService {
                         .memberId(memberId)
                         .snsType(snsType)
                         .build());
-
     }
 
     @Transactional(readOnly = true)
     public Optional<MemberSnsConnect> findBySnsIdAndSnsType(String snsId,
                                                             SnsType snsType) {
         return memberSnsConnectRepository.findBySnsIdAndSnsType(snsId, snsType);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean existsBySnsIdAndSnsType(String snsId, SnsType snsType) {
+        return memberSnsConnectRepository.existsBySnsIdAndSnsType(snsId, snsType);
     }
 }

@@ -1,11 +1,13 @@
 package com.mall.choisinsa.security.service;
 
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.security.domain.SecurityMember;
-import com.mall.choisinsa.util.domain.MemberUtil.MemberValidator;
+import com.mall.choisinsa.security.domain.SecurityMemberSnsConnect;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
 import com.mall.choisinsa.security.repository.SecurityMemberRepository;
+import com.mall.choisinsa.util.domain.MemberUtil.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -22,17 +24,29 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class SecurityMemberService {
-    private final SecurityMemberRepository securityMemberRepository;
     private final AuthenticationProvider authenticationProvider;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+
+    private final SecurityMemberRepository securityMemberRepository;
+    private final SecurityMemberSnsConnectService securityMemberSnsConnectService;
 
 
     public String login(String loginId,
                         String password) {
         validateLoginInfoOrThrowException(loginId, password);
-        Authentication authenticate = authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(loginId, password));
+        Authentication authenticate = authenticationProvider.authenticate(
+                new UsernamePasswordAuthenticationToken(loginId, password)
+        );
         return jwtTokenProvider.createToken(authenticate);
+    }
+
+    public String loginWithSns(SnsType snsType,
+                               String snsId) {
+
+        SecurityMemberSnsConnect memberSnsConnect = securityMemberSnsConnectService.findBySnsTypeAndSnsIdOrThrow(snsType, snsId);
+        SecurityMember securityMember = findByIdOrThrow(memberSnsConnect.getMemberId());
+        return login(securityMember.getLoginId(), securityMember.getPassword());
     }
 
     private void validateLoginInfoOrThrowException(String loginId,

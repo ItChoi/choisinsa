@@ -15,7 +15,11 @@ public class SecurityMemberDto extends User {
     private String password;
     private String nickName;
 
-    public SecurityMemberDto(Long memberId, String loginId, String password, String nickName, Collection<? extends GrantedAuthority> authorities) {
+    public SecurityMemberDto(Long memberId,
+                             String loginId,
+                             String password,
+                             String nickName,
+                             Collection<? extends GrantedAuthority> authorities) {
         super(loginId, password, authorities);
         this.memberId = memberId;
         this.loginId = loginId;
@@ -23,20 +27,13 @@ public class SecurityMemberDto extends User {
         this.nickName = nickName;
     }
 
-    public SecurityMemberDto(SecurityMember securityMember, Collection<? extends GrantedAuthority> authorities) {
-        super(securityMember.getLoginId(), null, authorities);
-
+    public SecurityMemberDto(Long memberId,
+                             String loginId,
+                             String password,
+                             Collection<? extends GrantedAuthority> authorities) {
+        super(loginId, password, authorities);
         this.memberId = memberId;
         this.loginId = loginId;
         this.password = password;
-        this.nickName = nickName;
-    }
-
-    public SecurityMemberDto(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
-    }
-
-    public SecurityMemberDto(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 }

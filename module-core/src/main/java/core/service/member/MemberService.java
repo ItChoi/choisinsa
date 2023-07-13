@@ -11,8 +11,11 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import core.domain.member.MemberSnsConnect;
 import core.dto.request.member.MemberRegisterRequestDto;
 import core.dto.request.member.MemberRegisterRequestDto.MemberDetailRegisterRequestDto;
+import core.dto.request.member.MemberSnsConnectRequestDto;
 import core.dto.request.member.MemberSnsLinkRequestDto;
+import core.dto.request.member.SnsMemberRegisterRequestDto;
 import core.dto.response.member.MemberResponseDto;
+import core.dto.response.member.MemberSnsConnectResponseDto;
 import core.repository.member.MemberDetailRepository;
 import core.repository.member.MemberRepository;
 import core.repository.member.MemberSnsConnectRepository;
@@ -119,7 +122,7 @@ public class MemberService {
 
     @Transactional
     public String saveMemberWithOauth2(SnsType loginType,
-                                       MemberRegisterRequestDto requestDto) {
+                                       SnsMemberRegisterRequestDto requestDto) {
         /**
          * 회원가입시 이메일, sns 로그인시 이메일 - 겹칠 가능성이 있다.
          * 이럴 경우 어떻게 진행되어야 하는지 체크 필요
@@ -150,7 +153,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public boolean isExistLoginId(String loginId) {
-        if (StringUtils.hasText(loginId)) {
+        if (!StringUtils.hasText(loginId)) {
             log.warn("[WARNNING]: {}", "이메일 존재 여부를 체크 할 수 없습니다.");
             return false;
         }
@@ -160,7 +163,7 @@ public class MemberService {
     @Nullable
     @Transactional(readOnly = true)
     public MemberSnsConnect findSnsMemberBySnsIdAndSnsType(String snsId,
-                                               SnsType snsType) {
+                                                           SnsType snsType) {
         return memberSnsConnectService.findBySnsIdAndSnsType(snsId, snsType)
                 .orElse(null);
     }
@@ -170,4 +173,43 @@ public class MemberService {
         return findById(memberId)
                 .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.MEMBER_NOT_FOUND));
     }
+
+    @Transactional(readOnly = true)
+    public boolean existsBySnsIdAndSnsType(String snsId,
+                                           SnsType snsType) {
+
+        return memberSnsConnectService.existsBySnsIdAndSnsType(snsId, snsType);
+    }
+
+    @Transactional
+    public MemberSnsConnectResponseDto connectAccountByEmail(String email,
+                                                             MemberSnsConnectRequestDto requestDto) {
+        SnsType snsType = requestDto.getSnsType();
+        if (snsType == null || !MemberValidator.isAvailableEmail(email)) {
+            throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+        }
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.MEMBER_NOT_FOUND));
+
+        if
+
+        /*if (member.getLoginType() != LoginType.SITE) {
+            throw new ErrorTypeAdviceException(ErrorType.ONLY_AVAILABLE_SERVICE_FOR_SITE);
+        }*/
+
+        memberSnsConnectService.saveMemberSnsConnect(member.getId(), snsType);
+    }
+
+    @Transactional
+    public MemberSnsConnectResponseDto connectAccountByMemberId(Long memberId,
+                                                                MemberSnsConnectRequestDto requestDto) {
+        String snsId = requestDto.getSnsId();
+        SnsType snsType = requestDto.getSnsType();
+
+        //memberSnsConnectService.existsBySnsIdAndSnsType()
+        return null;
+    }
+
+
 }

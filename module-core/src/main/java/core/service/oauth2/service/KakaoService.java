@@ -6,13 +6,10 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.authority.AuthorizationType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import core.domain.member.Member;
-import core.domain.member.MemberSnsConnect;
 import core.dto.request.oauth2.Oauth2LoginRequestDto;
 import core.dto.general.KakaoOauthTokenDto;
 import core.dto.request.kakao.KakaoAuthorizeCodeRequestDto;
 import core.dto.request.kakao.KakaoOauthTokenRequestDto;
-import core.dto.response.member.MemberSnsConnectInfoResponseDto;
 import core.dto.response.oauth2.Oauth2ResponseDto;
 import core.dto.response.oauth2.Oauth2UserResponseDto;
 import core.service.authority.MemberCertificationService;
@@ -98,32 +95,11 @@ public class KakaoService {
 
         Oauth2UserResponseDto snsUserInfo = getUserWithKakaoInfo(obj);
         return new Oauth2ResponseDto(
-                getSnsConnectInfo(snsUserInfo.getId(), snsUserInfo.getSnsType(), snsUserInfo.getEmail()),
+                memberService.existsBySnsIdAndSnsType(snsUserInfo.getId(), snsUserInfo.getSnsType()),
+                memberService.isExistEmail(snsUserInfo.getEmail()),
                 snsUserInfo
         );
     }
-
-    @Transactional(readOnly = true)
-    public MemberSnsConnectInfoResponseDto getSnsConnectInfo(String snsId,
-                                                             SnsType snsType,
-                                                             String email) {
-        MemberSnsConnect memberSnsConnect = memberService.findSnsMemberBySnsIdAndSnsType(snsId, snsType);
-        if (memberSnsConnect == null) {
-            return new MemberSnsConnectInfoResponseDto(null, null);
-        }
-
-        boolean isAlreadyExistsEmail;
-        Member member = memberService.findByIdOrThrow(memberSnsConnect.getMemberId());
-        if (StringUtils.hasText(email) && email.equals(member.getEmail())) {
-            isAlreadyExistsEmail = memberService.isExistEmail(email);
-        }
-
-        responseDto.setHasSnsLogin(memberService.isExistLoginId(responseDto.getSnsLoginId()));
-        responseDto.setIsAlreadyExistEmail(memberService.isExistEmail(responseDto.getEmail()));
-
-        return new MemberSnsConnectInfoResponseDto(null, null);
-    }
-
 
     private Oauth2UserResponseDto getUserWithKakaoInfo(Object obj) {
         try {
