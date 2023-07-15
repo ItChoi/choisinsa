@@ -28,6 +28,8 @@ public class MemberRegisterRequestDto {
     @Valid
     private MemberDetailRegisterRequestDto memberDetail;
 
+    private MemberSnsConnectRegisterRequestDto memberSnsConnectRegisterInfo;
+
 
     public Member toMember(String encodePassword) {
         return Member.builder()

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
-public class MemberSnsConnectRequestDto {
+public class MemberSnsConnectRegisterRequestDto {
     @NotBlank
     private String snsId;
     @NotNull

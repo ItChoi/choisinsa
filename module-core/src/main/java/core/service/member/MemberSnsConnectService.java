@@ -4,10 +4,12 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.member.MemberSnsConnect;
+import core.dto.request.member.MemberSnsConnectRegisterRequestDto;
 import core.repository.member.MemberSnsConnectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -19,15 +21,13 @@ public class MemberSnsConnectService {
 
     @Transactional
     public void saveMemberSnsConnect(Long memberId,
-                                     SnsType snsType) {
-        if (memberSnsConnectRepository.existsByMemberIdAndSnsType(memberId, snsType)) {
-            throw new ErrorTypeAdviceException(ErrorType.ALREADY_EXISTS_DATA, "이미" + snsType.getDesc() + "연동이 됐습니다.");
-        }
-
+                                     MemberSnsConnectRegisterRequestDto requestDto) {
+        validateMemberSnsConnectForRegister(memberId, requestDto);
         memberSnsConnectRepository.save(
                 MemberSnsConnect.builder()
                         .memberId(memberId)
-                        .snsType(snsType)
+                        .snsId(requestDto.getSnsId())
+                        .snsType(requestDto.getSnsType())
                         .build());
     }
 
@@ -40,5 +40,29 @@ public class MemberSnsConnectService {
     @Transactional(readOnly = true)
     public boolean existsBySnsIdAndSnsType(String snsId, SnsType snsType) {
         return memberSnsConnectRepository.existsBySnsIdAndSnsType(snsId, snsType);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<MemberSnsConnect> findByMemberIdAndSnsType(Long memberId,
+                                                               SnsType snsType) {
+        return memberSnsConnectRepository.findByMemberIdAndSnsType(memberId, snsType);
+    }
+
+    @Transactional(readOnly = true)
+    public void validateMemberSnsConnectForRegister(Long memberId,
+                                                    MemberSnsConnectRegisterRequestDto requestDto) {
+        String snsId = requestDto.getSnsId();
+        SnsType snsType = requestDto.getSnsType();
+        if (memberId == null || !StringUtils.hasText(snsId) || snsType == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+
+        // SNS 계정이 이미 존재하는 경우
+        findBySnsIdAndSnsType(snsId, snsType)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.ALREADY_EXISTS_DATA, "SNS 계정 정보"));
+
+        // 해당 회원의 sns type이 이미 존재하는 경우
+        findByMemberIdAndSnsType(memberId, snsType)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.ALREADY_EXISTS_DATA, "SNS 계정 연동"));
     }
 }
