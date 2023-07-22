@@ -1,9 +1,6 @@
 package com.mall.choisinsa.security.listener.profile;
 
 import com.mall.choisinsa.security.service.SecurityAuthorityService;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +12,6 @@ import javax.persistence.PostUpdate;
 
 @Profile("admin")
 @Slf4j
-//@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Component
 public class AdminAuthMenuListener {
     private SecurityAuthorityService authorityService;
