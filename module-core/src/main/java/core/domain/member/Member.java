@@ -1,5 +1,6 @@
 package core.domain.member;
 
+import com.mall.choisinsa.enumeration.member.MemberType;
 import core.domain.common.BaseDateTimeEntity;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import lombok.*;
@@ -25,6 +26,7 @@ public class Member extends BaseDateTimeEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column
     private MemberStatus status;
 
     @Column
@@ -41,6 +43,10 @@ public class Member extends BaseDateTimeEntity {
 
     @Column
     private String profileFileUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private MemberType memberType;
 }
 
 

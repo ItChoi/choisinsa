@@ -1,4 +1,4 @@
-package core.domain.item;
+package core.domain.country;
 
 import core.domain.common.BaseDateTimeEntity;
 import lombok.AccessLevel;
@@ -10,35 +10,27 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * 상품 옵션 상세
+ * 국가
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class ItemOptionDetail extends BaseDateTimeEntity {
+public class Country extends BaseDateTimeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
-    @Column
-    private Long itemOptionId;
-
     /**
-     * 옵션명
+     * 국가명
      */
     @Column
     private String name;
 
     /**
-     * 옵션 추가 가격
+     * 국가 표준 코드
      */
     @Column
-    private Long addPrice;
+    private String code;
 
-    /**
-     * 상품 재고 수량
-     */
-    @Column
-    private int stockQuantity;
 }

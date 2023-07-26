@@ -4,8 +4,6 @@ import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 상품
@@ -62,8 +60,8 @@ public class Item extends BaseDateTimeEntity {
     private String filename;
 
     /**
-     * 상품 재고 수량
+     * 총 상품 재고 수량(모든 옵션 수량도 모두 포함)
      */
     @Column
-    private int stockQuantity;
+    private int totalStockQuantity;
 }

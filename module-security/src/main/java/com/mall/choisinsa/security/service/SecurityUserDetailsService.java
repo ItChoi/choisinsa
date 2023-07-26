@@ -6,7 +6,6 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.domain.SecurityMemberSnsConnect;
 import com.mall.choisinsa.security.dto.SecurityMemberDto;
-import com.mall.choisinsa.security.provider.JwtTokenProvider;
 import com.mall.choisinsa.security.repository.SecurityMemberAuthorityRepository;
 import com.mall.choisinsa.security.repository.SecurityMemberRepository;
 import com.mall.choisinsa.security.repository.SecurityMemberSnsConnectRepository;
@@ -53,7 +52,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(ErrorType.NOT_EXISTS_REQUIRED_DATA.getMessage());
         }
 
-        SecurityMember member = securityMemberRepository.findByLoginId(username)
+        SecurityMember member = securityMemberRepository.findByLoginIdAndMemberType(username)
                 .orElseThrow(() -> new UsernameNotFoundException(ErrorType.MEMBER_NOT_FOUND.getMessage()));
 
         Long memberId = member.getId();
@@ -62,7 +61,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthority().getType().getText()))
                 .collect(Collectors.toList());
 
-        return new SecurityMemberDto(memberId, member.getLoginId(), member.getPassword(), member.getNickName(), authorities);
+        return new SecurityMemberDto(true, member, authorities);
     }
 
     @Transactional(readOnly = true)
@@ -76,7 +75,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthority().getType().getText()))
                 .collect(Collectors.toList());
 
-        return new SecurityMemberDto(memberId, member.getLoginId(), member.getPassword(), member.getNickName(), authorities);
+        return new SecurityMemberDto(true, member, authorities);
     }
 
     @Transactional(readOnly = true)
@@ -86,14 +85,14 @@ public class SecurityUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(ErrorType.NOT_EXISTS_REQUIRED_DATA.getMessage());
         }
 
-        SecurityMember securityMember = getMemberWithMemberSnsConnectOrThrow(snsType, snsId);
+        SecurityMember member = getMemberWithMemberSnsConnectOrThrow(snsType, snsId);
 
-        Long memberId = securityMember.getId();
+        Long memberId = member.getId();
         List<SimpleGrantedAuthority> authorities = securityMemberAuthorityRepository.findAllByMemberId(memberId).stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthority().getType().getText()))
                 .collect(Collectors.toList());
 
-        return new SecurityMemberDto(memberId, securityMember.getLoginId(), null, securityMember.getNickName(), authorities);
+        return new SecurityMemberDto(false, member, authorities);
     }
 
 

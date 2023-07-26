@@ -1,6 +1,7 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
+import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.security.service.SecurityMemberService;
 import core.dto.request.member.MemberLoginRequestDto;
 import core.dto.request.member.MemberRegisterRequestDto;
@@ -28,9 +29,8 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseWrapper login(@Validated @RequestBody MemberLoginRequestDto requestDto) {
-
         return ResponseWrapper.ok(
-                new MemberLoginResponseDto(securityMemberService.login(requestDto.getLoginId(), requestDto.getPassword()))
+                new MemberLoginResponseDto(securityMemberService.login(MemberType.MEMBER, requestDto.getLoginId(), requestDto.getPassword()))
         );
     }
 

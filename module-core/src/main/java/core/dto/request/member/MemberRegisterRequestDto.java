@@ -2,6 +2,7 @@ package core.dto.request.member;
 
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.member.GenderType;
+import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.util.security.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
@@ -36,6 +37,7 @@ public class MemberRegisterRequestDto {
                 .loginId(this.loginId)
                 .password(encodePassword)
                 .email(EncryptionUtil.getEncryptByPlainText(this.email))
+                .memberType(MemberType.MEMBER)
                 .build();
     }
 

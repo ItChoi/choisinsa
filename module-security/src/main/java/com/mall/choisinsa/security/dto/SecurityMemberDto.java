@@ -1,7 +1,9 @@
 package com.mall.choisinsa.security.dto;
 
+import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.security.domain.SecurityMember;
 import lombok.*;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -14,17 +16,31 @@ public class SecurityMemberDto extends User {
     @Setter
     private String password;
     private String nickName;
+    private MemberType memberType;
 
     public SecurityMemberDto(Long memberId,
                              String loginId,
                              String password,
                              String nickName,
+                             MemberType memberType,
                              Collection<? extends GrantedAuthority> authorities) {
-        super(loginId, password, authorities);
+        super(loginId, null, authorities);
         this.memberId = memberId;
         this.loginId = loginId;
         this.password = password;
         this.nickName = nickName;
+        this.memberType = memberType;
+    }
+
+    public SecurityMemberDto(boolean hasPassword,
+                             SecurityMember securityMember,
+                             Collection<? extends GrantedAuthority> authorities) {
+        super(securityMember.getLoginId(), null, authorities);
+        this.memberId = securityMember.getId();
+        this.loginId = securityMember.getLoginId();
+        this.password = hasPassword ? securityMember.getPassword() : null;
+        this.nickName = securityMember.getNickName();
+        this.memberType = securityMember.getMemberType();
     }
 
     public SecurityMemberDto(Long memberId,

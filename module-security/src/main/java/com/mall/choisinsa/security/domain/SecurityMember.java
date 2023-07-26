@@ -1,6 +1,7 @@
 package com.mall.choisinsa.security.domain;
 
 import com.mall.choisinsa.enumeration.member.MemberStatus;
+import com.mall.choisinsa.enumeration.member.MemberType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class SecurityMember {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column
     private MemberStatus status;
 
     @Column
@@ -39,6 +41,11 @@ public class SecurityMember {
 
     @Column
     private String profileFileUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private MemberType memberType;
+
 }
 
 

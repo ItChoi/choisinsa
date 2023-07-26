@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface SecurityMemberRepository extends JpaRepository<SecurityMember, Long> {
 
-    Optional<SecurityMember> findByLoginId(String username);
+    Optional<SecurityMember> findByLoginIdAndMemberType(String username);
 }

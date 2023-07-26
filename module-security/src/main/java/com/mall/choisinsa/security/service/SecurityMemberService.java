@@ -3,8 +3,10 @@ package com.mall.choisinsa.security.service;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
+import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.domain.SecurityMemberSnsConnect;
+import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
 import com.mall.choisinsa.security.repository.SecurityMemberRepository;
 import com.mall.choisinsa.util.domain.MemberUtil.MemberValidator;
@@ -32,13 +34,29 @@ public class SecurityMemberService {
     private final SecurityMemberSnsConnectService securityMemberSnsConnectService;
 
 
-    public String login(String loginId,
+    public String login(MemberType memberType,
+                        String loginId,
                         String password) {
-        validateLoginInfoOrThrowException(loginId, password);
+        validateLoginInfoOrThrowException(memberType, loginId, password);
+
         Authentication authenticate = authenticationProvider.authenticate(
                 new UsernamePasswordAuthenticationToken(loginId, password)
         );
+        validateLoginInfoAfterAuth(memberType, authenticate);
+
         return jwtTokenProvider.createToken(authenticate);
+    }
+
+    private void validateLoginInfoAfterAuth(MemberType memberType,
+                                            Authentication authenticate) {
+        if (!(authenticate instanceof SecurityMemberDto)) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_SUPPORT_AUTHENTICATION);
+        }
+
+        SecurityMemberDto memberDto = (SecurityMemberDto) authenticate.getPrincipal();
+        if (memberType == null || memberType != memberDto.getMemberType()) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_AUTHORITY);
+        }
     }
 
     public String loginWithSns(SnsType snsType,
@@ -46,11 +64,15 @@ public class SecurityMemberService {
 
         SecurityMemberSnsConnect memberSnsConnect = securityMemberSnsConnectService.findBySnsTypeAndSnsIdOrThrow(snsType, snsId);
         SecurityMember securityMember = findByIdOrThrow(memberSnsConnect.getMemberId());
-        return login(securityMember.getLoginId(), securityMember.getPassword());
+        return login(MemberType.MEMBER, securityMember.getLoginId(), securityMember.getPassword());
     }
 
-    private void validateLoginInfoOrThrowException(String loginId,
+    private void validateLoginInfoOrThrowException(MemberType memberType,
+                                                   String loginId,
                                                    String password) {
+        if (memberType == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
 
         MemberValidator.validateLoginOrThrow(loginId, password);
     }

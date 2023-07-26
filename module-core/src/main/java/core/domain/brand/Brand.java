@@ -1,4 +1,4 @@
-package core.domain.item;
+package core.domain.brand;
 
 import core.domain.common.BaseDateTimeEntity;
 import lombok.AccessLevel;
@@ -10,35 +10,29 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * 상품 옵션 상세
+ * 브랜드
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class ItemOptionDetail extends BaseDateTimeEntity {
+public class Brand extends BaseDateTimeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
     @Column
-    private Long itemOptionId;
+    private Long companyId;
 
     /**
-     * 옵션명
+     * 브랜드명 (영문)
      */
     @Column
-    private String name;
+    private String nameEn;
 
     /**
-     * 옵션 추가 가격
+     * 브랜드명 (국문)
      */
     @Column
-    private Long addPrice;
-
-    /**
-     * 상품 재고 수량
-     */
-    @Column
-    private int stockQuantity;
+    private String nameKo;
 }
