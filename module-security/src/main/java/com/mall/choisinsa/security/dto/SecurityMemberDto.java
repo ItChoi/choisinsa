@@ -35,7 +35,7 @@ public class SecurityMemberDto extends User {
     public SecurityMemberDto(boolean hasPassword,
                              SecurityMember securityMember,
                              Collection<? extends GrantedAuthority> authorities) {
-        super(securityMember.getLoginId(), null, authorities);
+        super(securityMember.getLoginId(), securityMember.getPassword(), authorities);
         this.memberId = securityMember.getId();
         this.loginId = securityMember.getLoginId();
         this.password = hasPassword ? securityMember.getPassword() : null;

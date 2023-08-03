@@ -4,7 +4,7 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.member.MemberSnsConnect;
-import core.dto.request.member.MemberSnsConnectRegisterRequestDto;
+import core.dto.service.request.member.MemberSnsConnectRegisterRequestDto;
 import core.repository.member.MemberSnsConnectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

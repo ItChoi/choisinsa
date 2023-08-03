@@ -4,14 +4,16 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.security.service.SecurityMemberService;
-import core.dto.request.oauth2.Oauth2LoginRequestDto;
-import core.dto.response.oauth2.Oauth2LoginResponseDto;
-import core.dto.response.oauth2.Oauth2ResponseDto;
-import core.dto.response.oauth2.Oauth2UserResponseDto;
+import core.dto.service.request.oauth2.Oauth2LoginRequestDto;
+import core.dto.service.response.oauth2.Oauth2LoginResponseDto;
+import core.dto.service.response.oauth2.Oauth2ResponseDto;
+import core.dto.service.response.oauth2.Oauth2UserResponseDto;
 import core.service.oauth2.service.KakaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+@Profile("client")
 @RequiredArgsConstructor
 @Service
 public class Oauth2Service {

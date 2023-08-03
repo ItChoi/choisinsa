@@ -1,4 +1,3 @@
-/*
 package com.mall.choisinsa.security.config;
 
 import com.mall.choisinsa.security.filter.JwtFilter;
@@ -6,53 +5,57 @@ import com.mall.choisinsa.security.provider.JwtTokenProvider;
 import com.mall.choisinsa.security.service.SecurityUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//@EnableWebSecurity(debug = true)
 @Profile("admin")
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
-public class SecurityAdminConfig {
+public class TestSecurityAdminConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationProvider authenticationProvider;
     private final SecurityUserDetailsService securityUserDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((authz) -> authz
-                        .anyRequest().authenticated()
-                )
-                .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .userDetailsService(securityUserDetailsService)
-                    .authenticationProvider(authenticationProvider)
-                    .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring().antMatchers(getAnyMatchersForStaticPaths());
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> {
-            web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                    .and().ignoring().antMatchers(getAnyMatchersForStaticPaths())
-                    .and().ignoring().antMatchers(HttpMethod.GET, getMappingAnyMatchersForDynamicPaths())
-                    .and().ignoring().antMatchers(HttpMethod.POST, postMappingAnyMatchersForDynamicPaths());
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(this.authenticationProvider)
+                .userDetailsService(this.securityUserDetailsService);
+    }
 
-        };
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.authorizeRequests()
+                .antMatchers(getMappingAnyMatchersForDynamicPaths()).permitAll()
+                .antMatchers(postMappingAnyMatchersForDynamicPaths()).permitAll()
+                .anyRequest()
+                .authenticated();
+
+        http.headers()
+                .frameOptions()
+                .sameOrigin();
+
+        http.httpBasic();
+        http.addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     private String[] getAnyMatchersForStaticPaths() {
@@ -75,4 +78,3 @@ public class SecurityAdminConfig {
         };
     }
 }
-*/

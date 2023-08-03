@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    include: database,aws,oauth2,jwt
+    include: database,aws,jwt
 
   # 스프링 부트 - 서버 기동 안하고 UI 화면에서 즉각 변경 데이터 볼 수 있도록 지원
   devtools:

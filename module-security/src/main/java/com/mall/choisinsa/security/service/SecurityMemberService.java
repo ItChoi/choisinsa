@@ -49,11 +49,12 @@ public class SecurityMemberService {
 
     private void validateLoginInfoAfterAuth(MemberType memberType,
                                             Authentication authenticate) {
-        if (!(authenticate instanceof SecurityMemberDto)) {
+        Object principal = authenticate.getPrincipal();
+        if (!(principal instanceof SecurityMemberDto)) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_SUPPORT_AUTHENTICATION);
         }
 
-        SecurityMemberDto memberDto = (SecurityMemberDto) authenticate.getPrincipal();
+        SecurityMemberDto memberDto = (SecurityMemberDto) principal;
         if (memberType == null || memberType != memberDto.getMemberType()) {
             throw new ErrorTypeAdviceException(ErrorType.MISMATCH_AUTHORITY);
         }

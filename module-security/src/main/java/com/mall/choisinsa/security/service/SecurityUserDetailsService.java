@@ -52,7 +52,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(ErrorType.NOT_EXISTS_REQUIRED_DATA.getMessage());
         }
 
-        SecurityMember member = securityMemberRepository.findByLoginIdAndMemberType(username)
+        SecurityMember member = securityMemberRepository.findByLoginId(username)
                 .orElseThrow(() -> new UsernameNotFoundException(ErrorType.MEMBER_NOT_FOUND.getMessage()));
 
         Long memberId = member.getId();

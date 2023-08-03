@@ -81,7 +81,7 @@ public class JwtTokenProvider implements InitializingBean {
                 .collect(Collectors.toList());
 
         return new UsernamePasswordAuthenticationToken(
-                new SecurityMemberDto(memberId, username, null, authorities),
+                new SecurityMemberDto(memberId, username, "", authorities),
                 token,
                 authorities
         );

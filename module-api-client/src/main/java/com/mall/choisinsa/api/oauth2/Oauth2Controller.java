@@ -3,7 +3,7 @@ package com.mall.choisinsa.api.oauth2;
 import com.mall.choisinsa.dto.response.ResponseWrapper;
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.security.service.Oauth2UserService;
-import core.dto.request.oauth2.Oauth2LoginRequestDto;
+import core.dto.service.request.oauth2.Oauth2LoginRequestDto;
 import core.service.oauth2.Oauth2Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

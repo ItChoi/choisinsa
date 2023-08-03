@@ -6,21 +6,21 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.authority.AuthorizationType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import core.dto.request.oauth2.Oauth2LoginRequestDto;
+import core.dto.service.request.oauth2.Oauth2LoginRequestDto;
 import core.dto.general.KakaoOauthTokenDto;
-import core.dto.request.kakao.KakaoAuthorizeCodeRequestDto;
-import core.dto.request.kakao.KakaoOauthTokenRequestDto;
-import core.dto.response.oauth2.Oauth2ResponseDto;
-import core.dto.response.oauth2.Oauth2UserResponseDto;
+import core.dto.service.request.kakao.KakaoAuthorizeCodeRequestDto;
+import core.dto.service.request.kakao.KakaoOauthTokenRequestDto;
+import core.dto.service.response.oauth2.Oauth2ResponseDto;
+import core.dto.service.response.oauth2.Oauth2UserResponseDto;
 import core.service.authority.MemberCertificationService;
 import core.http.HttpCommunication;
 import core.service.member.MemberService;
 import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -29,6 +29,7 @@ import java.util.Map;
 
 import static com.mall.choisinsa.common.secret.ConstData.*;
 
+@Profile("client")
 @RequiredArgsConstructor
 @Service
 public class KakaoService {
