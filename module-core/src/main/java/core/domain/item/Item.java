@@ -1,5 +1,6 @@
 package core.domain.item;
 
+import com.mall.choisinsa.enumeration.item.ItemStatus;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
@@ -8,8 +9,10 @@ import javax.persistence.*;
 /**
  * 상품
  */
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class Item extends BaseDateTimeEntity {
 
@@ -22,6 +25,10 @@ public class Item extends BaseDateTimeEntity {
 
     @Column
     private Long brandId;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private ItemStatus status;
 
     /**
      * 사용 타겟 (남성, 여성, 모두, 아기, ...)

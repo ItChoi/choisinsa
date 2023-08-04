@@ -1,10 +1,7 @@
 package core.domain.item;
 
 import core.domain.common.BaseDateTimeEntity;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,8 +9,10 @@ import java.time.LocalDateTime;
 /**
  * 상품 상세
  */
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class ItemDetail extends BaseDateTimeEntity {
 

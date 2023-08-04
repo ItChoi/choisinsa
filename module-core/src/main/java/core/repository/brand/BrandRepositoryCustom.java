@@ -1,8 +1,12 @@
 package core.repository.brand;
 
+import core.domain.member.Member;
+
+import java.util.Optional;
+
 public interface BrandRepositoryCustom {
 
-    boolean isRightBrandMember(Long memberId,
-                               Long companyId,
-                               Long brandId);
+    Optional<Member> findBrandAdminBy(Long memberId,
+                                      Long companyId,
+                                      Long brandId);
 }

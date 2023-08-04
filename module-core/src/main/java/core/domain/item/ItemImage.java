@@ -2,17 +2,17 @@ package core.domain.item;
 
 import com.mall.choisinsa.enumeration.item.ItemImageType;
 import core.domain.common.BaseDateTimeEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 /**
  * 상품 이미지 정보
  */
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class ItemImage extends BaseDateTimeEntity {
 

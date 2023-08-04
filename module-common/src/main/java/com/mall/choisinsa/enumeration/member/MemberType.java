@@ -5,5 +5,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MemberType {
     ADMIN,
-    MEMBER
+    MEMBER,
+    BRAND_ADMIN,
+    COMPANY_ADMIN;
 }

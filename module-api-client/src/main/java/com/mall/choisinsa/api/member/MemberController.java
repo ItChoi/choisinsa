@@ -30,7 +30,7 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseWrapper login(@Validated @RequestBody MemberLoginRequestDto requestDto) {
         return ResponseWrapper.ok(
-                new MemberLoginResponseDto(securityMemberService.login(MemberType.MEMBER, requestDto.getLoginId(), requestDto.getPassword()))
+                new MemberLoginResponseDto(securityMemberService.login(requestDto.getMemberType(), requestDto.getLoginId(), requestDto.getPassword()))
         );
     }
 

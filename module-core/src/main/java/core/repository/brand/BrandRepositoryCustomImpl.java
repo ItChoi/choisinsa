@@ -1,7 +1,12 @@
 package core.repository.brand;
 
+import com.mall.choisinsa.enumeration.member.MemberType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import core.domain.member.Member;
+import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
 
 import static core.domain.brand.QBrand.brand;
 import static core.domain.company.QCompany.company;
@@ -15,11 +20,11 @@ public class BrandRepositoryCustomImpl implements BrandRepositoryCustom {
 
 
     @Override
-    public boolean isRightBrandMember(Long memberId,
-                                      Long companyId,
-                                      Long brandId) {
+    public Optional<Member> findBrandAdminBy(Long memberId,
+                                             Long companyId,
+                                             Long brandId) {
 
-        long count = queryFactory
+        return Optional.ofNullable(queryFactory
                 .select(
                         member
                 )
@@ -33,10 +38,8 @@ public class BrandRepositoryCustomImpl implements BrandRepositoryCustom {
                 .on(brand.companyId.eq(company.id)
                         .and(brand.id.eq(brandId)))
                 .where(
-                        member.id.eq(memberId)
-                ).fetchCount();
-
-
-        return count > 0;
+                        member.id.eq(memberId),
+                        member.memberType.eq(MemberType.BRAND_ADMIN)
+                ).fetchOne());
     }
 }

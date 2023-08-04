@@ -23,7 +23,7 @@ public class AdminMemberController {
     public ResponseWrapper login(@Validated @RequestBody MemberLoginRequestDto requestDto) {
         return ResponseWrapper.ok(
                 new MemberLoginResponseDto(securityMemberService.login(
-                        MemberType.ADMIN,
+                        requestDto.getMemberType(),
                         requestDto.getLoginId(),
                         requestDto.getPassword())
                 )
