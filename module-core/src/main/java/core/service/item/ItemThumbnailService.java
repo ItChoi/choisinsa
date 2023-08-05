@@ -1,9 +1,9 @@
 package core.service.item;
 
 import core.aws.s3.AwsS3Support;
+import core.aws.s3.S3FolderType;
 import core.domain.item.ItemThumbnail;
-import core.dto.admin.request.item.ItemInsertStep1RequestDto;
-import core.dto.admin.request.item.ItemInsertStep1RequestDto.ItemThumbnailImageRequestDto;
+import core.dto.admin.request.item.ItemThumbnailImageRequestDto;
 import core.repository.item.ItemThumbnailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,8 @@ public class ItemThumbnailService {
     private final ItemThumbnailRepository itemThumbnailRepository;
 
     @Transactional
-    public void saveAll(Long itemImageId,
+    public void saveAll(Long itemId,
+                        Long itemImageId,
                         Collection<ItemThumbnailImageRequestDto> requestDtos) {
         if (CollectionUtils.isEmpty(requestDtos)) {
             return;
@@ -45,7 +46,15 @@ public class ItemThumbnailService {
                             .itemImageId(itemImageId)
                             .displayOrder(displayOrder)
                             .filename(thumbnailFile.getOriginalFilename())
-                            .fileUrl(AwsS3Support.uploadTest(thumbnailFile))
+                            .fileUrl(
+                                    AwsS3Support.uploadTest(
+                                            S3FolderType.ITEM,
+                                            itemId,
+                                            S3FolderType.ITEM_IMAGE,
+                                            itemImageId,
+                                            thumbnailFile
+                                    )
+                            )
                             .build()
             );
         }

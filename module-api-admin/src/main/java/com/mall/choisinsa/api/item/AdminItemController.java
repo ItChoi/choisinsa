@@ -20,7 +20,7 @@ public class AdminItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public ResponseWrapper postItem(@Validated @RequestBody ItemInsertRequestDto requestDto,
+    public ResponseWrapper postItem(ItemInsertRequestDto requestDto,
                                     @AuthenticationPrincipal SecurityMemberDto loginUser) {
         itemService.saveItemBy(loginUser.getMemberId(), requestDto);
         return ResponseWrapper.ok();

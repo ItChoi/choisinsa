@@ -57,12 +57,14 @@ public class Item extends BaseDateTimeEntity {
     /**
      * 상품 이미지 경로
      */
+    @Setter
     @Column
     private String fileUrl;
 
     /**
      * 상품 이미지명
      */
+    @Setter
     @Column
     private String filename;
 

@@ -26,7 +26,8 @@ public enum ErrorType {
     ALREADY_EXISTS_DATA(HttpStatus.BAD_REQUEST, "%s이(가) 이미 존재합니다."),
     ONLY_AVAILABLE_SERVICE_FOR_SITE(HttpStatus.BAD_REQUEST, "사이트 회원만 가능한 서비스입니다."),
     CAN_NOT_JSON_CONVERT(HttpStatus.BAD_REQUEST, "json convert가 되지 않았습니다. 데이터를 확인해주세요."),
-    NOT_EXISTS_ITEM_CATEGORY(HttpStatus.BAD_REQUEST, "아이템 카테고리가 존재하지 않습니다.");
+    NOT_EXISTS_ITEM_CATEGORY(HttpStatus.BAD_REQUEST, "아이템 카테고리가 존재하지 않습니다."),
+    CAN_NOT_EXCEED_ITEM_TOTAL_QUANTITY_WITH_OPTION_ITEM_TOTAL_QUANTITY(HttpStatus.BAD_REQUEST, "옵션 아이템 총 수량으로 아이템의 총 수량을 초과할 수 없습니다.");
 
 
     private final HttpStatus httpStatus;

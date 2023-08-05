@@ -5,6 +5,7 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.item.ItemStatus;
 import com.mall.choisinsa.enumeration.item.ItemStep;
 import core.aws.s3.AwsS3Support;
+import core.aws.s3.S3FolderType;
 import core.domain.item.Item;
 import core.domain.member.Member;
 import core.dto.admin.request.item.ItemInsertRequestDto;
@@ -27,6 +28,7 @@ public class ItemService {
     private final ItemDetailService itemDetailService;
     private final ItemImageService itemImageService;
     private final ItemCategoryService itemCategoryService;
+    private final ItemOptionService itemOptionService;
 
     private final ItemRepository itemRepository;
     private final BrandRepository brandRepository;
@@ -72,15 +74,6 @@ public class ItemService {
                           ItemInsertStep1RequestDto step1Info) {
         validateItemStep1(step1Info);
 
-        String filename = "";
-        String fileUrl = "";
-
-        MultipartFile itemMainImageFile = step1Info.getFile();
-        if (itemMainImageFile != null) {
-            filename = itemMainImageFile.getOriginalFilename();
-            fileUrl = AwsS3Support.uploadTest(itemMainImageFile);
-        }
-
         Item savedItem = itemRepository.save(
                 Item.builder()
                         .itemCategoryId(step1Info.getItemCategoryId())
@@ -90,12 +83,24 @@ public class ItemService {
                         .nameKo(step1Info.getItemNameKo())
                         .price(step1Info.getPrice())
                         .useTarget(step1Info.getUseTarget())
-                        .filename(filename)
-                        .fileUrl(fileUrl)
+                        .totalStockQuantity(step1Info.getTotalStockQuantity())
                         .build()
         );
 
-        itemImageService.saveThumbnailImages(savedItem.getId(), step1Info.getItemThumbnails());
+        Long itemId = savedItem.getId();
+        MultipartFile itemMainImageFile = step1Info.getFile();
+        if (itemMainImageFile != null) {
+            savedItem.setFilename(itemMainImageFile.getOriginalFilename());
+            savedItem.setFileUrl(
+                    AwsS3Support.uploadTest(S3FolderType.ITEM, itemId, itemMainImageFile)
+            );
+        }
+
+        itemOptionService.saveItemOptions(savedItem, step1Info.getItemOptions());
+        itemImageService.saveThumbnailImages(itemId, step1Info.getItemThumbnails());
+
+        // TODO: 수량 체크 필요, Item - 수량은, 옵션 수량보다 높아야 한다. 같아야 하는 건 아니다.
+        validateItemQuantity();
     }
 
     private void saveItem(ItemInsertStep2RequestDto step2Info) {
