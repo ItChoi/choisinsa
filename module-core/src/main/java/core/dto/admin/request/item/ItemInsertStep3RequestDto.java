@@ -1,10 +1,8 @@
 package core.dto.admin.request.item;
 
-import com.mall.choisinsa.enumeration.item.ItemEditorContentType;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.Getter;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,8 +15,8 @@ public class ItemInsertStep3RequestDto {
 
     public boolean isAvailableData() {
         return itemId != null
-                || !StringUtils.isBlank(title)
-                || isMain != null
-                || !CollectionUtils.isEmpty(contents);
+                && !StringUtils.isBlank(title)
+                && isMain != null
+                && !CollectionUtils.isEmpty(contents);
     }
 }

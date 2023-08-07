@@ -2,6 +2,7 @@ package core.service.item;
 
 import core.aws.s3.AwsS3Support;
 import core.aws.s3.S3FolderType;
+import core.domain.item.Item;
 import core.domain.item.ItemThumbnail;
 import core.dto.admin.request.item.ItemThumbnailImageRequestDto;
 import core.repository.item.ItemThumbnailRepository;
@@ -24,7 +25,7 @@ public class ItemThumbnailService {
     private final ItemThumbnailRepository itemThumbnailRepository;
 
     @Transactional
-    public void saveAll(Long itemId,
+    public void saveAll(Item item,
                         Long itemImageId,
                         Collection<ItemThumbnailImageRequestDto> requestDtos) {
         if (CollectionUtils.isEmpty(requestDtos)) {
@@ -49,7 +50,7 @@ public class ItemThumbnailService {
                             .fileUrl(
                                     AwsS3Support.uploadTest(
                                             S3FolderType.ITEM,
-                                            itemId,
+                                            item.getId(),
                                             S3FolderType.ITEM_IMAGE,
                                             itemImageId,
                                             thumbnailFile

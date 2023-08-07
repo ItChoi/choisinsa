@@ -2,19 +2,20 @@ package core.domain.item;
 
 import com.mall.choisinsa.enumeration.item.ItemOptionType;
 import core.domain.common.BaseDateTimeEntity;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import core.domain.menu.Menu;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * 상품 옵션 정보
  */
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class ItemOption extends BaseDateTimeEntity {
 
@@ -24,6 +25,9 @@ public class ItemOption extends BaseDateTimeEntity {
 
     @Column
     private Long itemId;
+
+    @OneToMany(mappedBy = "itemOption", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<ItemOptionDetail> itemOptionDetails;
 
     /**
      * 상품 옵션 타입

@@ -1,10 +1,8 @@
 package core.domain.item;
 
+import com.mall.choisinsa.security.domain.SecurityMenu;
 import core.domain.common.BaseDateTimeEntity;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,8 +10,10 @@ import java.time.LocalDateTime;
 /**
  * 상품 옵션 상세
  */
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class ItemOptionDetail extends BaseDateTimeEntity {
 
@@ -23,6 +23,10 @@ public class ItemOptionDetail extends BaseDateTimeEntity {
 
     @Column
     private Long itemOptionId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "itemOptionId", insertable = false, updatable = false)
+    private ItemOption itemOption;
 
     /**
      * 옵션명

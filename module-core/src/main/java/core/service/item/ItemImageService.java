@@ -1,6 +1,7 @@
 package core.service.item;
 
 import com.mall.choisinsa.enumeration.item.ItemImageType;
+import core.domain.item.Item;
 import core.domain.item.ItemImage;
 import core.dto.admin.request.item.ItemThumbnailImageRequestDto;
 import core.repository.item.ItemImageRepository;
@@ -20,14 +21,14 @@ public class ItemImageService {
     private final ItemThumbnailService itemThumbnailService;
 
 
-    public void saveThumbnailImages(Long itemId,
+    public void saveThumbnailImages(Item item,
                                     Collection<ItemThumbnailImageRequestDto> requestDtos) {
-        if (itemId == null || CollectionUtils.isEmpty(requestDtos)) {
+        if (item == null || CollectionUtils.isEmpty(requestDtos)) {
             return;
         }
 
-        ItemImage itemImage = findOrSaveItemByItemId(itemId);
-        itemThumbnailService.saveAll(itemId, itemImage.getId(), requestDtos);
+        ItemImage itemImage = findOrSaveItemByItemId(item.getId());
+        itemThumbnailService.saveAll(item, itemImage.getId(), requestDtos);
 
     }
 
