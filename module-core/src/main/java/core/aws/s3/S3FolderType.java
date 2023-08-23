@@ -1,6 +1,5 @@
 package core.aws.s3;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -12,7 +11,8 @@ public enum S3FolderType {
     S3_BUCKET("/Users/csh/workspace/choisinsa/module-common/src/main/resources/static/image", null),
 
     ITEM(S3_BUCKET.bucket,"/item"),
-    ITEM_IMAGE(S3_BUCKET.bucket, "/item-image");
+    ITEM_IMAGE(S3_BUCKET.bucket, "/item-image"),
+    ITEM_EDITOR_CONTENT(S3_BUCKET.bucket, "/item-editor-image");
 
     private final String bucket;
     private final String path;

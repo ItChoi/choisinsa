@@ -4,17 +4,15 @@ import com.mall.choisinsa.enumeration.item.ItemStep;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
-
 @Getter
 @Setter
-public class ItemInsertRequestDto {
+public class ItemUpsertRequestDto {
     private ItemStep step;
     private Long companyId;
     private Long brandId;
-    private ItemInsertStep1RequestDto step1Info;
-    private ItemInsertStep2RequestDto step2Info;
-    private ItemInsertStep3RequestDto step3Info;
+    private ItemRequestDto step1Info;
+    private ItemDetailRequestDto step2Info;
+    private ItemEditorInfoRequestDto step3Info;
 
     public boolean isAvailableDataByStep() {
         if (this.step == null || companyId == null || brandId == null) {

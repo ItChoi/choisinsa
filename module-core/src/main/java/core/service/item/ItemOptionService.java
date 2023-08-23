@@ -5,8 +5,8 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.Item;
 import core.domain.item.ItemOption;
 import core.domain.item.ItemOptionDetail;
-import core.dto.admin.request.item.ItemOptionDetailRequestDto;
 import core.dto.admin.request.item.ItemOptionRequestDto;
+import core.mapper.item.ItemOptionMapper;
 import core.repository.item.ItemOptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,31 +24,72 @@ public class ItemOptionService {
     private final ItemOptionDetailService itemOptionDetailService;
 
     @Transactional
-    public void saveItemOptions(Item item,
-                                Collection<ItemOptionRequestDto> requestDtos) {
+    public void upsertItemOptions(Item item,
+                                  Collection<ItemOptionRequestDto> requestDtos) {
         validateItemOptions(item, requestDtos);
-        // TODO: 옵션 등록, item_option -> 존재하면 그거 쓰고, 존재하지 않는 경우 등
         for (ItemOptionRequestDto requestDto : requestDtos) {
-            ItemOption itemOption = saveWithItemOptionRequestDto(item, requestDto);
-            itemOptionDetailService.saveItemOptionDetail(itemOption, requestDto.getItemOptionDetails());
+            upsertWithItemOption(item, requestDto);
         }
 
         validateAfterRegister(item);
     }
 
-    private ItemOption saveWithItemOptionRequestDto(Item item,
-                                                    ItemOptionRequestDto requestDto) {
-        if (requestDto.isRegistrableData()) {
+    private void upsertWithItemOption(Item item,
+                                            ItemOptionRequestDto requestDto) {
+        if (!requestDto.isRegistrableData()) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
 
-        return itemOptionRepository.save(
+        Long itemOptionId = requestDto.getItemOptionId();
+        if (itemOptionId == null) {
+            insertItemOption(item, requestDto);
+        } else {
+            updateItemOption(item, requestDto);
+        }
+    }
+
+    private ItemOption insertItemOption(Item item,
+                                        ItemOptionRequestDto requestDto) {
+
+        ItemOption itemOption = itemOptionRepository.save(
                 ItemOption.builder()
                         .itemId(item.getId())
                         .itemOptionType(requestDto.getItemOptionType())
                         .displayOrder(requestDto.getDisplayOrder())
-                        .build()
-        );
+                        .build());
+        itemOptionDetailService.saveItemOptionDetail(itemOption, requestDto.getItemOptionDetails());
+
+        return itemOption;
+    }
+
+    private ItemOption updateItemOption(Item item,
+                                        ItemOptionRequestDto requestDto) {
+        Long itemOptionId = requestDto.getItemOptionId();
+        ItemOption itemOption = findByIdAndItemIdOrThrow(itemOptionId, item.getId());
+        ItemOptionMapper.INSTANCE.updateItemOption(itemOption, requestDto);
+
+        return itemOption;
+    }
+
+    @Transactional(readOnly = true)
+    public ItemOption findByIdOrThrow(Long itemOptionId) {
+        return itemOptionRepository.findById(itemOptionId)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM_OPTION));
+    }
+
+    @Transactional(readOnly = true)
+    public ItemOption findByIdAndItemIdOrThrow(Long itemOptionId,
+                                               Long itemId) {
+        if (itemOptionId == null || itemId == null) {
+            throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+        }
+
+        ItemOption itemOption = findByIdOrThrow(itemOptionId);
+        if (!itemOption.getItemId().equals(itemId)) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_REQUEST);
+        }
+        return itemOptionRepository.findById(itemOptionId)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM_OPTION));
     }
 
     private void validateItemOptions(Item item,
@@ -56,27 +97,17 @@ public class ItemOptionService {
         if (item == null || CollectionUtils.isEmpty(requestDtos)) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }
-
-        /*int quantityOfItemOptionTotalQuantity = requestDtos.stream()
-                .map(option -> option.getItemOptionDetails())
-                .flatMap(Collection::stream)
-                .mapToInt(ItemOptionDetailRequestDto::getStockQuantity)
-                .sum();
-
-        if (item.getTotalStockQuantity() < quantityOfItemOptionTotalQuantity) {
-            throw new ErrorTypeAdviceException(ErrorType.CAN_NOT_EXCEED_ITEM_TOTAL_QUANTITY_WITH_OPTION_ITEM_TOTAL_QUANTITY);
-        }*/
     }
 
     @Transactional(readOnly = true)
     public void validateAfterRegister(Item item) {
-        int quantityOfItemOptionTotalQuantity = findAllByItemId(item.getId()).stream()
+        int itemOptionTotalQuantity = findAllByItemId(item.getId()).stream()
                 .map(itemOption -> itemOption.getItemOptionDetails())
                 .flatMap(Collection::stream)
                 .mapToInt(ItemOptionDetail::getStockQuantity)
                 .sum();
 
-        if (item.getTotalStockQuantity() < quantityOfItemOptionTotalQuantity) {
+        if (item.getTotalStockQuantity() < itemOptionTotalQuantity) {
             throw new ErrorTypeAdviceException(ErrorType.CAN_NOT_EXCEED_ITEM_TOTAL_QUANTITY_WITH_OPTION_ITEM_TOTAL_QUANTITY);
         }
     }

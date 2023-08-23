@@ -21,15 +21,14 @@ public class ItemImageService {
     private final ItemThumbnailService itemThumbnailService;
 
 
-    public void saveThumbnailImages(Item item,
-                                    Collection<ItemThumbnailImageRequestDto> requestDtos) {
+    public void upsertThumbnailImages(Item item,
+                                      Collection<ItemThumbnailImageRequestDto> requestDtos) {
         if (item == null || CollectionUtils.isEmpty(requestDtos)) {
             return;
         }
 
         ItemImage itemImage = findOrSaveItemByItemId(item.getId());
         itemThumbnailService.saveAll(item, itemImage.getId(), requestDtos);
-
     }
 
     private ItemImage findOrSaveItemByItemId(Long itemId) {

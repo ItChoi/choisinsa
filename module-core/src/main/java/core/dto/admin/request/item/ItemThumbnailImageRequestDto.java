@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class ItemThumbnailImageRequestDto {
+    private Long itemThumbnailId;
     private int displayOrder;
     private MultipartFile file;
 }

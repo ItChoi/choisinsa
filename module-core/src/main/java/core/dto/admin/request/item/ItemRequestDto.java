@@ -1,10 +1,7 @@
 package core.dto.admin.request.item;
 
-import com.mall.choisinsa.enumeration.item.ItemOptionType;
 import io.micrometer.core.instrument.util.StringUtils;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +9,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ItemInsertStep1RequestDto {
+public class ItemRequestDto {
+    private Long itemId;
     private Long itemCategoryId;
     private String itemNameEn;
     private String itemNameKo;

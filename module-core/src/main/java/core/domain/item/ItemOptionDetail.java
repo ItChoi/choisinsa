@@ -31,18 +31,21 @@ public class ItemOptionDetail extends BaseDateTimeEntity {
     /**
      * 옵션명
      */
+    @Setter
     @Column
     private String name;
 
     /**
      * 옵션 추가 가격
      */
+    @Setter
     @Column
     private Long addPrice;
 
     /**
      * 상품 재고 수량
      */
+    @Setter
     @Column
     private int stockQuantity;
 }

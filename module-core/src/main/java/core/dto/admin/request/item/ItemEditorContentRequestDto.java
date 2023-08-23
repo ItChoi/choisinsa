@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 @Getter
 @Setter
 public class ItemEditorContentRequestDto {
+    private Long itemEditorContentId;
     private ItemEditorContentType type;
     private int displayOrder;
     private ItemEditorMarkupTextRequestDto markupText;

@@ -1,10 +1,7 @@
 package core.domain.item;
 
 import core.domain.common.BaseDateTimeEntity;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +9,9 @@ import java.time.LocalDateTime;
 /**
  * 상품 에디터 마크업 텍스트
  */
+@Builder
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class ItemEditorMarkupText extends BaseDateTimeEntity {
@@ -27,6 +26,7 @@ public class ItemEditorMarkupText extends BaseDateTimeEntity {
     /**
      * 마크업 텍스트
      */
+    @Setter
     @Column
     private String text;
 }

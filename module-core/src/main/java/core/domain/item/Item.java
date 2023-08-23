@@ -33,18 +33,21 @@ public class Item extends BaseDateTimeEntity {
     /**
      * 사용 타겟 (남성, 여성, 모두, 아기, ...)
      */
+    @Setter
     @Column
     private String useTarget;
 
     /**
      * 상품명 (영문)
      */
+    @Setter
     @Column
     private String nameEn;
 
     /**
      * 상품명 (국문)
      */
+    @Setter
     @Column
     private String nameKo;
 
@@ -71,6 +74,7 @@ public class Item extends BaseDateTimeEntity {
     /**
      * 총 상품 재고 수량(모든 옵션 수량도 모두 포함)
      */
+    @Setter
     @Column
     private int totalStockQuantity;
 }

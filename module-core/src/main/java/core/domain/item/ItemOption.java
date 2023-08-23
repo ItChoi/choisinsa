@@ -26,18 +26,21 @@ public class ItemOption extends BaseDateTimeEntity {
     @Column
     private Long itemId;
 
+    @Setter
     @OneToMany(mappedBy = "itemOption", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<ItemOptionDetail> itemOptionDetails;
 
     /**
      * 상품 옵션 타입
      */
+    @Setter
     @Column
     private ItemOptionType itemOptionType;
 
     /**
      * 옵션 표시 순서
      */
+    @Setter
     @Column
     private int displayOrder;
 

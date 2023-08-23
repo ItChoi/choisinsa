@@ -3,13 +3,15 @@ package core.dto.admin.request.item;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jodd.util.StringUtil;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class ItemInsertStep2RequestDto {
+@Setter
+public class ItemDetailRequestDto {
     private Long itemId;
+    private Long itemDetailId;
     private String itemNumber; // 품목 번호
     private String materialName; // 제품 소재 (면 100% 등)
     private String manufacturer; // 제조사

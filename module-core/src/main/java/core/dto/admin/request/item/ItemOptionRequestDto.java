@@ -1,19 +1,20 @@
 package core.dto.admin.request.item;
 
 import com.mall.choisinsa.enumeration.item.ItemOptionType;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
 @Getter
-@Setter
 public class ItemOptionRequestDto {
+    private Long itemOptionId;
+    @Setter
     private ItemOptionType itemOptionType;
+    @Setter
     private int displayOrder;
+    @Setter
     private List<ItemOptionDetailRequestDto> itemOptionDetails;
 
     public boolean isRegistrableData() {

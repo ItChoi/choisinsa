@@ -3,8 +3,10 @@ package core.aws.s3;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +15,7 @@ import java.nio.file.Paths;
  * TODO: AWS 연동 후 로직 s3로 세팅하기
  * AWS 연동 전 로컬 이미지로 대체하기.
  */
+@Slf4j
 @RequiredArgsConstructor
 public class AwsS3Support {
 
@@ -64,6 +67,15 @@ public class AwsS3Support {
             return uploadPath + "/" + filename;
         } catch (Exception e) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+        }
+    }
+
+    public static void delete(String url) {
+        File file = new File(url);
+        if (file.delete()) {
+            log.info("파일이 삭제 됐습니다. [{}]", url);
+        } else {
+            log.info("파일이 경로에 해당 파일이 존재하지 않습니다. [{}]", url);
         }
     }
 }

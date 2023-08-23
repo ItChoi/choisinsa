@@ -5,10 +5,13 @@ import lombok.Setter;
 import org.springframework.util.StringUtils;
 
 @Getter
-@Setter
 public class ItemOptionDetailRequestDto {
+    private Long itemIoptionDetailId;
+    @Setter
     private String name;
+    @Setter
     private Long addPrice;
+    @Setter
     private int stockQuantity;
 
     public boolean isRegistrableData() {

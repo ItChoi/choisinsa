@@ -28,7 +28,13 @@ public enum ErrorType {
     CAN_NOT_JSON_CONVERT(HttpStatus.BAD_REQUEST, "json convert가 되지 않았습니다. 데이터를 확인해주세요."),
     NOT_EXISTS_ITEM_CATEGORY(HttpStatus.BAD_REQUEST, "아이템 카테고리가 존재하지 않습니다."),
     CAN_NOT_EXCEED_ITEM_TOTAL_QUANTITY_WITH_OPTION_ITEM_TOTAL_QUANTITY(HttpStatus.BAD_REQUEST, "옵션 아이템 총 수량으로 아이템의 총 수량을 초과할 수 없습니다."),
-    NOT_FOUND_ITEM(HttpStatus.BAD_REQUEST, "상품을 찾을 수 없습니다.");
+    NOT_FOUND_ITEM(HttpStatus.BAD_REQUEST, "상품을 찾을 수 없습니다."),
+    NOT_FOUND_ITEM_OPTION(HttpStatus.BAD_REQUEST, "상품 옵션을 찾을 수 없습니다."),
+    NOT_FOUND_ITEM_DETAIL(HttpStatus.BAD_REQUEST, "상품 상세를 찾을 수 없습니다."),
+    NOT_FOUND_ITEM_EDITOR_INFO(HttpStatus.BAD_REQUEST, "상품 에디터 정보를 찾을 수 없습니다."),
+    NOT_FOUND_ITEM_EDITOR_CONTENT(HttpStatus.BAD_REQUEST, "상품 에디터 내용을 찾을 수 없습니다."),
+    CAN_NOT_CHANGE_CONTENT_TYPE(HttpStatus.BAD_REQUEST, "상품 에디터 내용의 타입은 변경할 수 없습니다. 삭제 후 등록해주세요."),
+    NOT_FOUND_ITEM_EDITOR_MARKUP_TEXT(HttpStatus.BAD_REQUEST, "상품 에디터 마크업 텍스트를 찾을 수 없습니다.");
 
 
     private final HttpStatus httpStatus;
