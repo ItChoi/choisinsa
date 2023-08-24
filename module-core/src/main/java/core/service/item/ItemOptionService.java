@@ -66,7 +66,11 @@ public class ItemOptionService {
                                         ItemOptionRequestDto requestDto) {
         Long itemOptionId = requestDto.getItemOptionId();
         ItemOption itemOption = findByIdAndItemIdOrThrow(itemOptionId, item.getId());
-        ItemOptionMapper.INSTANCE.updateItemOption(itemOption, requestDto);
+
+        itemOption.setItemOptionType(requestDto.getItemOptionType());
+        itemOption.setDisplayOrder(requestDto.getDisplayOrder());
+
+        itemOptionDetailService.saveItemOptionDetail(itemOption, requestDto.getItemOptionDetails());
 
         return itemOption;
     }

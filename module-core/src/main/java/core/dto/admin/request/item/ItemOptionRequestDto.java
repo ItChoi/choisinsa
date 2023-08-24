@@ -7,14 +7,12 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
+@Setter
 @Getter
 public class ItemOptionRequestDto {
     private Long itemOptionId;
-    @Setter
     private ItemOptionType itemOptionType;
-    @Setter
     private int displayOrder;
-    @Setter
     private List<ItemOptionDetailRequestDto> itemOptionDetails;
 
     public boolean isRegistrableData() {

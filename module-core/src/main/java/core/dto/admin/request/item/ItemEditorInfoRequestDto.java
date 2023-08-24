@@ -8,14 +8,17 @@ import java.util.List;
 
 @Getter
 public class ItemEditorInfoRequestDto {
-    private Long itemEditorInfoId;
+    private Long companyId;
+    private Long brandId;
     private Long itemId;
     private String title; // 상품 에디터 제목
     private Boolean isMain; // 에디터 메인 지정 여부
     private List<ItemEditorContentRequestDto> contents;
 
     public boolean isAvailableData() {
-        return itemId != null
+        return companyId != null
+                && brandId != null
+                && itemId != null
                 && !StringUtils.isBlank(title)
                 && isMain != null
                 && !CollectionUtils.isEmpty(contents);

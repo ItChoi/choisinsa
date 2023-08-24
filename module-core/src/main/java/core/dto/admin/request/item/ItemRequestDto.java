@@ -10,6 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 public class ItemRequestDto {
+    private Long companyId;
+    private Long brandId;
     private Long itemId;
     private Long itemCategoryId;
     private String itemNameEn;
@@ -22,9 +24,11 @@ public class ItemRequestDto {
     private List<ItemThumbnailImageRequestDto> itemThumbnails;
 
     public boolean isAvailableData() {
-        return itemCategoryId != null
-                || totalStockQuantity > 0
-                || !StringUtils.isBlank(itemNameKo)
-                || price != null;
+        return companyId != null
+                && brandId != null
+                && itemCategoryId != null
+                && totalStockQuantity > 0
+                && !StringUtils.isBlank(itemNameKo)
+                && price != null;
     }
 }

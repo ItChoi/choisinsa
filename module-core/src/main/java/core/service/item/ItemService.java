@@ -3,13 +3,11 @@ package core.service.item;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.item.ItemStatus;
-import com.mall.choisinsa.enumeration.item.ItemStep;
 import core.aws.s3.AwsS3Support;
 import core.aws.s3.S3FolderType;
 import core.domain.item.Item;
 import core.domain.member.Member;
 import core.dto.admin.request.item.ItemRequestDto;
-import core.dto.admin.request.item.ItemUpsertRequestDto;
 import core.dto.admin.request.item.ItemDetailRequestDto;
 import core.dto.admin.request.item.ItemEditorInfoRequestDto;
 import core.mapper.item.ItemMapper;
@@ -37,25 +35,11 @@ public class ItemService {
     private final BrandRepository brandRepository;
 
     @Transactional
-    public void upsertItemBy(Long memberId,
-                             ItemUpsertRequestDto requestDto) {
+    public void upsertItemIncludedFile(Long memberId,
+                                       ItemRequestDto requestDto) {
         validateItem(memberId, requestDto);
-        upsertItemByStep(requestDto);
-    }
-
-    private void upsertItemByStep(ItemUpsertRequestDto requestDto) {
-        ItemStep step = requestDto.getStep();
-        if (step == ItemStep.STEP_ONE) {
-            upsertItemStep1(requestDto.getBrandId(), requestDto.getStep1Info());
-        }
-
-        if (step == ItemStep.STEP_TWO) {
-            upsertItemStep2(requestDto.getStep2Info());
-        }
-
-        if (step == ItemStep.STEP_THREE) {
-            upsertItemStep3(requestDto.getStep3Info());
-        }
+        Item item = upsertItem(requestDto.getBrandId(), requestDto);
+        itemOptionService.validateAfterRegister(item);
     }
 
     private boolean isAvailableItemRegistrationMember(Long memberId,
@@ -73,59 +57,51 @@ public class ItemService {
         return brandRepository.findBrandAdminBy(memberId, companyId, brandId);
     }
 
-    private void upsertItemStep1(Long brandId,
-                                 ItemRequestDto step1Info) {
-        validateItemStep1(step1Info);
-        Item item = upsertItemWithItemId(brandId, step1Info);
 
-        itemOptionService.validateAfterRegister(item);
-    }
-
-    private Item upsertItemWithItemId(Long brandId,
-                                      ItemRequestDto step1Info) {
-        Long itemId = step1Info.getItemId();
+    private Item upsertItem(Long brandId,
+                            ItemRequestDto requestDto) {
+        Long itemId = requestDto.getItemId();
         if (itemId == null) {
             // 등록
-            return insertItem(brandId, step1Info);
+            return insertItem(brandId, requestDto);
         } else {
             // 수정
-            return updateItem(itemId, step1Info);
+            return updateItem(itemId, requestDto);
         }
     }
 
     private Item updateItem(Long itemId,
-                            ItemRequestDto step1Info) {
+                            ItemRequestDto requestDto) {
         Item item = findByIdOrThrow(itemId);
-        ItemMapper.INSTANCE.updateItem(item, step1Info);
-        upsertWithAdditionalItem(step1Info, item);
+        ItemMapper.INSTANCE.updateItem(item, requestDto);
+        putItemMainImage(item, requestDto.getFile());
+        upsertWithAdditionalItem(requestDto, item);
 
         return item;
     }
 
     private void upsertWithAdditionalItem(ItemRequestDto step1Info, Item item) {
-        putItemMainImage(item, step1Info.getFile());
-        // TODO: 수정 필요
         itemOptionService.upsertItemOptions(item, step1Info.getItemOptions());
-        // TODO: 수정 필요
         itemImageService.upsertThumbnailImages(item, step1Info.getItemThumbnails());
     }
 
     private Item insertItem(Long brandId,
-                            ItemRequestDto step1Info) {
+                            ItemRequestDto requestDto) {
         Item item = itemRepository.save(
                 Item.builder()
-                        .itemCategoryId(step1Info.getItemCategoryId())
+                        .itemCategoryId(requestDto.getItemCategoryId())
                         .status(ItemStatus.INPUT)
                         .brandId(brandId)
-                        .nameEn(step1Info.getItemNameEn())
-                        .nameKo(step1Info.getItemNameKo())
-                        .price(step1Info.getPrice())
-                        .useTarget(step1Info.getUseTarget())
-                        .totalStockQuantity(step1Info.getTotalStockQuantity())
+                        .nameEn(requestDto.getItemNameEn())
+                        .nameKo(requestDto.getItemNameKo())
+                        .price(requestDto.getPrice())
+                        .useTarget(requestDto.getUseTarget())
+                        .totalStockQuantity(requestDto.getTotalStockQuantity())
                         .build()
         );
 
-        upsertWithAdditionalItem(step1Info, item);
+        putItemMainImage(item, requestDto.getFile());
+        upsertWithAdditionalItem(requestDto, item);
 
         return item;
     }
@@ -152,10 +128,6 @@ public class ItemService {
                 .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM));
     }
 
-    private void upsertItemStep2(ItemDetailRequestDto step2Info) {
-        itemDetailService.upsertItemDetail(step2Info);
-    }
-
     private void upsertItemStep3(ItemEditorInfoRequestDto step3Info) {
         validateItemStep3(step3Info);
         itemEditorInfoService.upsertItemEditorInfo(step3Info);
@@ -167,23 +139,30 @@ public class ItemService {
         }
     }
 
-    private void validateItemStep1(ItemRequestDto step1Info) {
-        if (!step1Info.isAvailableData()) {
+    private void validateItem(Long memberId,
+                              ItemRequestDto requestDto) {
+        if (!isAvailableItemRegistrationMember(memberId, requestDto.getCompanyId(), requestDto.getBrandId())) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_AUTHORITY);
+        }
+
+        if (!requestDto.isAvailableData()) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }
 
-        if (!itemCategoryService.existsById(step1Info.getItemCategoryId())) {
+        if (!itemCategoryService.existsById(requestDto.getItemCategoryId())) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_ITEM_CATEGORY);
         }
     }
 
-    private void validateItem(Long memberId, ItemUpsertRequestDto requestDto) {
-        if (!requestDto.isAvailableDataByStep()) {
-            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
-        }
+    @Transactional
+    public void putItemDetail(Long itemId,
+                              ItemDetailRequestDto requestDto) {
+        itemDetailService.putItemDetail(itemId, requestDto);
+    }
 
-        if (!isAvailableItemRegistrationMember(memberId, requestDto.getCompanyId(), requestDto.getBrandId())) {
-            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_AUTHORITY);
-        }
+    @Transactional
+    public void insertItemEditorInfo(Long itemId,
+                                     ItemEditorInfoRequestDto requestDto) {
+        upsertItemStep3(requestDto);
     }
 }

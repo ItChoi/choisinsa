@@ -2,11 +2,16 @@ package core.mapper.item;
 
 import core.domain.item.ItemOption;
 import core.dto.admin.request.item.ItemOptionRequestDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+
+@Mapper(
+        componentModel = "spring",
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface ItemOptionMapper {
 
     ItemOptionMapper INSTANCE = Mappers.getMapper(ItemOptionMapper.class);

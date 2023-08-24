@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -26,24 +25,23 @@ public class ItemOptionDetailService {
                                      Collection<ItemOptionDetailRequestDto> requestDtos) {
         validateItemOptionDetail(itemOption, requestDtos);
 
-        Long itemOptionId = itemOption.getId();
+        Set<ItemOptionDetail> addedOptionDetails = new HashSet<>();
         for (ItemOptionDetailRequestDto requestDto : requestDtos) {
-            saveWithItemOptionDetailRequestDto(requestDto, itemOptionId);
+            addedOptionDetails.add(saveWithItemOptionDetailRequestDto(requestDto, itemOption));
         }
 
-
-
+        itemOption.getItemOptionDetails().addAll(addedOptionDetails);
     }
 
     private ItemOptionDetail saveWithItemOptionDetailRequestDto(ItemOptionDetailRequestDto requestDto,
-                                                                Long itemOptionId) {
-        if (requestDto.isRegistrableData()) {
+                                                                ItemOption itemOption) {
+        if (!requestDto.isRegistrableData()) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
 
         return itemOptionDetailRepository.save(
                 ItemOptionDetail.builder()
-                        .itemOptionId(itemOptionId)
+                        .itemOptionId(itemOption.getId())
                         .name(requestDto.getName())
                         .addPrice(requestDto.getAddPrice())
                         .stockQuantity(requestDto.getStockQuantity())

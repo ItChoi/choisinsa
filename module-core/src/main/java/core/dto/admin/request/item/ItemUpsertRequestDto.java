@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ItemUpsertRequestDto {
-    private ItemStep step;
-    private Long companyId;
-    private Long brandId;
+//    private ItemStep step;
+//    private Long companyId;
+//    private Long brandId;
     private ItemRequestDto step1Info;
     private ItemDetailRequestDto step2Info;
     private ItemEditorInfoRequestDto step3Info;

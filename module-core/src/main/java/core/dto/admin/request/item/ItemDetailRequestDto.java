@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ItemDetailRequestDto {
-    private Long itemId;
+    private Long companyId;
+    private Long brandId;
     private Long itemDetailId;
     private String itemNumber; // 품목 번호
     private String materialName; // 제품 소재 (면 100% 등)
@@ -21,8 +22,9 @@ public class ItemDetailRequestDto {
     private String warrantyPeriod; // 품질보증기간
 
     public boolean isAvailableData() {
-        return itemId != null
-                || manufacturingDate != null
-                || !StringUtil.isAllBlank(itemNumber, materialName, manufacturer, manufacturerCountryName, warrantyPeriod);
+        return companyId != null
+                && brandId != null
+                && manufacturingDate != null
+                && !StringUtil.isAllBlank(itemNumber, materialName, manufacturer, manufacturerCountryName, warrantyPeriod);
     }
 }

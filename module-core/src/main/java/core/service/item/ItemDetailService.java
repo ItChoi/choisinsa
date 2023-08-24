@@ -19,15 +19,16 @@ public class ItemDetailService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public void upsertItemDetail(ItemDetailRequestDto step2Info) {
-        validateItem(step2Info);
+    public void putItemDetail(Long itemId,
+                              ItemDetailRequestDto requestDto) {
+        validateItem(itemId, requestDto);
 
-        Long itemDetailId = step2Info.getItemDetailId();
+        Long itemDetailId = requestDto.getItemDetailId();
         if (itemDetailId == null) {
-            insertItemDetail(step2Info);
+            insertItemDetail(itemId, requestDto);
         } else {
-            ItemDetail itemDetail = findByIdAndItemIdOrThrow(itemDetailId, step2Info.getItemId());
-            ItemMapper.INSTANCE.updateItemDetail(itemDetail, step2Info);
+            ItemDetail itemDetail = findByIdAndItemIdOrThrow(itemDetailId, itemId);
+            ItemMapper.INSTANCE.updateItemDetail(itemDetail, requestDto);
         }
     }
 
@@ -46,26 +47,28 @@ public class ItemDetailService {
                 .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM_DETAIL));
     }
 
-    private void insertItemDetail(ItemDetailRequestDto step2Info) {
+    private void insertItemDetail(Long itemId,
+                                  ItemDetailRequestDto requestDto) {
         itemDetailRepository.save(
                 ItemDetail.builder()
-                        .itemId(step2Info.getItemId())
-                        .itemNumber(step2Info.getItemNumber())
-                        .materialName(step2Info.getMaterialName())
-                        .manufacturer(step2Info.getManufacturer())
-                        .manufacturerCountryName(step2Info.getManufacturerCountryName())
-                        .manufacturingDate(step2Info.getManufacturingDate())
-                        .warrantyPeriod(step2Info.getWarrantyPeriod())
+                        .itemId(itemId)
+                        .itemNumber(requestDto.getItemNumber())
+                        .materialName(requestDto.getMaterialName())
+                        .manufacturer(requestDto.getManufacturer())
+                        .manufacturerCountryName(requestDto.getManufacturerCountryName())
+                        .manufacturingDate(requestDto.getManufacturingDate())
+                        .warrantyPeriod(requestDto.getWarrantyPeriod())
                         .build()
         );
     }
 
-    private void validateItem(ItemDetailRequestDto step2Info) {
-        if (!step2Info.isAvailableData()) {
+    private void validateItem(Long itemId,
+                              ItemDetailRequestDto requestDto) {
+        if (!requestDto.isAvailableData()) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }
 
-        if (!itemRepository.existsById(step2Info.getItemId())) {
+        if (!itemRepository.existsById(itemId)) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }
     }

@@ -14,6 +14,8 @@ public interface ItemMapper {
 
     ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
 
+    @Mapping(target = "fileUrl", ignore = true)
+    @Mapping(target = "filename", ignore = true)
     @Mapping(source = "itemNameEn", target = "nameEn")
     @Mapping(source = "itemNameKo", target = "nameKo")
     void updateItem(@MappingTarget Item item,

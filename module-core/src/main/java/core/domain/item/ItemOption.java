@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -26,14 +27,14 @@ public class ItemOption extends BaseDateTimeEntity {
     @Column
     private Long itemId;
 
-    @Setter
     @OneToMany(mappedBy = "itemOption", orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<ItemOptionDetail> itemOptionDetails;
+    private Set<ItemOptionDetail> itemOptionDetails = new HashSet<>();
 
     /**
      * 상품 옵션 타입
      */
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column
     private ItemOptionType itemOptionType;
 
