@@ -17,38 +17,40 @@ public class ItemEditorInfoService {
     private final ItemEditorInfoRepository itemEditorInfoRepository;
     private final ItemEditorContentService itemEditorContentService;
 
-    @Transactional
-    public void upsertItemEditorInfo(Long itemId,
-                                     Long itemEditorInfoId,
-                                     ItemEditorInfoRequestDto requestDto) {
-
-        if (BooleanUtils.isTrue(requestDto.getIsMain())) {
-            clearMainItemEditorInfo(itemId);
-        }
-
-        ItemEditorInfo itemEditorInfo = insertItemEditorInfo(itemId, requestDto);
-
-        /*if (itemEditorInfoId == null) {
-            insertItemEditorInfo(step3Info);
-        } else {
-            updateItemEditorInfo(step3Info);
-        }*/
-
-        itemEditorContentService.upsertItemEditorContents(itemEditorInfo.getId(), requestDto.getContents());
-    }
-
     private void clearMainItemEditorInfo(Long itemId) {
         itemEditorInfoRepository.findByItemIdAndIsMain(itemId, true)
                 .ifPresent(itemEditorInfo -> itemEditorInfo.setIsMain(false));
     }
 
-    private void updateItemEditorInfo(ItemEditorInfoRequestDto requestDto) {
-        Long itemId = requestDto.getItemId();
-        Long itemEditorInfoId = requestDto.getItemEditorInfoId();
+    @Transactional
+    public void updateItemEditorInfo(Long itemId,
+                                      Long itemEditorInfoId,
+                                      ItemEditorInfoRequestDto requestDto) {
+        if (BooleanUtils.isTrue(requestDto.getIsMain())) {
+            clearMainItemEditorInfo(itemId);
+        }
 
         ItemEditorInfo itemEditorInfo = findByIdAndItemEditorInfoIdOrThrow(itemEditorInfoId, itemId);
         itemEditorInfo.setIsMain(requestDto.getIsMain());
         itemEditorInfo.setTitle(requestDto.getTitle());
+
+        itemEditorContentService.upsertItemEditorContents(itemEditorInfo.getId(), requestDto.getContents());
+    }
+
+    @Transactional
+    public void insertItemEditorInfo(Long itemId,
+                                     ItemEditorInfoRequestDto requestDto) {
+        if (BooleanUtils.isTrue(requestDto.getIsMain())) {
+            clearMainItemEditorInfo(itemId);
+        }
+
+        ItemEditorInfo itemEditorInfo = itemEditorInfoRepository.save(ItemEditorInfo.builder()
+                .itemId(itemId)
+                .title(requestDto.getTitle())
+                .isMain(requestDto.getIsMain())
+                .build());
+
+        itemEditorContentService.upsertItemEditorContents(itemEditorInfo.getId(), requestDto.getContents());
     }
 
     private ItemEditorInfo findByIdAndItemEditorInfoIdOrThrow(Long itemEditorInfoId,
@@ -61,15 +63,4 @@ public class ItemEditorInfoService {
         }
         return itemEditorInfo;
     }
-
-    private ItemEditorInfo insertItemEditorInfo(Long itemId,
-                                      ItemEditorInfoRequestDto requestDto) {
-        return itemEditorInfoRepository.save(
-                ItemEditorInfo.builder()
-                        .itemId(itemId)
-                        .title(requestDto.getTitle())
-                        .isMain(requestDto.getIsMain())
-                        .build());
-    }
-
 }

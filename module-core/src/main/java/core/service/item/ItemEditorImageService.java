@@ -28,11 +28,11 @@ public class ItemEditorImageService {
 
         Long itemEditorImageId = image.getItemEditorImageId();
         if (itemEditorImageId == null) {
-            ItemEditorImage.builder()
+            itemEditorImageRepository.save(ItemEditorImage.builder()
                     .itemEditorContentId(itemEditorContentId)
                     .filename(filename)
                     .fileUrl(fileUrl)
-                    .build();
+                    .build());
         } else {
             ItemEditorImage itemEditorImage = findByIdAndItemEditorContentIdOrThrow(itemEditorImageId, itemEditorContentId);
             String removeUrlInRemoteRepo = itemEditorImage.getFileUrl();

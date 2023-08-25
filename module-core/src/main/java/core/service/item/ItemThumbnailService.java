@@ -1,5 +1,7 @@
 package core.service.item;
 
+import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.aws.s3.AwsS3Support;
 import core.aws.s3.S3FolderType;
 import core.domain.item.Item;
@@ -34,6 +36,13 @@ public class ItemThumbnailService {
 
         List<ItemThumbnail> itemThumbnails = new ArrayList<>();
         for (ItemThumbnailImageRequestDto requestDto : requestDtos) {
+            Long itemThumbnailId = requestDto.getItemThumbnailId();
+
+            if (itemThumbnailId != null) {
+                updateItemThumbnail(itemImageId, itemThumbnailId, requestDto);
+                continue;
+            }
+
             int displayOrder = requestDto.getDisplayOrder();
             MultipartFile thumbnailFile = requestDto.getFile();
 
@@ -42,27 +51,53 @@ public class ItemThumbnailService {
                 continue;
             }
 
-            itemThumbnails.add(
-                    ItemThumbnail.builder()
-                            .itemImageId(itemImageId)
-                            .displayOrder(displayOrder)
-                            .filename(thumbnailFile.getOriginalFilename())
-                            .fileUrl(
-                                    AwsS3Support.uploadTest(
-                                            S3FolderType.ITEM,
-                                            item.getId(),
-                                            S3FolderType.ITEM_IMAGE,
-                                            itemImageId,
-                                            thumbnailFile
-                                    )
+            itemThumbnails.add(ItemThumbnail.builder()
+                    .itemImageId(itemImageId)
+                    .displayOrder(displayOrder)
+                    .filename(thumbnailFile.getOriginalFilename())
+                    .fileUrl(
+                            AwsS3Support.uploadTest(
+                                    S3FolderType.ITEM,
+                                    item.getId(),
+                                    S3FolderType.ITEM_IMAGE,
+                                    itemImageId,
+                                    thumbnailFile
                             )
-                            .build()
+                    )
+                    .build()
             );
         }
 
         if (!CollectionUtils.isEmpty(itemThumbnails)) {
             itemThumbnailRepository.saveAll(itemThumbnails);
         }
+    }
+
+    private void updateItemThumbnail(Long itemImageId,
+                                     Long itemThumbnailId,
+                                     ItemThumbnailImageRequestDto requestDto) {
+        ItemThumbnail itemThumbnail = findByIdAndItemImageIdOrThrow(itemThumbnailId, itemImageId);
+
+        itemThumbnail.setDisplayOrder(requestDto.getDisplayOrder());
+    }
+
+    private ItemThumbnail findByIdAndItemImageIdOrThrow(Long itemThumbnailId,
+                                                        Long itemImageId) {
+        if (itemThumbnailId == null || itemImageId == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+
+        ItemThumbnail itemThumbnail = findByIdOrThrow(itemThumbnailId);
+        if (!itemThumbnail.getItemImageId().equals(itemImageId)) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_REQUEST);
+        }
+
+        return itemThumbnail;
+    }
+
+    private ItemThumbnail findByIdOrThrow(Long itemThumbnailId) {
+        return itemThumbnailRepository.findById(itemThumbnailId)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM_THUMBNAIL));
     }
 
     private boolean isAvailableUpload(int displayOrder,

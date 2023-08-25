@@ -46,7 +46,7 @@ public class AdminItemController {
         return ResponseWrapper.ok();
     }
 
-    @PostMapping("/{itemId}/editor-infos/{itemEditorInfoId")
+    @PostMapping("/{itemId}/editor-infos/{itemEditorInfoId}")
     public ResponseWrapper updateItemEditorInfo(@PathVariable Long itemId,
                                                 @PathVariable Long itemEditorInfoId,
                                                 ItemEditorInfoRequestDto requestDto) {

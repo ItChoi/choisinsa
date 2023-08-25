@@ -91,7 +91,6 @@ public class ItemService {
         );
 
         putItemMainImage(item, requestDto.getFile());
-        //upsertWithAdditionalItem(requestDto, item);
         upsertWithAdditionalItem(item, requestDto);
 
         return item;
@@ -156,12 +155,13 @@ public class ItemService {
                                      Long itemEditorInfoId,
                                      ItemEditorInfoRequestDto requestDto) {
         validateItemEditorInfo(requestDto);
-        itemEditorInfoService.upsertItemEditorInfo(itemId, itemEditorInfoId, requestDto);
+        itemEditorInfoService.updateItemEditorInfo(itemId, itemEditorInfoId, requestDto);
     }
 
     @Transactional
     public void insertItemEditorInfo(Long itemId,
                                      ItemEditorInfoRequestDto requestDto) {
-
+        validateItemEditorInfo(requestDto);
+        itemEditorInfoService.insertItemEditorInfo(itemId, requestDto);
     }
 }

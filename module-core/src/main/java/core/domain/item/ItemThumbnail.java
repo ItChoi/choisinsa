@@ -26,6 +26,7 @@ public class ItemThumbnail extends BaseDateTimeEntity {
     /**
      * 썸네일 표시 순서
      */
+    @Setter
     @Column
     private int displayOrder;
 

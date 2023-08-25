@@ -54,6 +54,13 @@ public class ItemOptionService {
     private void updateItemOption(Item item,
                                   ItemOptionRequestDto requestDto) {
         ItemOption itemOption = findByIdAndItemIdOrThrow(requestDto.getItemOptionId(), item.getId());
+
+        if (itemOption.getItemOptionType() != requestDto.getItemOptionType()) {
+            // TODO 옵션 타입이 변경되는 경우, 하위 데이터들을 어떻게 처리할지 정책 필요
+            itemOption.setItemOptionType(requestDto.getItemOptionType());
+        }
+        itemOption.setDisplayOrder(requestDto.getDisplayOrder());
+
         itemOptionDetailService.upsertItemOptionDetails(itemOption, requestDto.getItemOptionDetails());
     }
 

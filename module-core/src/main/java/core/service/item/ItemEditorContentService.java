@@ -27,7 +27,7 @@ public class ItemEditorContentService {
 
             switch (content.getType()) {
                 case MARKUP_TEXT:
-                    itemEditorMarkupTextService.upsertItemEditorMarkupText(itemEditorContent.getId(), content.getMarkupText());
+                    itemEditorMarkupTextService.upsertItemEditorMarkupText(itemEditorContent, content.getMarkupText());
                     break;
                 case IMAGE:
                     itemEditorImageService.upsertItemEditorImage(itemEditorContent.getId(), content.getImage());

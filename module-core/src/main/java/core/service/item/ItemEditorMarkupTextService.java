@@ -2,6 +2,7 @@ package core.service.item;
 
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.domain.item.ItemEditorContent;
 import core.domain.item.ItemEditorMarkupText;
 import core.dto.admin.request.item.ItemEditorMarkupTextRequestDto;
 import core.repository.item.ItemEditorMarkupTextRepository;
@@ -16,16 +17,16 @@ public class ItemEditorMarkupTextService {
     private final ItemEditorMarkupTextRepository itemEditorMarkupTextRepository;
 
     @Transactional
-    public void upsertItemEditorMarkupText(Long itemEditorContentId,
+    public void upsertItemEditorMarkupText(ItemEditorContent itemEditorContent,
                                            ItemEditorMarkupTextRequestDto markupText) {
         Long itemEditorMarkupTextId = markupText.getItemEditorMarkupTextId();
         if (itemEditorMarkupTextId == null) {
-            ItemEditorMarkupText.builder()
-                    .itemEditorContentId(itemEditorContentId)
+            itemEditorMarkupTextRepository.save(ItemEditorMarkupText.builder()
+                    .itemEditorContentId(itemEditorContent.getId())
                     .text(markupText.getText())
-                    .build();
+                    .build());
         } else {
-            ItemEditorMarkupText itemEditorMarkupText = findByIdAndItemEditorContentIdOrThrow(itemEditorMarkupTextId, itemEditorContentId);
+            ItemEditorMarkupText itemEditorMarkupText = findByIdAndItemEditorContentIdOrThrow(itemEditorMarkupTextId, itemEditorContent.getId());
             itemEditorMarkupText.setText(markupText.getText());
         }
     }
