@@ -27,9 +27,19 @@ public class ItemDetailService {
         if (itemDetailId == null) {
             insertItemDetail(itemId, requestDto);
         } else {
-            ItemDetail itemDetail = findByIdAndItemIdOrThrow(itemDetailId, itemId);
-            ItemMapper.INSTANCE.updateItemDetail(itemDetail, requestDto);
+            updateItemDetail(itemId, itemDetailId, requestDto);
         }
+    }
+
+    private void updateItemDetail(Long itemId,
+                                  Long itemDetailId,
+                                  ItemDetailRequestDto requestDto) {
+        if (itemId == null || itemDetailId == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+
+        ItemDetail itemDetail = findByIdAndItemIdOrThrow(itemDetailId, itemId);
+        ItemMapper.INSTANCE.updateItemDetail(itemDetail, requestDto);
     }
 
     private ItemDetail findByIdAndItemIdOrThrow(Long itemDetailId,
@@ -49,17 +59,7 @@ public class ItemDetailService {
 
     private void insertItemDetail(Long itemId,
                                   ItemDetailRequestDto requestDto) {
-        itemDetailRepository.save(
-                ItemDetail.builder()
-                        .itemId(itemId)
-                        .itemNumber(requestDto.getItemNumber())
-                        .materialName(requestDto.getMaterialName())
-                        .manufacturer(requestDto.getManufacturer())
-                        .manufacturerCountryName(requestDto.getManufacturerCountryName())
-                        .manufacturingDate(requestDto.getManufacturingDate())
-                        .warrantyPeriod(requestDto.getWarrantyPeriod())
-                        .build()
-        );
+        itemDetailRepository.save(requestDto.toEntity(itemId));
     }
 
     private void validateItem(Long itemId,

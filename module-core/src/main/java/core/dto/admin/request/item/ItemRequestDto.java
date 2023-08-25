@@ -12,7 +12,6 @@ import java.util.List;
 public class ItemRequestDto {
     private Long companyId;
     private Long brandId;
-    private Long itemId;
     private Long itemCategoryId;
     private String itemNameEn;
     private String itemNameKo;

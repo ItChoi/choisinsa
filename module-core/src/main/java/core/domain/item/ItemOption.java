@@ -2,11 +2,10 @@ package core.domain.item;
 
 import com.mall.choisinsa.enumeration.item.ItemOptionType;
 import core.domain.common.BaseDateTimeEntity;
-import core.domain.menu.Menu;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +27,7 @@ public class ItemOption extends BaseDateTimeEntity {
     private Long itemId;
 
     @OneToMany(mappedBy = "itemOption", orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<ItemOptionDetail> itemOptionDetails = new HashSet<>();
+    private Set<ItemOptionDetail> itemOptionDetails;
 
     /**
      * 상품 옵션 타입
@@ -45,4 +44,18 @@ public class ItemOption extends BaseDateTimeEntity {
     @Column
     private int displayOrder;
 
+    public void addItemOptionDetail(ItemOptionDetail itemOptionDetail) {
+        if (this.itemOptionDetails == null) {
+            this.itemOptionDetails = new HashSet<>();
+        }
+
+        this.itemOptionDetails.add(itemOptionDetail);
+        itemOptionDetail.addItemOption(this);
+    }
+
+    public void addItemOptionDetails(Collection<ItemOptionDetail> itemOptionDetails) {
+        for (ItemOptionDetail itemOptionDetail : itemOptionDetails) {
+            addItemOptionDetail(itemOptionDetail);
+        }
+    }
 }

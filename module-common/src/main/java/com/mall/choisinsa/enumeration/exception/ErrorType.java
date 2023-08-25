@@ -34,7 +34,8 @@ public enum ErrorType {
     NOT_FOUND_ITEM_EDITOR_INFO(HttpStatus.BAD_REQUEST, "상품 에디터 정보를 찾을 수 없습니다."),
     NOT_FOUND_ITEM_EDITOR_CONTENT(HttpStatus.BAD_REQUEST, "상품 에디터 내용을 찾을 수 없습니다."),
     CAN_NOT_CHANGE_CONTENT_TYPE(HttpStatus.BAD_REQUEST, "상품 에디터 내용의 타입은 변경할 수 없습니다. 삭제 후 등록해주세요."),
-    NOT_FOUND_ITEM_EDITOR_MARKUP_TEXT(HttpStatus.BAD_REQUEST, "상품 에디터 마크업 텍스트를 찾을 수 없습니다.");
+    NOT_FOUND_ITEM_EDITOR_MARKUP_TEXT(HttpStatus.BAD_REQUEST, "상품 에디터 마크업 텍스트를 찾을 수 없습니다."),
+    NOT_FOUND_ITEM_OPTION_DETAIL(HttpStatus.BAD_REQUEST, "상품 옵션 상세를 찾을 수 없습니다.");
 
 
     private final HttpStatus httpStatus;

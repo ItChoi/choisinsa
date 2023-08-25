@@ -6,7 +6,6 @@ import core.domain.item.ItemOption;
 import core.domain.item.ItemOptionDetail;
 import core.dto.admin.request.item.ItemOptionDetailRequestDto;
 import core.repository.item.ItemOptionDetailRepository;
-import io.reactivex.rxjava3.internal.operators.single.SingleDoAfterTerminate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,37 +20,69 @@ public class ItemOptionDetailService {
     private final ItemOptionDetailRepository itemOptionDetailRepository;
 
     @Transactional
-    public void saveItemOptionDetail(ItemOption itemOption,
-                                     Collection<ItemOptionDetailRequestDto> requestDtos) {
-        validateItemOptionDetail(itemOption, requestDtos);
-
-        Set<ItemOptionDetail> addedOptionDetails = new HashSet<>();
-        for (ItemOptionDetailRequestDto requestDto : requestDtos) {
-            addedOptionDetails.add(saveWithItemOptionDetailRequestDto(requestDto, itemOption));
-        }
-
-        itemOption.getItemOptionDetails().addAll(addedOptionDetails);
+    public void upsertItemOptionDetails(ItemOption itemOption,
+                                        Collection<ItemOptionDetailRequestDto> requestDtos) {
+        upsertWithItemOptionDetailRequestDtos(itemOption, requestDtos);
     }
 
-    private ItemOptionDetail saveWithItemOptionDetailRequestDto(ItemOptionDetailRequestDto requestDto,
-                                                                ItemOption itemOption) {
-        if (!requestDto.isRegistrableData()) {
-            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+    private void upsertWithItemOptionDetailRequestDtos(ItemOption itemOption,
+                                                       Collection<ItemOptionDetailRequestDto> requestDtos) {
+
+        validateItemOptionDetail(itemOption, requestDtos);
+
+        List<ItemOptionDetail> ItemOptionDetails = new ArrayList<>();
+        for (ItemOptionDetailRequestDto requestDto : requestDtos) {
+            Long itemOptionDetailId = requestDto.getItemOptionDetailId();
+
+            if (itemOptionDetailId == null) {
+                ItemOptionDetails.add(
+                        ItemOptionDetail.builder()
+                                .itemOptionId(itemOption.getId())
+                                .name(requestDto.getName())
+                                .addPrice(requestDto.getAddPrice())
+                                .stockQuantity(requestDto.getStockQuantity())
+                                .build());
+            } else {
+                ItemOptionDetail itemOptionDetail = findByIdAndItemOptionIdOrThrow(itemOptionDetailId, itemOption.getId());
+                itemOptionDetail.setAddPrice(requestDto.getAddPrice());
+                itemOptionDetail.setName(requestDto.getName());
+                itemOptionDetail.setStockQuantity(requestDto.getStockQuantity());
+            }
         }
 
-        return itemOptionDetailRepository.save(
-                ItemOptionDetail.builder()
-                        .itemOptionId(itemOption.getId())
-                        .name(requestDto.getName())
-                        .addPrice(requestDto.getAddPrice())
-                        .stockQuantity(requestDto.getStockQuantity())
-                        .build()
-        );
+        itemOptionDetailRepository.saveAll(ItemOptionDetails);
+        itemOption.addItemOptionDetails(ItemOptionDetails);
+    }
+
+    private ItemOptionDetail findByIdAndItemOptionIdOrThrow(Long itemOptionDetailId,
+                                                Long itemOptionId) {
+        if (itemOptionId == null) {
+            throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+        }
+        ItemOptionDetail itemOptionDetail = findByIdOrThrow(itemOptionDetailId);
+        if (!itemOptionDetail.getItemOptionId().equals(itemOptionId)) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_REQUEST);
+        }
+
+        return itemOptionDetail;
+    }
+
+    private ItemOptionDetail findByIdOrThrow(Long itemOptionDetailId) {
+        if (itemOptionDetailId == null) {
+            throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+        }
+
+        return itemOptionDetailRepository.findById(itemOptionDetailId)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM_OPTION_DETAIL));
     }
 
     private static void validateItemOptionDetail(ItemOption itemOption,
                                                  Collection<ItemOptionDetailRequestDto> requestDtos) {
         if (itemOption == null || CollectionUtils.isEmpty(requestDtos)) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+
+        if (requestDtos.stream().anyMatch(dto -> !dto.isRegistrableData())) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
     }

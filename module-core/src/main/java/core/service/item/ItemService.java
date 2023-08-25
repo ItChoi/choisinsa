@@ -35,10 +35,18 @@ public class ItemService {
     private final BrandRepository brandRepository;
 
     @Transactional
-    public void upsertItemIncludedFile(Long memberId,
-                                       ItemRequestDto requestDto) {
+    public void insertItemWithFile(Long memberId,
+                                   ItemRequestDto requestDto) {
         validateItem(memberId, requestDto);
-        Item item = upsertItem(requestDto.getBrandId(), requestDto);
+        Item item = insertItem(requestDto.getBrandId(), requestDto);
+        itemOptionService.validateAfterRegister(item);
+    }
+
+    public void updateItemWithFile(Long memberId,
+                                   Long itemId,
+                                   ItemRequestDto requestDto) {
+        validateItem(memberId, requestDto);
+        Item item = updateItem(itemId, requestDto);
         itemOptionService.validateAfterRegister(item);
     }
 
@@ -57,32 +65,14 @@ public class ItemService {
         return brandRepository.findBrandAdminBy(memberId, companyId, brandId);
     }
 
-
-    private Item upsertItem(Long brandId,
-                            ItemRequestDto requestDto) {
-        Long itemId = requestDto.getItemId();
-        if (itemId == null) {
-            // 등록
-            return insertItem(brandId, requestDto);
-        } else {
-            // 수정
-            return updateItem(itemId, requestDto);
-        }
-    }
-
     private Item updateItem(Long itemId,
                             ItemRequestDto requestDto) {
         Item item = findByIdOrThrow(itemId);
         ItemMapper.INSTANCE.updateItem(item, requestDto);
         putItemMainImage(item, requestDto.getFile());
-        upsertWithAdditionalItem(requestDto, item);
+        upsertWithAdditionalItem(item, requestDto);
 
         return item;
-    }
-
-    private void upsertWithAdditionalItem(ItemRequestDto step1Info, Item item) {
-        itemOptionService.upsertItemOptions(item, step1Info.getItemOptions());
-        itemImageService.upsertThumbnailImages(item, step1Info.getItemThumbnails());
     }
 
     private Item insertItem(Long brandId,
@@ -101,9 +91,15 @@ public class ItemService {
         );
 
         putItemMainImage(item, requestDto.getFile());
-        upsertWithAdditionalItem(requestDto, item);
+        //upsertWithAdditionalItem(requestDto, item);
+        upsertWithAdditionalItem(item, requestDto);
 
         return item;
+    }
+
+    private void upsertWithAdditionalItem(Item item, ItemRequestDto requestDto) {
+        itemOptionService.upsertItemOptions(item, requestDto.getItemOptions());
+        itemImageService.upsertThumbnailImages(item, requestDto.getItemThumbnails());
     }
 
     private static void putItemMainImage(Item item,
@@ -128,13 +124,8 @@ public class ItemService {
                 .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM));
     }
 
-    private void upsertItemStep3(ItemEditorInfoRequestDto step3Info) {
-        validateItemStep3(step3Info);
-        itemEditorInfoService.upsertItemEditorInfo(step3Info);
-    }
-
-    private void validateItemStep3(ItemEditorInfoRequestDto step3Info) {
-        if (step3Info.isAvailableData()) {
+    private void validateItemEditorInfo(ItemEditorInfoRequestDto requestDto) {
+        if (requestDto.isAvailableData()) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }
     }
@@ -161,8 +152,16 @@ public class ItemService {
     }
 
     @Transactional
+    public void updateItemEditorInfo(Long itemId,
+                                     Long itemEditorInfoId,
+                                     ItemEditorInfoRequestDto requestDto) {
+        validateItemEditorInfo(requestDto);
+        itemEditorInfoService.upsertItemEditorInfo(itemId, itemEditorInfoId, requestDto);
+    }
+
+    @Transactional
     public void insertItemEditorInfo(Long itemId,
                                      ItemEditorInfoRequestDto requestDto) {
-        upsertItemStep3(requestDto);
+
     }
 }

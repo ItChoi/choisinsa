@@ -1,6 +1,8 @@
 package core.dto.admin.request.item;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import core.domain.item.ItemDetail;
+import core.domain.item.ItemOptionDetail;
 import jodd.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,9 +24,26 @@ public class ItemDetailRequestDto {
     private String warrantyPeriod; // 품질보증기간
 
     public boolean isAvailableData() {
-        return companyId != null
-                && brandId != null
-                && manufacturingDate != null
-                && !StringUtil.isAllBlank(itemNumber, materialName, manufacturer, manufacturerCountryName, warrantyPeriod);
+        return this.companyId != null
+                && this.brandId != null
+                && this.manufacturingDate != null
+                && !StringUtil.isAllBlank(
+                    this.itemNumber,
+                    this.materialName,
+                    this.manufacturer,
+                    this.manufacturerCountryName,
+                    this.warrantyPeriod);
+    }
+
+    public ItemDetail toEntity(Long itemId) {
+        return ItemDetail.builder()
+                .itemId(itemId)
+                .itemNumber(this.itemNumber)
+                .materialName(this.materialName)
+                .manufacturer(this.manufacturer)
+                .manufacturerCountryName(this.manufacturerCountryName)
+                .manufacturingDate(this.manufacturingDate)
+                .warrantyPeriod(this.warrantyPeriod)
+                .build();
     }
 }

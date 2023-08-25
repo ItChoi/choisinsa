@@ -6,7 +6,6 @@ import core.domain.item.Item;
 import core.domain.item.ItemOption;
 import core.domain.item.ItemOptionDetail;
 import core.dto.admin.request.item.ItemOptionRequestDto;
-import core.mapper.item.ItemOptionMapper;
 import core.repository.item.ItemOptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,56 +26,44 @@ public class ItemOptionService {
     public void upsertItemOptions(Item item,
                                   Collection<ItemOptionRequestDto> requestDtos) {
         validateItemOptions(item, requestDtos);
-        for (ItemOptionRequestDto requestDto : requestDtos) {
-            upsertWithItemOption(item, requestDto);
-        }
 
+        for (ItemOptionRequestDto requestDto : requestDtos) {
+            Long itemOptionId = requestDto.getItemOptionId();
+            if (itemOptionId == null) {
+                insertItemOption(item, requestDto);
+            } else {
+                updateItemOption(item, requestDto);
+            }
+
+        }
         validateAfterRegister(item);
     }
 
-    private void upsertWithItemOption(Item item,
-                                            ItemOptionRequestDto requestDto) {
-        if (!requestDto.isRegistrableData()) {
-            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
-        }
-
-        Long itemOptionId = requestDto.getItemOptionId();
-        if (itemOptionId == null) {
-            insertItemOption(item, requestDto);
-        } else {
-            updateItemOption(item, requestDto);
-        }
-    }
-
-    private ItemOption insertItemOption(Item item,
-                                        ItemOptionRequestDto requestDto) {
-
+    private void insertItemOption(Item item,
+                                  ItemOptionRequestDto requestDto) {
         ItemOption itemOption = itemOptionRepository.save(
                 ItemOption.builder()
                         .itemId(item.getId())
                         .itemOptionType(requestDto.getItemOptionType())
                         .displayOrder(requestDto.getDisplayOrder())
                         .build());
-        itemOptionDetailService.saveItemOptionDetail(itemOption, requestDto.getItemOptionDetails());
 
-        return itemOption;
+        itemOptionDetailService.upsertItemOptionDetails(itemOption, requestDto.getItemOptionDetails());
     }
 
-    private ItemOption updateItemOption(Item item,
-                                        ItemOptionRequestDto requestDto) {
-        Long itemOptionId = requestDto.getItemOptionId();
-        ItemOption itemOption = findByIdAndItemIdOrThrow(itemOptionId, item.getId());
-
-        itemOption.setItemOptionType(requestDto.getItemOptionType());
-        itemOption.setDisplayOrder(requestDto.getDisplayOrder());
-
-        itemOptionDetailService.saveItemOptionDetail(itemOption, requestDto.getItemOptionDetails());
-
-        return itemOption;
+    private void updateItemOption(Item item,
+                                  ItemOptionRequestDto requestDto) {
+        ItemOption itemOption = findByIdAndItemIdOrThrow(requestDto.getItemOptionId(), item.getId());
+        itemOptionDetailService.upsertItemOptionDetails(itemOption, requestDto.getItemOptionDetails());
     }
+
 
     @Transactional(readOnly = true)
     public ItemOption findByIdOrThrow(Long itemOptionId) {
+        if (itemOptionId == null) {
+            throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+        }
+
         return itemOptionRepository.findById(itemOptionId)
                 .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM_OPTION));
     }
@@ -84,7 +71,7 @@ public class ItemOptionService {
     @Transactional(readOnly = true)
     public ItemOption findByIdAndItemIdOrThrow(Long itemOptionId,
                                                Long itemId) {
-        if (itemOptionId == null || itemId == null) {
+        if (itemId == null) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }
 
@@ -100,6 +87,10 @@ public class ItemOptionService {
                                      Collection<ItemOptionRequestDto> requestDtos) {
         if (item == null || CollectionUtils.isEmpty(requestDtos)) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
+        }
+
+        if (requestDtos.stream().anyMatch(dto -> !dto.isRegistrableData())) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
     }
 
@@ -120,4 +111,5 @@ public class ItemOptionService {
     public List<ItemOption> findAllByItemId(Long itemId) {
         return itemOptionRepository.findAllByItemId(itemId);
     }
+
 }

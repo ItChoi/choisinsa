@@ -18,9 +18,17 @@ public class AdminItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public ResponseWrapper upsertItemIncludedFile(ItemRequestDto requestDto,
+    public ResponseWrapper insertItemIncludedFile(ItemRequestDto requestDto,
                                                   @AuthenticationPrincipal SecurityMemberDto loginUser) {
-        itemService.upsertItemIncludedFile(loginUser.getMemberId(), requestDto);
+        itemService.insertItemWithFile(loginUser.getMemberId(), requestDto);
+        return ResponseWrapper.ok();
+    }
+
+    @PostMapping("/{itemId}")
+    public ResponseWrapper upsertItemIncludedFile(@PathVariable Long itemId,
+                                                  ItemRequestDto requestDto,
+                                                  @AuthenticationPrincipal SecurityMemberDto loginUser) {
+        itemService.updateItemWithFile(loginUser.getMemberId(), itemId, requestDto);
         return ResponseWrapper.ok();
     }
 
@@ -32,16 +40,17 @@ public class AdminItemController {
     }
 
     @PostMapping("/{itemId}/editor-infos")
-    public ResponseWrapper postItemEditorInfo(@PathVariable Long itemId,
-                                              ItemEditorInfoRequestDto requestDto) {
+    public ResponseWrapper insertItemEditorInfo(@PathVariable Long itemId,
+                                                ItemEditorInfoRequestDto requestDto) {
         itemService.insertItemEditorInfo(itemId, requestDto);
         return ResponseWrapper.ok();
     }
 
     @PostMapping("/{itemId}/editor-infos/{itemEditorInfoId")
-    public ResponseWrapper postItemEditorInfo(@PathVariable Long itemId,
-                                              @PathVariable Long itemEditorInfoId,
-                                              ItemEditorInfoRequestDto requestDto) {
+    public ResponseWrapper updateItemEditorInfo(@PathVariable Long itemId,
+                                                @PathVariable Long itemEditorInfoId,
+                                                ItemEditorInfoRequestDto requestDto) {
+        itemService.updateItemEditorInfo(itemId, itemEditorInfoId, requestDto);
         return ResponseWrapper.ok();
     }
 

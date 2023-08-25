@@ -20,9 +20,8 @@ public class ItemEditorContentService {
     private final ItemEditorImageService itemEditorImageService;
 
     @Transactional
-    public void upsertItemEditorContents(Long itemId,
-                                          Long itemEditorInfoId,
-                                          Collection<ItemEditorContentRequestDto> contents) {
+    public void upsertItemEditorContents(Long itemEditorInfoId,
+                                         Collection<ItemEditorContentRequestDto> contents) {
         for (ItemEditorContentRequestDto content : contents) {
             ItemEditorContent itemEditorContent = upsertItemEditorContent(itemEditorInfoId, content);
 

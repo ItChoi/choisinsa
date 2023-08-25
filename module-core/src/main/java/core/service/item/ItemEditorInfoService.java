@@ -6,6 +6,7 @@ import core.domain.item.ItemEditorInfo;
 import core.dto.admin.request.item.ItemEditorInfoRequestDto;
 import core.repository.item.ItemEditorInfoRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,32 +18,37 @@ public class ItemEditorInfoService {
     private final ItemEditorContentService itemEditorContentService;
 
     @Transactional
-    public void upsertItemEditorInfo(ItemEditorInfoRequestDto step3Info) {
-        Long itemEditorInfoId = step3Info.getItemEditorInfoId();
-        Long itemId = step3Info.getItemId();
+    public void upsertItemEditorInfo(Long itemId,
+                                     Long itemEditorInfoId,
+                                     ItemEditorInfoRequestDto requestDto) {
 
-        Boolean isMain = step3Info.getIsMain();
-        if (isMain) {
-            itemEditorInfoRepository.findByItemIdAndIsMain(itemId, isMain)
-                    .ifPresent(itemEditorInfo -> itemEditorInfo.setIsMain(false));
+        if (BooleanUtils.isTrue(requestDto.getIsMain())) {
+            clearMainItemEditorInfo(itemId);
         }
 
-        if (itemEditorInfoId == null) {
+        ItemEditorInfo itemEditorInfo = insertItemEditorInfo(itemId, requestDto);
+
+        /*if (itemEditorInfoId == null) {
             insertItemEditorInfo(step3Info);
         } else {
             updateItemEditorInfo(step3Info);
-        }
+        }*/
 
-        itemEditorContentService.upsertItemEditorContents(step3Info.getItemId(), itemEditorInfoId, step3Info.getContents());
+        itemEditorContentService.upsertItemEditorContents(itemEditorInfo.getId(), requestDto.getContents());
     }
 
-    private void updateItemEditorInfo(ItemEditorInfoRequestDto step3Info) {
-        Long itemId = step3Info.getItemId();
-        Long itemEditorInfoId = step3Info.getItemEditorInfoId();
+    private void clearMainItemEditorInfo(Long itemId) {
+        itemEditorInfoRepository.findByItemIdAndIsMain(itemId, true)
+                .ifPresent(itemEditorInfo -> itemEditorInfo.setIsMain(false));
+    }
+
+    private void updateItemEditorInfo(ItemEditorInfoRequestDto requestDto) {
+        Long itemId = requestDto.getItemId();
+        Long itemEditorInfoId = requestDto.getItemEditorInfoId();
 
         ItemEditorInfo itemEditorInfo = findByIdAndItemEditorInfoIdOrThrow(itemEditorInfoId, itemId);
-        itemEditorInfo.setIsMain(step3Info.getIsMain());
-        itemEditorInfo.setTitle(step3Info.getTitle());
+        itemEditorInfo.setIsMain(requestDto.getIsMain());
+        itemEditorInfo.setTitle(requestDto.getTitle());
     }
 
     private ItemEditorInfo findByIdAndItemEditorInfoIdOrThrow(Long itemEditorInfoId,
@@ -56,12 +62,14 @@ public class ItemEditorInfoService {
         return itemEditorInfo;
     }
 
-    private void insertItemEditorInfo(ItemEditorInfoRequestDto step3Info) {
-        itemEditorInfoRepository.save(
+    private ItemEditorInfo insertItemEditorInfo(Long itemId,
+                                      ItemEditorInfoRequestDto requestDto) {
+        return itemEditorInfoRepository.save(
                 ItemEditorInfo.builder()
-                        .itemId(step3Info.getItemId())
-                        .title(step3Info.getTitle())
-                        .isMain(step3Info.getIsMain())
+                        .itemId(itemId)
+                        .title(requestDto.getTitle())
+                        .isMain(requestDto.getIsMain())
                         .build());
     }
+
 }

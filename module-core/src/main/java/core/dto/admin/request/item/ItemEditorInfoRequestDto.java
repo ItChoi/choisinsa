@@ -10,7 +10,6 @@ import java.util.List;
 public class ItemEditorInfoRequestDto {
     private Long companyId;
     private Long brandId;
-    private Long itemId;
     private String title; // 상품 에디터 제목
     private Boolean isMain; // 에디터 메인 지정 여부
     private List<ItemEditorContentRequestDto> contents;
@@ -18,7 +17,6 @@ public class ItemEditorInfoRequestDto {
     public boolean isAvailableData() {
         return companyId != null
                 && brandId != null
-                && itemId != null
                 && !StringUtils.isBlank(title)
                 && isMain != null
                 && !CollectionUtils.isEmpty(contents);

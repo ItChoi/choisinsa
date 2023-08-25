@@ -1,11 +1,9 @@
 package core.domain.item;
 
-import com.mall.choisinsa.security.domain.SecurityMenu;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 /**
  * 상품 옵션 상세
@@ -48,4 +46,10 @@ public class ItemOptionDetail extends BaseDateTimeEntity {
     @Setter
     @Column
     private int stockQuantity;
+
+    public void addItemOption(ItemOption itemOption) {
+        if (this.itemOption != null) {
+            this.itemOption = itemOption;
+        }
+    }
 }
