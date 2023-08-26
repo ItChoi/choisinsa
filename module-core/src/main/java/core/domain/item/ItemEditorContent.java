@@ -2,6 +2,7 @@ package core.domain.item;
 
 import com.mall.choisinsa.enumeration.item.ItemEditorContentType;
 import core.domain.common.BaseDateTimeEntity;
+import core.domain.menu.Menu;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,16 @@ public class ItemEditorContent extends BaseDateTimeEntity {
 
     @Column
     private Long itemEditorInfoId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "itemEditorInfoId", insertable = false, updatable = false)
+    private ItemEditorInfo itemEditorInfo;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "itemEditorContent", orphanRemoval = true, cascade = CascadeType.ALL)
+    private ItemEditorMarkupText itemEditorMarkupText;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "itemEditorContent", orphanRemoval = true, cascade = CascadeType.ALL)
+    private ItemEditorImage itemEditorImage;
 
     /**
      * 에디터 내용 타입

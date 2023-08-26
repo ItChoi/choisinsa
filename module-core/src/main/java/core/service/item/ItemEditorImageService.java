@@ -23,6 +23,11 @@ public class ItemEditorImageService {
     public void upsertItemEditorImage(Long itemEditorContentId,
                                       ItemEditorImageRequestDto image) {
         MultipartFile file = image.getFile();
+        // 파일 등록이 목적이 아닌, displayOrder 수정을 목적으로 할 시 파일이 존재하지 않음
+        if (file == null || file.isEmpty()) {
+            return;
+        }
+
         String filename = file.getOriginalFilename();
         String fileUrl = AwsS3Support.uploadTest(S3FolderType.ITEM_EDITOR_CONTENT, itemEditorContentId, file);
 
@@ -43,7 +48,6 @@ public class ItemEditorImageService {
             itemEditorImage.setFilename(filename);
             itemEditorImage.setFileUrl(fileUrl);
         }
-
     }
 
     private ItemEditorImage findByIdAndItemEditorContentIdOrThrow(Long itemEditorImageId,

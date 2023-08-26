@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -124,7 +126,7 @@ public class ItemService {
     }
 
     private void validateItemEditorInfo(ItemEditorInfoRequestDto requestDto) {
-        if (requestDto.isAvailableData()) {
+        if (!requestDto.isAvailableData()) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }
     }
@@ -163,5 +165,18 @@ public class ItemService {
                                      ItemEditorInfoRequestDto requestDto) {
         validateItemEditorInfo(requestDto);
         itemEditorInfoService.insertItemEditorInfo(itemId, requestDto);
+    }
+
+    @Transactional
+    public void deleteItemEditorInfoByIds(Long itemId,
+                                          Collection<Long> itemEditorInfoIds) {
+        itemEditorInfoService.deleteByItemIdAndIdIn(itemId, itemEditorInfoIds);
+    }
+
+    @Transactional
+    public void deleteItemEditorContentByIds(Long itemId,
+                                             Long itemEditorInfoId,
+                                             List<Long> itemEditorContentIds) {
+        itemEditorInfoService.deleteItemEditorContentByItemEditorInfoIdAndIdIn(itemId, itemEditorInfoId, itemEditorContentIds);
     }
 }

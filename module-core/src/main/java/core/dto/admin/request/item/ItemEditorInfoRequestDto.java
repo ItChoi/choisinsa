@@ -1,11 +1,15 @@
 package core.dto.admin.request.item;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
+@Setter
 @Getter
 public class ItemEditorInfoRequestDto {
     private Long companyId;

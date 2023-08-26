@@ -14,6 +14,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -39,7 +40,7 @@ class MemberControllerTest extends ClientApplicationBaseTest {
 
     @Test
     void test() throws Exception {
-        BDDMockito.given(memberService.canRecommendByLoginId(any())).willReturn(true);
+        given(memberService.canRecommendByLoginId(any())).willReturn(true);
         this.mockMvc.perform(get("/api/members/{loginId}/recommender", "test")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

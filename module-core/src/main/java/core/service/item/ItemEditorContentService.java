@@ -3,13 +3,16 @@ package core.service.item;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.ItemEditorContent;
+import core.domain.item.ItemEditorInfo;
 import core.dto.admin.request.item.ItemEditorContentRequestDto;
 import core.repository.item.ItemEditorContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -69,5 +72,31 @@ public class ItemEditorContentService {
         }
 
         return itemEditorContent;
+    }
+
+    @Transactional
+    public void deleteItemEditorContentByItemEditorInfoIdAndIdIn(Long itemEditorInfoId,
+                                                                 Collection<Long> itemEditorContentIds) {
+        if (itemEditorInfoId == null || CollectionUtils.isEmpty(itemEditorContentIds)) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+
+        validateItemEditorContentForDelete(itemEditorInfoId, itemEditorContentIds);
+        itemEditorContentRepository.deleteByIdIn(itemEditorContentIds);
+    }
+
+    private List<ItemEditorContent> findByItemEditorInfoIdAndIdIn(Long itemEditorInfoId,
+                                                               Collection<Long> itemEditorContentIds) {
+
+        return itemEditorContentRepository.findByItemEditorInfoIdAndIdIn(itemEditorInfoId, itemEditorContentIds);
+    }
+
+    private void validateItemEditorContentForDelete(Long itemEditorInfoId,
+                                                    Collection<Long> itemEditorContentIds) {
+
+        List<ItemEditorContent> itemEditorContents = findByItemEditorInfoIdAndIdIn(itemEditorInfoId, itemEditorContentIds);
+        if (itemEditorContents.size() != itemEditorContentIds.size()) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_REQUEST);
+        }
     }
 }

@@ -23,6 +23,10 @@ public class ItemEditorImage extends BaseDateTimeEntity {
     @Column
     private Long itemEditorContentId;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "itemEditorContentId", insertable = false, updatable = false)
+    private ItemEditorContent itemEditorContent;
+
     /**
      * 상품 썸네일 이미지 경로
      */

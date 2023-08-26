@@ -4,7 +4,7 @@ import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * 상품 에디터 정보
@@ -23,6 +23,9 @@ public class ItemEditorInfo extends BaseDateTimeEntity {
     @Column
     private Long itemId;
 
+    @OneToMany(mappedBy = "itemEditorInfo", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<ItemEditorContent> itemEditorContents;
+
     /**
      * 상품 에디터 정보 제목
      */
@@ -36,4 +39,6 @@ public class ItemEditorInfo extends BaseDateTimeEntity {
     @Setter
     @Column
     private Boolean isMain;
+
+
 }

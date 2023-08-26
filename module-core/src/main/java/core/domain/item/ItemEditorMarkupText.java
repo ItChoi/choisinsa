@@ -4,7 +4,6 @@ import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 /**
  * 상품 에디터 마크업 텍스트
@@ -22,6 +21,10 @@ public class ItemEditorMarkupText extends BaseDateTimeEntity {
 
     @Column
     private Long itemEditorContentId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "itemEditorContentId", insertable = false, updatable = false)
+    private ItemEditorContent itemEditorContent;
 
     /**
      * 마크업 텍스트

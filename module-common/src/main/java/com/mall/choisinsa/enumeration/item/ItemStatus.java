@@ -8,7 +8,8 @@ public enum ItemStatus {
     INPUT("입력중"),
     ON_SALE("판매중"),
     SOLD_OUT("품절"),
-    TEMP_SOLD_OUT("일시 품절");
+    TEMP_SOLD_OUT("일시 품절"),
+    END_SALE("판매 종료");
 
     private final String desc;
 }

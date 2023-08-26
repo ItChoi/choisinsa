@@ -45,7 +45,7 @@ public class ItemDetailService {
     private ItemDetail findByIdAndItemIdOrThrow(Long itemDetailId,
                                                 Long itemId) {
         ItemDetail itemDetail = findByIdOrThrow(itemDetailId);
-        if (itemDetail.getItemId().equals(itemId)) {
+        if (!itemDetail.getItemId().equals(itemId)) {
             throw new ErrorTypeAdviceException(ErrorType.MISMATCH_REQUEST);
         }
 
