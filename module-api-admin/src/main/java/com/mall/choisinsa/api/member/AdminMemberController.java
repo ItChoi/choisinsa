@@ -1,10 +1,9 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
-import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.security.service.SecurityMemberService;
-import core.dto.service.request.member.MemberLoginRequestDto;
-import core.dto.service.response.member.MemberLoginResponseDto;
+import core.dto.client.request.member.MemberLoginRequestDto;
+import core.dto.client.response.member.MemberLoginResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

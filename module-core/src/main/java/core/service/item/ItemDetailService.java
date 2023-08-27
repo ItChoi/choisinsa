@@ -3,7 +3,7 @@ package core.service.item;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.ItemDetail;
-import core.dto.admin.request.item.ItemDetailRequestDto;
+import core.dto.admin.request.item.AdminItemDetailRequestDto;
 import core.mapper.item.ItemMapper;
 import core.repository.item.ItemDetailRepository;
 import core.repository.item.ItemRepository;
@@ -20,7 +20,7 @@ public class ItemDetailService {
 
     @Transactional
     public void putItemDetail(Long itemId,
-                              ItemDetailRequestDto requestDto) {
+                              AdminItemDetailRequestDto requestDto) {
         validateItem(itemId, requestDto);
 
         Long itemDetailId = requestDto.getItemDetailId();
@@ -33,7 +33,7 @@ public class ItemDetailService {
 
     private void updateItemDetail(Long itemId,
                                   Long itemDetailId,
-                                  ItemDetailRequestDto requestDto) {
+                                  AdminItemDetailRequestDto requestDto) {
         if (itemId == null || itemDetailId == null) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
@@ -58,12 +58,12 @@ public class ItemDetailService {
     }
 
     private void insertItemDetail(Long itemId,
-                                  ItemDetailRequestDto requestDto) {
+                                  AdminItemDetailRequestDto requestDto) {
         itemDetailRepository.save(requestDto.toEntity(itemId));
     }
 
     private void validateItem(Long itemId,
-                              ItemDetailRequestDto requestDto) {
+                              AdminItemDetailRequestDto requestDto) {
         if (!requestDto.isAvailableData()) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }

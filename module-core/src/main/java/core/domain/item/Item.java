@@ -1,6 +1,7 @@
 package core.domain.item;
 
 import com.mall.choisinsa.enumeration.item.ItemStatus;
+import com.mall.choisinsa.enumeration.item.TargetType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
@@ -34,8 +35,9 @@ public class Item extends BaseDateTimeEntity {
      * 사용 타겟 (남성, 여성, 모두, 아기, ...)
      */
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column
-    private String useTarget;
+    private TargetType targetType;
 
     /**
      * 상품명 (영문)
@@ -77,4 +79,8 @@ public class Item extends BaseDateTimeEntity {
     @Setter
     @Column
     private int totalStockQuantity;
+
+    public boolean canPurchaseItemStatus() {
+        return this.totalStockQuantity > 0 && ItemStatus.canPurchaseItemStatus(this.status);
+    }
 }

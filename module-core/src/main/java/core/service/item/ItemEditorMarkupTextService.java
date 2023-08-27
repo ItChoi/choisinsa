@@ -4,7 +4,7 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.ItemEditorContent;
 import core.domain.item.ItemEditorMarkupText;
-import core.dto.admin.request.item.ItemEditorMarkupTextRequestDto;
+import core.dto.admin.request.item.AdminItemEditorMarkupTextRequestDto;
 import core.repository.item.ItemEditorMarkupTextRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class ItemEditorMarkupTextService {
 
     @Transactional
     public void upsertItemEditorMarkupText(ItemEditorContent itemEditorContent,
-                                           ItemEditorMarkupTextRequestDto markupText) {
+                                           AdminItemEditorMarkupTextRequestDto markupText) {
         Long itemEditorMarkupTextId = markupText.getItemEditorMarkupTextId();
         if (itemEditorMarkupTextId == null) {
             itemEditorMarkupTextRepository.save(ItemEditorMarkupText.builder()

@@ -4,7 +4,7 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.ItemOption;
 import core.domain.item.ItemOptionDetail;
-import core.dto.admin.request.item.ItemOptionDetailRequestDto;
+import core.dto.admin.request.item.AdminItemOptionDetailRequestDto;
 import core.repository.item.ItemOptionDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,17 +21,17 @@ public class ItemOptionDetailService {
 
     @Transactional
     public void upsertItemOptionDetails(ItemOption itemOption,
-                                        Collection<ItemOptionDetailRequestDto> requestDtos) {
+                                        Collection<AdminItemOptionDetailRequestDto> requestDtos) {
         upsertWithItemOptionDetailRequestDtos(itemOption, requestDtos);
     }
 
     private void upsertWithItemOptionDetailRequestDtos(ItemOption itemOption,
-                                                       Collection<ItemOptionDetailRequestDto> requestDtos) {
+                                                       Collection<AdminItemOptionDetailRequestDto> requestDtos) {
 
         validateItemOptionDetail(itemOption, requestDtos);
 
         List<ItemOptionDetail> ItemOptionDetails = new ArrayList<>();
-        for (ItemOptionDetailRequestDto requestDto : requestDtos) {
+        for (AdminItemOptionDetailRequestDto requestDto : requestDtos) {
             Long itemOptionDetailId = requestDto.getItemOptionDetailId();
 
             if (itemOptionDetailId == null) {
@@ -77,7 +77,7 @@ public class ItemOptionDetailService {
     }
 
     private static void validateItemOptionDetail(ItemOption itemOption,
-                                                 Collection<ItemOptionDetailRequestDto> requestDtos) {
+                                                 Collection<AdminItemOptionDetailRequestDto> requestDtos) {
         if (itemOption == null || CollectionUtils.isEmpty(requestDtos)) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }

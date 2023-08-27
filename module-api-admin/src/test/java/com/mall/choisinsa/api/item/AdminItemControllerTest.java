@@ -2,29 +2,13 @@ package com.mall.choisinsa.api.item;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.choisinsa.AdminApplicationBaseTest;
-import com.mall.choisinsa.security.service.SecurityMemberService;
-import core.service.item.ItemService;
-import core.service.member.MemberService;
-import org.junit.jupiter.api.Disabled;
+import core.service.item.AdminItemService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.payload.PayloadDocumentation;
-import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AdminItemController.class)
 class AdminItemControllerTest extends AdminApplicationBaseTest {
@@ -35,7 +19,7 @@ class AdminItemControllerTest extends AdminApplicationBaseTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private ItemService itemService;
+    private AdminItemService adminItemService;
 
     @DisplayName("아이템 등록 (파일 ")
     @Test

@@ -32,11 +32,10 @@ public class ItemCategory extends BaseDateTimeEntity {
     private String name;
 
     /**
-     * 상품 타입
+     * 상품 카테고리 코드
      */
-    @Enumerated(EnumType.STRING)
     @Column
-    private ItemType itemType;
+    private String code;
 
     /**
      * 계층 레벨(1부터 시작)

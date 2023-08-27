@@ -5,7 +5,7 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.Item;
 import core.domain.item.ItemOption;
 import core.domain.item.ItemOptionDetail;
-import core.dto.admin.request.item.ItemOptionRequestDto;
+import core.dto.admin.request.item.AdminItemOptionRequestDto;
 import core.repository.item.ItemOptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,10 +24,10 @@ public class ItemOptionService {
 
     @Transactional
     public void upsertItemOptions(Item item,
-                                  Collection<ItemOptionRequestDto> requestDtos) {
+                                  Collection<AdminItemOptionRequestDto> requestDtos) {
         validateItemOptions(item, requestDtos);
 
-        for (ItemOptionRequestDto requestDto : requestDtos) {
+        for (AdminItemOptionRequestDto requestDto : requestDtos) {
             Long itemOptionId = requestDto.getItemOptionId();
             if (itemOptionId == null) {
                 insertItemOption(item, requestDto);
@@ -40,7 +40,7 @@ public class ItemOptionService {
     }
 
     private void insertItemOption(Item item,
-                                  ItemOptionRequestDto requestDto) {
+                                  AdminItemOptionRequestDto requestDto) {
         ItemOption itemOption = itemOptionRepository.save(
                 ItemOption.builder()
                         .itemId(item.getId())
@@ -52,7 +52,7 @@ public class ItemOptionService {
     }
 
     private void updateItemOption(Item item,
-                                  ItemOptionRequestDto requestDto) {
+                                  AdminItemOptionRequestDto requestDto) {
         ItemOption itemOption = findByIdAndItemIdOrThrow(requestDto.getItemOptionId(), item.getId());
 
         if (itemOption.getItemOptionType() != requestDto.getItemOptionType()) {
@@ -91,7 +91,7 @@ public class ItemOptionService {
     }
 
     private void validateItemOptions(Item item,
-                                     Collection<ItemOptionRequestDto> requestDtos) {
+                                     Collection<AdminItemOptionRequestDto> requestDtos) {
         if (item == null || CollectionUtils.isEmpty(requestDtos)) {
             throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
         }

@@ -6,7 +6,7 @@ import core.aws.s3.AwsS3Support;
 import core.aws.s3.S3FolderType;
 import core.domain.item.Item;
 import core.domain.item.ItemThumbnail;
-import core.dto.admin.request.item.ItemThumbnailImageRequestDto;
+import core.dto.admin.request.item.AdminItemThumbnailImageRequestDto;
 import core.repository.item.ItemThumbnailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +29,13 @@ public class ItemThumbnailService {
     @Transactional
     public void saveAll(Item item,
                         Long itemImageId,
-                        Collection<ItemThumbnailImageRequestDto> requestDtos) {
+                        Collection<AdminItemThumbnailImageRequestDto> requestDtos) {
         if (CollectionUtils.isEmpty(requestDtos)) {
             return;
         }
 
         List<ItemThumbnail> itemThumbnails = new ArrayList<>();
-        for (ItemThumbnailImageRequestDto requestDto : requestDtos) {
+        for (AdminItemThumbnailImageRequestDto requestDto : requestDtos) {
             Long itemThumbnailId = requestDto.getItemThumbnailId();
 
             if (itemThumbnailId != null) {
@@ -75,7 +75,7 @@ public class ItemThumbnailService {
 
     private void updateItemThumbnail(Long itemImageId,
                                      Long itemThumbnailId,
-                                     ItemThumbnailImageRequestDto requestDto) {
+                                     AdminItemThumbnailImageRequestDto requestDto) {
         ItemThumbnail itemThumbnail = findByIdAndItemImageIdOrThrow(itemThumbnailId, itemImageId);
 
         itemThumbnail.setDisplayOrder(requestDto.getDisplayOrder());

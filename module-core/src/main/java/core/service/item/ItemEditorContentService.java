@@ -3,8 +3,7 @@ package core.service.item;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.ItemEditorContent;
-import core.domain.item.ItemEditorInfo;
-import core.dto.admin.request.item.ItemEditorContentRequestDto;
+import core.dto.admin.request.item.AdminItemEditorContentRequestDto;
 import core.repository.item.ItemEditorContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,8 +23,8 @@ public class ItemEditorContentService {
 
     @Transactional
     public void upsertItemEditorContents(Long itemEditorInfoId,
-                                         Collection<ItemEditorContentRequestDto> contents) {
-        for (ItemEditorContentRequestDto content : contents) {
+                                         Collection<AdminItemEditorContentRequestDto> contents) {
+        for (AdminItemEditorContentRequestDto content : contents) {
             ItemEditorContent itemEditorContent = upsertItemEditorContent(itemEditorInfoId, content);
 
             switch (content.getType()) {
@@ -42,7 +41,7 @@ public class ItemEditorContentService {
     }
 
     private ItemEditorContent upsertItemEditorContent(Long itemEditorInfoId,
-                                                      ItemEditorContentRequestDto content) {
+                                                      AdminItemEditorContentRequestDto content) {
 
         Long itemEditorContentId = content.getItemEditorContentId();
         if (itemEditorContentId == null) {

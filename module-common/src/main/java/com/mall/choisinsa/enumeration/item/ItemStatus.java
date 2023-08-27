@@ -12,4 +12,8 @@ public enum ItemStatus {
     END_SALE("판매 종료");
 
     private final String desc;
+
+    public static boolean canPurchaseItemStatus(ItemStatus status) {
+        return status == ON_SALE;
+    }
 }

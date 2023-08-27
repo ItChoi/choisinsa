@@ -5,7 +5,7 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.aws.s3.AwsS3Support;
 import core.aws.s3.S3FolderType;
 import core.domain.item.ItemEditorImage;
-import core.dto.admin.request.item.ItemEditorImageRequestDto;
+import core.dto.admin.request.item.AdminItemEditorImageRequestDto;
 import core.repository.item.ItemEditorImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class ItemEditorImageService {
 
     @Transactional
     public void upsertItemEditorImage(Long itemEditorContentId,
-                                      ItemEditorImageRequestDto image) {
+                                      AdminItemEditorImageRequestDto image) {
         MultipartFile file = image.getFile();
         // 파일 등록이 목적이 아닌, displayOrder 수정을 목적으로 할 시 파일이 존재하지 않음
         if (file == null || file.isEmpty()) {

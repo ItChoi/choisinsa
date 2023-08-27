@@ -3,7 +3,7 @@ package core.service.item;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.ItemEditorInfo;
-import core.dto.admin.request.item.ItemEditorInfoRequestDto;
+import core.dto.admin.request.item.AdminItemEditorInfoRequestDto;
 import core.repository.item.ItemEditorInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class ItemEditorInfoService {
     @Transactional
     public void updateItemEditorInfo(Long itemId,
                                       Long itemEditorInfoId,
-                                      ItemEditorInfoRequestDto requestDto) {
+                                      AdminItemEditorInfoRequestDto requestDto) {
         if (BooleanUtils.isTrue(requestDto.getIsMain())) {
             clearMainItemEditorInfo(itemId);
         }
@@ -45,7 +45,7 @@ public class ItemEditorInfoService {
 
     @Transactional
     public void insertItemEditorInfo(Long itemId,
-                                     ItemEditorInfoRequestDto requestDto) {
+                                     AdminItemEditorInfoRequestDto requestDto) {
         if (BooleanUtils.isTrue(requestDto.getIsMain())) {
             clearMainItemEditorInfo(itemId);
         }

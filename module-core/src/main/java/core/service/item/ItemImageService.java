@@ -3,7 +3,7 @@ package core.service.item;
 import com.mall.choisinsa.enumeration.item.ItemImageType;
 import core.domain.item.Item;
 import core.domain.item.ItemImage;
-import core.dto.admin.request.item.ItemThumbnailImageRequestDto;
+import core.dto.admin.request.item.AdminItemThumbnailImageRequestDto;
 import core.repository.item.ItemImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class ItemImageService {
 
 
     public void upsertThumbnailImages(Item item,
-                                      Collection<ItemThumbnailImageRequestDto> requestDtos) {
+                                      Collection<AdminItemThumbnailImageRequestDto> requestDtos) {
         if (item == null || CollectionUtils.isEmpty(requestDtos)) {
             return;
         }

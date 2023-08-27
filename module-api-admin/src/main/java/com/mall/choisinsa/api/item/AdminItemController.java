@@ -2,11 +2,11 @@ package com.mall.choisinsa.api.item;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
 import com.mall.choisinsa.security.dto.SecurityMemberDto;
-import core.dto.admin.request.item.ItemDetailRequestDto;
-import core.dto.admin.request.item.ItemEditorInfoRequestDto;
-import core.dto.admin.request.item.ItemRequestDto;
-import core.dto.admin.request.item.ItemSearchRequestDto;
-import core.service.item.ItemService;
+import core.dto.admin.request.item.AdminItemDetailRequestDto;
+import core.dto.admin.request.item.AdminItemEditorInfoRequestDto;
+import core.dto.admin.request.item.AdminItemRequestDto;
+import core.dto.admin.request.item.AdminItemSearchRequestDto;
+import core.service.item.AdminItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -19,12 +19,12 @@ import java.util.List;
 @RequestMapping("/api/admin/items")
 public class AdminItemController {
 
-    private final ItemService itemService;
+    private final AdminItemService adminItemService;
 
     // TODO: 테스트 코드 작성
 
     @GetMapping
-    public ResponseWrapper getItems(ItemSearchRequestDto requestDto,
+    public ResponseWrapper getItems(AdminItemSearchRequestDto requestDto,
                                     @AuthenticationPrincipal SecurityMemberDto loginUser) {
         // TODO: 서비스 페이지 개발 후, 정책 정하고 작업 들어가기
         // 멤버 타입에 따라 적합한 아이템 뿌려주기
@@ -33,17 +33,17 @@ public class AdminItemController {
     }
 
     @PostMapping
-    public ResponseWrapper insertItemWithFile(ItemRequestDto requestDto,
+    public ResponseWrapper insertItemWithFile(AdminItemRequestDto requestDto,
                                               @AuthenticationPrincipal SecurityMemberDto loginUser) {
-        itemService.insertItemWithFile(loginUser.getMemberId(), requestDto);
+        adminItemService.insertItemWithFile(loginUser.getMemberId(), requestDto);
         return ResponseWrapper.ok();
     }
 
     @PostMapping("/{itemId}")
     public ResponseWrapper updateItemWithFile(@PathVariable Long itemId,
-                                              ItemRequestDto requestDto,
+                                              AdminItemRequestDto requestDto,
                                               @AuthenticationPrincipal SecurityMemberDto loginUser) {
-        itemService.updateItemWithFile(loginUser.getMemberId(), itemId, requestDto);
+        adminItemService.updateItemWithFile(loginUser.getMemberId(), itemId, requestDto);
         return ResponseWrapper.ok();
     }
 
@@ -51,30 +51,30 @@ public class AdminItemController {
     // PUT -> 수정이든 등록이든 모든 데이터 다 보내기
     @PutMapping("/{itemId}/detail")
     public ResponseWrapper putItemDetail(@PathVariable Long itemId,
-                                         @Validated @RequestBody ItemDetailRequestDto requestDto) {
-        itemService.putItemDetail(itemId, requestDto);
+                                         @Validated @RequestBody AdminItemDetailRequestDto requestDto) {
+        adminItemService.putItemDetail(itemId, requestDto);
         return ResponseWrapper.ok();
     }
 
     @PostMapping("/{itemId}/editor-infos")
     public ResponseWrapper insertItemEditorInfo(@PathVariable Long itemId,
-                                                ItemEditorInfoRequestDto requestDto) {
-        itemService.insertItemEditorInfo(itemId, requestDto);
+                                                AdminItemEditorInfoRequestDto requestDto) {
+        adminItemService.insertItemEditorInfo(itemId, requestDto);
         return ResponseWrapper.ok();
     }
 
     @PostMapping("/{itemId}/editor-infos/{itemEditorInfoId}")
     public ResponseWrapper updateItemEditorInfo(@PathVariable Long itemId,
                                                 @PathVariable Long itemEditorInfoId,
-                                                ItemEditorInfoRequestDto requestDto) {
-        itemService.updateItemEditorInfo(itemId, itemEditorInfoId, requestDto);
+                                                AdminItemEditorInfoRequestDto requestDto) {
+        adminItemService.updateItemEditorInfo(itemId, itemEditorInfoId, requestDto);
         return ResponseWrapper.ok();
     }
 
     @DeleteMapping("/{itemId}/editor-infos")
     public ResponseWrapper deleteItemEditorInfos(@PathVariable Long itemId,
                                                  @RequestBody List<Long> itemEditorInfoIds) {
-        itemService.deleteItemEditorInfoByIds(itemId, itemEditorInfoIds);
+        adminItemService.deleteItemEditorInfoByIds(itemId, itemEditorInfoIds);
         return ResponseWrapper.ok();
     }
 
@@ -82,7 +82,7 @@ public class AdminItemController {
     public ResponseWrapper deleteItemEditorContent(@PathVariable Long itemId,
                                                    @PathVariable Long itemEditorInfoId,
                                                    @RequestBody List<Long> itemEditorContentIds) {
-        itemService.deleteItemEditorContentByIds(itemId, itemEditorInfoId, itemEditorContentIds);
+        adminItemService.deleteItemEditorContentByIds(itemId, itemEditorInfoId, itemEditorContentIds);
         return ResponseWrapper.ok();
     }
 
