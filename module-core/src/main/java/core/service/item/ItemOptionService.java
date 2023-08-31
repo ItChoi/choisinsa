@@ -6,6 +6,8 @@ import core.domain.item.Item;
 import core.domain.item.ItemOption;
 import core.domain.item.ItemOptionDetail;
 import core.dto.admin.request.item.AdminItemOptionRequestDto;
+import core.dto.client.response.item.ItemOptionResponseDto;
+import core.mapper.item.ItemOptionMapper;
 import core.repository.item.ItemOptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -115,8 +119,32 @@ public class ItemOptionService {
     }
 
     @Transactional(readOnly = true)
+    public List<ItemOption> findOrderedAllByItemId(Long itemId) {
+        List<ItemOption> itemOptions = findAllByItemId(itemId);
+        orderByDisplayOrder(itemOptions);
+
+        return itemOptions;
+    }
+
+    private void orderByDisplayOrder(List<ItemOption> itemOptions) {
+        if (CollectionUtils.isEmpty(itemOptions)) {
+            return;
+        }
+        itemOptions.sort(Comparator.comparingInt(ItemOption::getDisplayOrder));
+        itemOptionDetailService.orderByDisplayOrder(itemOptions);
+    }
+
+    @Transactional(readOnly = true)
     public List<ItemOption> findAllByItemId(Long itemId) {
         return itemOptionRepository.findAllByItemId(itemId);
     }
 
+    @Transactional(readOnly = true)
+    public List<ItemOptionResponseDto> findItemOptionResponseDtoAllBy(Long itemId) {
+        List<ItemOptionResponseDto> itemOptionDtos = findOrderedAllByItemId(itemId).stream()
+                .map(ItemOptionMapper.INSTANCE::toItemOptionResponseDto)
+                .collect(Collectors.toList());
+
+        return itemOptionDtos;
+    }
 }

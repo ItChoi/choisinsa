@@ -16,4 +16,11 @@ public enum ItemStatus {
     public static boolean canPurchaseItemStatus(ItemStatus status) {
         return status == ON_SALE;
     }
+
+    public static boolean isDisplayItemStatus(ItemStatus status) {
+        return status == ON_SALE
+                || status == SOLD_OUT
+                || status == TEMP_SOLD_OUT
+                || status == END_SALE;
+    }
 }

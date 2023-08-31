@@ -24,4 +24,5 @@ public class ItemController {
         return ResponseWrapper.ok(itemService.getItemDetail(loginUser.getMemberId(), itemId, requestDto));
     }
 
+
 }

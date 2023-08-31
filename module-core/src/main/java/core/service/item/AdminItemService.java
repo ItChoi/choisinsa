@@ -25,7 +25,8 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class AdminItemService extends ItemService {
+public class AdminItemService{
+    private final ItemService itemService;
 
     private final ItemDetailService itemDetailService;
     private final ItemImageService itemImageService;
@@ -69,7 +70,7 @@ public class AdminItemService extends ItemService {
 
     private Item updateItem(Long itemId,
                             AdminItemRequestDto requestDto) {
-        Item item = findByIdOrThrow(itemId);
+        Item item = itemService.findByIdOrThrow(itemId);
         ItemMapper.INSTANCE.updateItem(item, requestDto);
         putItemMainImage(item, requestDto.getFile());
         upsertWithAdditionalItem(item, requestDto);

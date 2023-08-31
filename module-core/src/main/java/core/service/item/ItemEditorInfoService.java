@@ -4,6 +4,9 @@ import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.ItemEditorInfo;
 import core.dto.admin.request.item.AdminItemEditorInfoRequestDto;
+import core.dto.client.response.item.ItemEditorInfoResponseDto;
+import core.mapper.item.ItemEditorInfoMapper;
+import core.mapper.item.ItemOptionMapper;
 import core.repository.item.ItemEditorInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -115,4 +118,19 @@ public class ItemEditorInfoService {
                                         Long itemEditorInfoId) {
         findByIdAndItemEditorInfoIdOrThrow(itemEditorInfoId, itemId);
     }
+
+    @Transactional(readOnly = true)
+    public ItemEditorInfoResponseDto findItemEditorInfoResponseDtoBy(Long itemId) {
+        ItemEditorInfo itemEditorInfo = findMainItemEditorInfoByItemIdOrThrow(itemId);
+        itemEditorContentService.orderByDisplayOrder(itemEditorInfo);
+        ItemEditorInfoResponseDto responseDto = ItemEditorInfoMapper.INSTANCE.toItemEditorInfoResponseDto(itemEditorInfo);
+
+        return responseDto;
+    }
+
+    private ItemEditorInfo findMainItemEditorInfoByItemIdOrThrow(Long itemId) {
+        return itemEditorInfoRepository.findByItemIdAndIsMain(itemId, true)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_ITEM_EDITOR_INFO));
+    }
+
 }

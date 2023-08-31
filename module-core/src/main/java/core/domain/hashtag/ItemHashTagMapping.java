@@ -1,5 +1,6 @@
 package core.domain.hashtag;
 
+import com.mall.choisinsa.enumeration.hashtag.ItemHashTagType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
@@ -22,4 +23,15 @@ public class ItemHashTagMapping extends BaseDateTimeEntity {
     @Column
     private Long hashTagId;
 
+    /**
+     * 상품 해시태그 표시 순서
+     */
+    @Setter
+    @Column
+    private int displayOrder;
+
+    @Setter
+    @Enumerated(EnumType.STRING)
+    @Column
+    private ItemHashTagType type;
 }

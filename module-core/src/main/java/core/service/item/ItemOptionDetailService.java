@@ -86,4 +86,13 @@ public class ItemOptionDetailService {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
     }
+
+    public void orderByDisplayOrder(List<ItemOption> itemOptions) {
+        itemOptions.forEach(itemOption -> orderByDisplayOrder(itemOption));
+    }
+
+    public void orderByDisplayOrder(ItemOption itemOption) {
+        itemOption.getItemOptionDetails()
+                .sort(Comparator.comparingInt(ItemOptionDetail::getDisplayOrder));
+    }
 }

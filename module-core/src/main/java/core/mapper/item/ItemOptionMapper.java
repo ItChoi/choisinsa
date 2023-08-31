@@ -2,8 +2,11 @@ package core.mapper.item;
 
 import core.domain.item.ItemOption;
 import core.dto.admin.request.item.AdminItemOptionRequestDto;
+import core.dto.client.response.item.ItemOptionResponseDto;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+
+import java.util.function.Function;
 
 
 @Mapper(
@@ -19,4 +22,5 @@ public interface ItemOptionMapper {
     void updateItemOption(@MappingTarget ItemOption itemOption,
                           AdminItemOptionRequestDto dto);
 
+    ItemOptionResponseDto toItemOptionResponseDto(ItemOption itemOption);
 }

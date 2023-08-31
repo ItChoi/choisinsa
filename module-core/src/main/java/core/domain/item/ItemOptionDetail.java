@@ -47,6 +47,13 @@ public class ItemOptionDetail extends BaseDateTimeEntity {
     @Column
     private int stockQuantity;
 
+    /**
+     * 옵션 표시 순서
+     */
+    @Setter
+    @Column
+    private int displayOrder;
+
     public void addItemOption(ItemOption itemOption) {
         if (this.itemOption != null) {
             this.itemOption = itemOption;

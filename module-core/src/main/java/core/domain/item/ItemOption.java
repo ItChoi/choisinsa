@@ -5,9 +5,7 @@ import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 상품 옵션 정보
@@ -27,7 +25,7 @@ public class ItemOption extends BaseDateTimeEntity {
     private Long itemId;
 
     @OneToMany(mappedBy = "itemOption", orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<ItemOptionDetail> itemOptionDetails;
+    private List<ItemOptionDetail> itemOptionDetails;
 
     /**
      * 상품 옵션 타입
@@ -46,7 +44,7 @@ public class ItemOption extends BaseDateTimeEntity {
 
     public void addItemOptionDetail(ItemOptionDetail itemOptionDetail) {
         if (this.itemOptionDetails == null) {
-            this.itemOptionDetails = new HashSet<>();
+            this.itemOptionDetails = new ArrayList<>();
         }
 
         this.itemOptionDetails.add(itemOptionDetail);

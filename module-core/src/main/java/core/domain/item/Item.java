@@ -32,7 +32,7 @@ public class Item extends BaseDateTimeEntity {
     private ItemStatus status;
 
     /**
-     * 사용 타겟 (남성, 여성, 모두, 아기, ...)
+     * 사용 타겟 (남성, 여성, 기타, ...)
      */
     @Setter
     @Enumerated(EnumType.STRING)
@@ -82,5 +82,9 @@ public class Item extends BaseDateTimeEntity {
 
     public boolean canPurchaseItemStatus() {
         return this.totalStockQuantity > 0 && ItemStatus.canPurchaseItemStatus(this.status);
+    }
+
+    public boolean isDisplayItemStatus() {
+        return ItemStatus.isDisplayItemStatus(this.status);
     }
 }

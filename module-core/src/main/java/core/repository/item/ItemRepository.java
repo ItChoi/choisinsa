@@ -1,9 +1,10 @@
 package core.repository.item;
 
 import core.domain.item.Item;
+import core.dto.client.request.item.ItemDetailRequestDto;
+import core.dto.client.response.item.ItemDetailInfoResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositoryCustom {
 
 }

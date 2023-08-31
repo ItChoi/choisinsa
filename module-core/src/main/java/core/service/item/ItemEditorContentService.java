@@ -3,6 +3,7 @@ package core.service.item;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import core.domain.item.ItemEditorContent;
+import core.domain.item.ItemEditorInfo;
 import core.dto.admin.request.item.AdminItemEditorContentRequestDto;
 import core.repository.item.ItemEditorContentRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -97,5 +99,13 @@ public class ItemEditorContentService {
         if (itemEditorContents.size() != itemEditorContentIds.size()) {
             throw new ErrorTypeAdviceException(ErrorType.MISMATCH_REQUEST);
         }
+    }
+
+    public void orderByDisplayOrder(ItemEditorInfo itemEditorInfo) {
+        if (itemEditorInfo == null) {
+            return;
+        }
+
+        itemEditorInfo.getItemEditorContents().sort(Comparator.comparingInt(ItemEditorContent::getDisplayOrder));
     }
 }
