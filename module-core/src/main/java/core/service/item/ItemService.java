@@ -31,13 +31,16 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public ItemDetailInfoResponseDto getItemDetail(Long memberId,
-                                                   Long itemId,
+    public ItemDetailInfoResponseDto getItemDetail(Long itemId,
                                                    ItemDetailRequestDto requestDto) {
         if (itemId == null || requestDto == null || requestDto.getBrandId() == null) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
 
+        return findItemDetailInfoResponseDtoBy(itemId, requestDto);
+    }
+
+    private ItemDetailInfoResponseDto findItemDetailInfoResponseDtoBy(Long itemId, ItemDetailRequestDto requestDto) {
         ItemResponseDto itemDto = findItemResponseDtoBy(itemId, requestDto);
         List<ItemOptionResponseDto> itemOptionDtos = itemOptionService.findItemOptionResponseDtoAllBy(itemId);
         ItemEditorInfoResponseDto itemEditorInfoDto = itemEditorInfoService.findItemEditorInfoResponseDtoBy(itemId);
@@ -49,11 +52,17 @@ public class ItemService {
     private ItemResponseDto findItemResponseDtoBy(Long itemId,
                                                   ItemDetailRequestDto requestDto) {
         ItemResponseDto itemResponseDto = itemRepository.findItemResponseDtoBy(itemId, requestDto);
-
-        ItemStatus status = itemResponseDto.getStatus();
-        itemResponseDto.setIsDisplayItemStatus(ItemStatus.isDisplayItemStatus(status));
-        itemResponseDto.setCanPurchaseItemStatus(ItemStatus.canPurchaseItemStatus(status));
+        updateRelativeItemStatusBy(itemResponseDto);
 
         return itemResponseDto;
+    }
+
+    private void updateRelativeItemStatusBy(Object obj) {
+        if (obj instanceof ItemResponseDto) {
+            ItemResponseDto itemResponseDto = (ItemResponseDto) obj;
+            ItemStatus status = itemResponseDto.getStatus();
+            itemResponseDto.setIsDisplayItemStatus(ItemStatus.isDisplayItemStatus(status));
+            itemResponseDto.setCanPurchaseItemStatus(ItemStatus.canPurchaseItemStatus(status));
+        }
     }
 }

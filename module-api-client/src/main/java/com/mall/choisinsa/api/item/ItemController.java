@@ -19,9 +19,8 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public ResponseWrapper getItemDetail(@PathVariable Long itemId,
-                                         ItemDetailRequestDto requestDto,
-                                         @AuthenticationPrincipal SecurityMemberDto loginUser) {
-        return ResponseWrapper.ok(itemService.getItemDetail(loginUser.getMemberId(), itemId, requestDto));
+                                         ItemDetailRequestDto requestDto) {
+        return ResponseWrapper.ok(itemService.getItemDetail(itemId, requestDto));
     }
 
 
