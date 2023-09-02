@@ -3,8 +3,13 @@ ifndef::snippets[]
 endif::[]
 
 === 1. 회원 추천 가능 여부
+include::{snippets}/member_login/http-request.adoc[]
+include::{snippets}/member_login/request-fields.adoc[]
+include::{snippets}/member_login/http-response.adoc[]
+include::{snippets}/member_login/response-fields.adoc[]
+
+=== 2. 회원 추천 가능 여부
 include::{snippets}/can_recommend_by_login_id/http-request.adoc[]
-// include::{snippets}/can_recommend_by_login_id/request-fields.adoc[]
 include::{snippets}/can_recommend_by_login_id/path-parameters.adoc[]
 include::{snippets}/can_recommend_by_login_id/http-response.adoc[]
 include::{snippets}/can_recommend_by_login_id/response-fields.adoc[]

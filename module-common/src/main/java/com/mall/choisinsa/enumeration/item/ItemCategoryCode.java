@@ -3,7 +3,7 @@ package com.mall.choisinsa.enumeration.item;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum ItemType {
+public enum ItemCategoryCode {
     TOP("상의"),
     BOTTOM("바지"),
     DRESS("드레스"),

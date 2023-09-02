@@ -1,14 +1,12 @@
 package core.domain.item;
 
-import com.mall.choisinsa.enumeration.item.ItemType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * 상품 카테고리
@@ -25,17 +23,24 @@ public class ItemCategory extends BaseDateTimeEntity {
     @Column
     private Long parentId;
 
-    /**
-     * 부모 상품 카테고리 ID
-     */
-    @Column
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parentId", insertable = false, updatable = false)
+    private ItemCategory parent;
+
+    @OneToMany(mappedBy = "parent",orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<ItemCategory> children;
 
     /**
      * 상품 카테고리 코드
      */
     @Column
     private String code;
+
+    /**
+     * 부모 상품 카테고리 ID
+     */
+    @Column
+    private String name;
 
     /**
      * 계층 레벨(1부터 시작)

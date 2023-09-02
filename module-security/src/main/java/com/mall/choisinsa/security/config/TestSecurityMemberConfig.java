@@ -76,7 +76,7 @@ public class TestSecurityMemberConfig extends WebSecurityConfigurerAdapter {
                 "/members/iamport-verification**",
                 "/api/kakao/oauth/authorization-code",
                 "/api/kakao/oauth/authorize",
-                "/login/oauth2/code/**"
+                "/login/oauth2/code/**",
         };
     }
 
@@ -85,7 +85,7 @@ public class TestSecurityMemberConfig extends WebSecurityConfigurerAdapter {
                 "/api/members/login",
                 "/api/members",
                 "/api/members/{oauthLoginType}",
-                "/api/kakao/oauth/token"
+                "/api/kakao/oauth/token",
         };
     }
 }
