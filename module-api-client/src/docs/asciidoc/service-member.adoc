@@ -2,14 +2,39 @@ ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
-=== 1. 회원 추천 가능 여부
+=== 로그인
 include::{snippets}/member_login/http-request.adoc[]
 include::{snippets}/member_login/request-fields.adoc[]
 include::{snippets}/member_login/http-response.adoc[]
 include::{snippets}/member_login/response-fields.adoc[]
 
-=== 2. 회원 추천 가능 여부
+=== 나의 정보 보기
+include::{snippets}/member_my_information/http-request.adoc[]
+include::{snippets}/member_my_information/path-parameters.adoc[]
+include::{snippets}/member_my_information/http-response.adoc[]
+include::{snippets}/member_my_information/response-fields.adoc[]
+
+=== 회원 등록
+include::{snippets}/member_insert/http-request.adoc[]
+include::{snippets}/member_insert/request-fields.adoc[]
+include::{snippets}/member_insert/http-response.adoc[]
+include::{snippets}/member_insert/response-fields.adoc[]
+
+=== 회원 추천 가능 여부
 include::{snippets}/can_recommend_by_login_id/http-request.adoc[]
 include::{snippets}/can_recommend_by_login_id/path-parameters.adoc[]
 include::{snippets}/can_recommend_by_login_id/http-response.adoc[]
 include::{snippets}/can_recommend_by_login_id/response-fields.adoc[]
+
+=== 계정 sns 연동
+include::{snippets}/member_connect_sns/http-request.adoc[]
+include::{snippets}/member_connect_sns/path-parameters.adoc[]
+include::{snippets}/member_connect_sns/request-fields.adoc[]
+include::{snippets}/member_connect_sns/http-response.adoc[]
+include::{snippets}/member_connect_sns/response-fields.adoc[]
+
+=== 이메일 이용 가능 여부
+include::{snippets}/is_available_email/http-request.adoc[]
+include::{snippets}/is_available_email/path-parameters.adoc[]
+include::{snippets}/is_available_email/http-response.adoc[]
+include::{snippets}/is_available_email/response-fields.adoc[]

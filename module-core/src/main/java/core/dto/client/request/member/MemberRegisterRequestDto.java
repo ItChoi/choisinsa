@@ -6,9 +6,7 @@ import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.util.security.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class MemberRegisterRequestDto {
     @NotBlank
@@ -24,8 +23,6 @@ public class MemberRegisterRequestDto {
     private String password;
     @NotBlank
     private String email;
-    @NotNull
-    private SnsType snsType;
     @Valid
     private MemberDetailRegisterRequestDto memberDetail;
 
@@ -41,9 +38,12 @@ public class MemberRegisterRequestDto {
                 .build();
     }
 
+    @Setter
     @Getter
+    @NoArgsConstructor
     public static class MemberDetailRegisterRequestDto {
         private String recommenderLoginId;
+        @NotNull
         private Boolean isAcceptMarketing;
         @NotNull
         private Boolean isAuthenticateEmail;

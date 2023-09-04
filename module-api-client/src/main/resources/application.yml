@@ -3,6 +3,7 @@ server:
 
 spring:
   profiles:
+    active: client
     include: database,aws,oauth,jwt
 
   messages:

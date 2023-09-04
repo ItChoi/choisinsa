@@ -1,13 +1,16 @@
 package core.dto.client.response.member;
 
-import com.mall.choisinsa.enumeration.member.GenderType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import com.mall.choisinsa.util.security.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class MemberResponseDto {
     private Long id;
     private String loginId;
@@ -21,7 +24,6 @@ public class MemberResponseDto {
 
     public MemberResponseDto(Member member,
                              MemberDetail memberDetail) {
-
         this.id = member.getId();
         this.loginId = member.getLoginId();
         this.status = member.getStatus();
@@ -32,32 +34,4 @@ public class MemberResponseDto {
         this.profileFileUrl = member.getProfileFileUrl();
         this.memberDetail = new MemberDetailResponseDto(memberDetail);
     }
-
-    @Getter
-    public class MemberDetailResponseDto {
-        private Long id;
-        private String birthday;
-        private GenderType gender;
-        private String height;
-        private String weight;
-        private Boolean isAcceptMarketing;
-        private Boolean isAuthenticateEmail;
-        private Boolean isAuthenticatePhone;
-        private String selfIntroduce;
-        private Long recommenderMemberId;
-
-        public MemberDetailResponseDto(MemberDetail memberDetail) {
-            this.id = memberDetail.getId();
-            this.birthday = memberDetail.getBirthday();
-            this.gender = memberDetail.getGender();
-            this.height = memberDetail.getHeight();
-            this.weight = memberDetail.getWeight();
-            this.isAcceptMarketing = memberDetail.getIsAcceptMarketing();
-            this.isAuthenticateEmail = memberDetail.getIsAuthenticateEmail();
-            this.isAuthenticatePhone = memberDetail.getIsAuthenticatePhone();
-            this.selfIntroduce = memberDetail.getSelfIntroduce();
-            this.recommenderMemberId = memberDetail.getRecommenderMemberId();
-        }
-    }
-
 }

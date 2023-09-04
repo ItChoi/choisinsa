@@ -1,6 +1,7 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
+import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import com.mall.choisinsa.security.service.SecurityMemberService;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
@@ -8,6 +9,7 @@ import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.response.member.MemberLoginResponseDto;
 import core.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +37,9 @@ public class MemberController {
 
     // @LoginMember -> ArgumentResolver 로직 완성 후 사용하기.
     @GetMapping("/{memberId}")
-    public ResponseWrapper getMember(@PathVariable Long memberId) {
-        return ResponseWrapper.ok(memberService.findMemberById(memberId));
+    public ResponseWrapper getMember(@PathVariable Long memberId,
+                                     @AuthenticationPrincipal SecurityMemberDto loginUser) {
+        return ResponseWrapper.ok(memberService.findMemberResponseDtoById(loginUser.getMemberId(), memberId));
     }
 
     @PostMapping
@@ -57,6 +60,7 @@ public class MemberController {
         return ResponseWrapper.ok();
     }
 
+    // TODO: url 변경 필요 있을 듯
     @GetMapping("/{email}/is-available")
     public ResponseWrapper isAvailableEmail(@PathVariable String email) {
         return ResponseWrapper.ok(memberService.isExistEmail(email));

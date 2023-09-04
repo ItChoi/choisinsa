@@ -2,6 +2,7 @@ package core.dto.client.request.member;
 
 import com.mall.choisinsa.enumeration.member.MemberType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;

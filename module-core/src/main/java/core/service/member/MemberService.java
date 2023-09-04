@@ -60,7 +60,16 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberResponseDto findMemberById(Long memberId) {
+    public MemberResponseDto findMemberResponseDtoById(Long loggedInMemberId,
+                                                       Long memberId) {
+        if (loggedInMemberId == null || memberId == null || !loggedInMemberId.equals(memberId)) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_AUTHORITY);
+        }
+
+        return findMemberResponseDtoById(memberId);
+    }
+
+    private MemberResponseDto findMemberResponseDtoById(Long memberId) {
         Member member = findById(memberId)
                 .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.MEMBER_NOT_FOUND));
 
