@@ -17,7 +17,7 @@ public class AdminItemRequestDto {
     private String itemNameEn;
     private String itemNameKo;
     private Long price;
-    private TargetType targetType; // 사용 타겟층
+    private TargetType targetType;
     private int totalStockQuantity;
     private MultipartFile file;
     private List<AdminItemOptionRequestDto> itemOptions;

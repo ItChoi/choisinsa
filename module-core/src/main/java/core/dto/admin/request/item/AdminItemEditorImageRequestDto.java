@@ -7,6 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class AdminItemEditorImageRequestDto {
-    private Long itemEditorImageId;
+    private Long id;
     private MultipartFile file;
 }

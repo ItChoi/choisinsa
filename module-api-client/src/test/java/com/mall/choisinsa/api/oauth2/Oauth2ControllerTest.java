@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class Oauth2ControllerTest extends ClientApplicationBaseTest {
 
     @MockBean
-    public Oauth2Service oauth2Service;
+    private Oauth2Service oauth2Service;
 
     @DisplayName("oauth 로그인")
     @Test

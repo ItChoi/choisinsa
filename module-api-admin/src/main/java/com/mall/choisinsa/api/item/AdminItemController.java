@@ -47,7 +47,6 @@ public class AdminItemController {
         return ResponseWrapper.ok();
     }
 
-
     // PUT -> 수정이든 등록이든 모든 데이터 다 보내기
     @PutMapping("/{itemId}/detail")
     public ResponseWrapper putItemDetail(@PathVariable Long itemId,

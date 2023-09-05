@@ -1,0 +1,21 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+= CLIENT API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Index
+:toclevels: 3
+:sectlinks:
+:hardbreaks:
+
+관리자 API 도큐먼트 문서
+
+== *회원*
+include::admin-member.adoc[]
+
+== *상품*
+include::admin-item.adoc[]

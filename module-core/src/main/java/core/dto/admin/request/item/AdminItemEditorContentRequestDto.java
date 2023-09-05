@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AdminItemEditorContentRequestDto {
-    private Long itemEditorContentId;
+    private Long id;
     private ItemEditorContentType type;
     private int displayOrder;
-    private AdminItemEditorMarkupTextRequestDto markupText;
-    private AdminItemEditorImageRequestDto image;
+    private AdminItemEditorMarkupTextRequestDto itemEditorMarkupText;
+    private AdminItemEditorImageRequestDto itemEditorImage;
 
     public boolean isAvailableData() {
         return type != null
@@ -21,9 +21,9 @@ public class AdminItemEditorContentRequestDto {
 
     private boolean isAvailableDataByType() {
         if (type == ItemEditorContentType.IMAGE) {
-            return markupText == null && image != null;
+            return itemEditorMarkupText == null && itemEditorImage != null;
         }
 
-        return image == null && markupText != null;
+        return itemEditorImage == null && itemEditorMarkupText != null;
     }
 }

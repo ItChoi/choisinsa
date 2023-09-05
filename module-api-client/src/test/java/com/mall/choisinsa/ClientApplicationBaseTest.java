@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-@ActiveProfiles({"client", "database", "aws", "oauth", "jwt"})
+@ActiveProfiles({"client"})
 @AutoConfigureRestDocs(uriScheme = "http", uriHost = "localhost", uriPort = 8080)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @MockBean(JpaMetamodelMappingContext.class)
@@ -46,12 +46,11 @@ public class ClientApplicationBaseTest {
     public Oauth2UserService oauth2UserService;
 
     public SecurityMemberDto generateMemberSecurityMemberDto() {
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(AuthorityType.MEMBER.getText());
         return new SecurityMemberDto(
                 1L,
                 "testMember",
                 "test",
-                List.of(simpleGrantedAuthority)
+                List.of(new SimpleGrantedAuthority(AuthorityType.MEMBER.getText()))
         );
     }
 }

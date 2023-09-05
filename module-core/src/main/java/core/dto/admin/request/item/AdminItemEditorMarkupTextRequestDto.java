@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AdminItemEditorMarkupTextRequestDto {
-    private Long itemEditorMarkupTextId;
+    private Long id;
     private String text;
 }

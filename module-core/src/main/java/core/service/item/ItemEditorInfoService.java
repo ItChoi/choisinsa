@@ -6,7 +6,6 @@ import core.domain.item.ItemEditorInfo;
 import core.dto.admin.request.item.AdminItemEditorInfoRequestDto;
 import core.dto.client.response.item.ItemEditorInfoResponseDto;
 import core.mapper.item.ItemEditorInfoMapper;
-import core.mapper.item.ItemOptionMapper;
 import core.repository.item.ItemEditorInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +42,7 @@ public class ItemEditorInfoService {
         itemEditorInfo.setIsMain(requestDto.getIsMain());
         itemEditorInfo.setTitle(requestDto.getTitle());
 
-        itemEditorContentService.upsertItemEditorContents(itemEditorInfo.getId(), requestDto.getContents());
+        itemEditorContentService.upsertItemEditorContents(itemEditorInfo.getId(), requestDto.getItemEditorContents());
     }
 
     @Transactional
@@ -59,7 +58,7 @@ public class ItemEditorInfoService {
                 .isMain(requestDto.getIsMain())
                 .build());
 
-        itemEditorContentService.upsertItemEditorContents(itemEditorInfo.getId(), requestDto.getContents());
+        itemEditorContentService.upsertItemEditorContents(itemEditorInfo.getId(), requestDto.getItemEditorContents());
     }
 
     private ItemEditorInfo findByIdAndItemEditorInfoIdOrThrow(Long itemEditorInfoId,

@@ -14,13 +14,13 @@ public class AdminItemEditorInfoRequestDto {
     private Long brandId;
     private String title; // 상품 에디터 제목
     private Boolean isMain; // 에디터 메인 지정 여부
-    private List<AdminItemEditorContentRequestDto> contents;
+    private List<AdminItemEditorContentRequestDto> itemEditorContents;
 
     public boolean isAvailableData() {
         return companyId != null
                 && brandId != null
                 && !StringUtils.isBlank(title)
                 && isMain != null
-                && !CollectionUtils.isEmpty(contents);
+                && !CollectionUtils.isEmpty(itemEditorContents);
     }
 }

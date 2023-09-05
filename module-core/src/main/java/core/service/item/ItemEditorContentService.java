@@ -31,10 +31,10 @@ public class ItemEditorContentService {
 
             switch (content.getType()) {
                 case MARKUP_TEXT:
-                    itemEditorMarkupTextService.upsertItemEditorMarkupText(itemEditorContent, content.getMarkupText());
+                    itemEditorMarkupTextService.upsertItemEditorMarkupText(itemEditorContent, content.getItemEditorMarkupText());
                     break;
                 case IMAGE:
-                    itemEditorImageService.upsertItemEditorImage(itemEditorContent.getId(), content.getImage());
+                    itemEditorImageService.upsertItemEditorImage(itemEditorContent.getId(), content.getItemEditorImage());
                     break;
                 default:
                     throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
@@ -45,7 +45,7 @@ public class ItemEditorContentService {
     private ItemEditorContent upsertItemEditorContent(Long itemEditorInfoId,
                                                       AdminItemEditorContentRequestDto content) {
 
-        Long itemEditorContentId = content.getItemEditorContentId();
+        Long itemEditorContentId = content.getId();
         if (itemEditorContentId == null) {
             return itemEditorContentRepository.save(ItemEditorContent.builder()
                     .itemEditorInfoId(itemEditorInfoId)

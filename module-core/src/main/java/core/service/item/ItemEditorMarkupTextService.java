@@ -19,7 +19,7 @@ public class ItemEditorMarkupTextService {
     @Transactional
     public void upsertItemEditorMarkupText(ItemEditorContent itemEditorContent,
                                            AdminItemEditorMarkupTextRequestDto markupText) {
-        Long itemEditorMarkupTextId = markupText.getItemEditorMarkupTextId();
+        Long itemEditorMarkupTextId = markupText.getId();
         if (itemEditorMarkupTextId == null) {
             itemEditorMarkupTextRepository.save(ItemEditorMarkupText.builder()
                     .itemEditorContentId(itemEditorContent.getId())

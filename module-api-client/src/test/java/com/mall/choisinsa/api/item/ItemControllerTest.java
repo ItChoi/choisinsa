@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ItemController.class)
 public class ItemControllerTest extends ClientApplicationBaseTest {
     @MockBean
-    public ItemService itemService;
+    private ItemService itemService;
 
     @DisplayName("아이템 상세 조회")
     @Test

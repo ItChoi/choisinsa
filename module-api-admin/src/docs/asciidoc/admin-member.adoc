@@ -1,0 +1,9 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+=== 로그인
+include::{snippets}/admin_login/http-request.adoc[]
+include::{snippets}/admin_login/request-fields.adoc[]
+include::{snippets}/admin_login/http-response.adoc[]
+include::{snippets}/admin_login/response-fields.adoc[]

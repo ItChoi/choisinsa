@@ -37,10 +37,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MemberControllerTest extends ClientApplicationBaseTest {
 
     @MockBean
-    public MemberService memberService;
+    private MemberService memberService;
 
     @MockBean
-    public SecurityMemberService securityMemberService;
+    private SecurityMemberService securityMemberService;
 
     @DisplayName("로그인")
     @Test

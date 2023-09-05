@@ -34,7 +34,7 @@ public class ItemEditorImageService {
         String filename = file.getOriginalFilename();
         String fileUrl = AwsS3Support.uploadTest(S3FolderType.ITEM_EDITOR_CONTENT, itemEditorContentId, file);
 
-        Long itemEditorImageId = image.getItemEditorImageId();
+        Long itemEditorImageId = image.getId();
         if (itemEditorImageId == null) {
             itemEditorImageRepository.save(ItemEditorImage.builder()
                     .itemEditorContentId(itemEditorContentId)
