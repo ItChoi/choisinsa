@@ -29,7 +29,7 @@ public class Oauth2Service {
             Oauth2ResponseDto oauth2UserInfo = kakaoService.getUser(oauth2Token);
 
             String jwtAccessToken = null;
-            if (oauth2UserInfo.getHasSnsLogin()) {
+            if (oauth2UserInfo.getIsAlreadyConnectSns()) {
                 Oauth2UserResponseDto memberInfo = oauth2UserInfo.getMemberInfo();
                 if (memberInfo != null) {
                     jwtAccessToken = securityMemberService.loginWithSns(snsType, memberInfo.getId());

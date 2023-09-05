@@ -166,12 +166,99 @@
     - docker-compose up
       - 자동으로 docker-compose.yml 파일을 읽어서 실행하게 된다.
 
+## 도커 이미지 만들기
+- 도커는 레이어드 파일 시스템 기반이다.
+- 이미지는 프로세스가 실행되는 파일들의 집합(환경)
+  - 환경을 저장하여 새로운 이미지를 만든다.
+- 이미지는 읽기 전용과 쓰기 가능이 있다.
+  - git, nginx, mysql 등을 가져와서 사용할 순 있지만 기존 파일들을 바꾸진 못하고, 추가로 쓰는 것은 가는ㅇ하다.
+- 예시 (git)
+  - docker run -it --name git ubuntu:latest bash
+  - /# git
+    - 우분투 접속 후 깃이 있는지 체크
+    - bash :git: command not found
+  - apt-get update
+  - apt-get install -y git
+  - git --version
+  - docker images | grep ubuntu
+  - docker commit git ubuntu:git
+    - git 컨테이너를 ubuntu:git에 커밋을 하겠다는 뜻
+    - 새로운 상태를 이미지로 저장
+  - docker build -t subicura/ubuntu:git01 .
+    - 명령어 + subicura: 이름 공간 + ubuntu: 이미지 이름 + git01: 태그 + .: 빌드 컨텍스트
+    - 도커 이미지가 생성된다.
+    - commit & build를 통해 이미지를 만들 수 있다.
+    - docker 이미지를 만들기 위해서는 Dockerfile을 사용한다.
+- Dockerfile
+  - FROM: 기본 이미지
+  - RUN: 쉘 명령어 실행, 실제로 컨테이너에 접속해서 명령어 실행
+  - CMD: 컨테이너 기본 실행 명령어, 실행할 명령어
+  - WORKDIR: 작업 디렉토리로 이동 후 명령어 실행하겠다는 뜻
+  - EXPOSE: 오픈되는 포트 정보
+  - EVN: 환경변수 설정
+  - ADD: 파일 또는 디렉토리 추가
+  - COPY: 파일 또는 디렉토리 추가, pc에 있는 파일을 이미지로 복사해준다.
+  - ENTRYPOINT: 컨테이너 기본 실행 명령어
+- 이미지 빌드하기
+  - docker build -t {이미지명:이미지태그} {빌드 컨텍스트}
+  - 예시
+    - docker build -t sample:1 .
+      - 현재 디렉토리 Dockerfile로 빌드
+        - -f <Dockerfile 위치> 옵션을 사용해 다른 위치 Dockerfile 사용 가능
+        - -t 명령어로 도커 이미지 이름 지정
+        - {네임스페이스}/{이미지이름}:{태그} 형식
+      - 마지막에 빌드 컨텍스트 위치 지정
+- git을 설치한 ubuntu 이미지
+  ```dockerfile
+  FROM ubuntu:latest
+  
+  RUN apt-get update
+  RUN apt-get install -y git
+  ```
+  - 위에 도커파일 빌드
+    - docker build -t ubuntu:git-dockerfile .
+    - docker images | grep ubuntu
+- Dockerfile로 관리할 때 장점
+  - 설치 히스토리 체크 가능
+```dockerfile
 
+# node:12 이미지가 있으면 별도 설치 없이 베이스 이미지를 가져다 쓸 수 있다. 밑에 FROM, RUN, RUN 생략 가능
+FROM node:12
 
+# 노드 설치
+FROM ubuntu:20.04
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm
 
+# 소스 복사 - 현재 디렉토리 모든 파일을 /usr/src/app에 복사 
+COPY . /usr/src/app
 
+# 노드JS 패키지 설치 - /usr/src/app로 이동, npa 인스톨
+WORKDIR /usr/src/app
+RUN npm install
 
+# 웹 서버 실행 - 이미지 실행
+EXPOSE 3000
+CMD node app.js
+```
 
+## 이미지 저장소
+- 도커 허브를 통해 이미지를 저장하고, 가져오고, 공개하거나 개인이 사용할 수 있다.
+- hub.docker.com
+  - 이 허브에 이미지가 올라가고 받을 수 있다.
+  - 무료 버전은 오픈 소스, 유료로 해야 private
+- 이미지 저장 명령어
+  - docker login
+    - 이미지 저장소에 로그인
+  - docker push {ID}/example
+    - 생성된 이미지를 저장소에 올린다.
+  - docker pull {ID}/example
+    - 이미지를 가져오는 명령어
+
+## 도커 배포
+- docker run -d -p 3000:3000 itchoi0429/app
+  - 컨테이너 실행 = 이미지 pull + 컨테이너 start
+  - 예시
 
 
 

@@ -1,0 +1,11 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+=== 아이템 상세 조회
+include::{snippets}/member_get_item_detail/http-request.adoc[]
+include::{snippets}/member_get_item_detail/path-parameters.adoc[]
+include::{snippets}/member_get_item_detail/request-parameters.adoc[]
+include::{snippets}/member_get_item_detail/http-response.adoc[]
+include::{snippets}/member_get_item_detail/response-fields.adoc[]
+

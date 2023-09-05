@@ -85,7 +85,7 @@ public class TestSecurityMemberConfig extends WebSecurityConfigurerAdapter {
         return new String[]{
                 "/api/members/login",
                 "/api/members",
-                //"/api/members/{oauthLoginType}",
+                "/api/members/{oauthLoginType}",
                 "/api/kakao/oauth/token",
         };
     }

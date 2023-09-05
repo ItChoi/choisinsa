@@ -31,16 +31,12 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public ItemDetailInfoResponseDto getItemDetail(Long itemId,
-                                                   ItemDetailRequestDto requestDto) {
+    public ItemDetailInfoResponseDto findItemDetailInfoResponseDtoBy(Long itemId,
+                                                                     ItemDetailRequestDto requestDto) {
         if (itemId == null || requestDto == null || requestDto.getBrandId() == null) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
 
-        return findItemDetailInfoResponseDtoBy(itemId, requestDto);
-    }
-
-    private ItemDetailInfoResponseDto findItemDetailInfoResponseDtoBy(Long itemId, ItemDetailRequestDto requestDto) {
         ItemResponseDto itemDto = findItemResponseDtoBy(itemId, requestDto);
         List<ItemOptionResponseDto> itemOptionDtos = itemOptionService.findItemOptionResponseDtoAllBy(itemId);
         ItemEditorInfoResponseDto itemEditorInfoDto = itemEditorInfoService.findItemEditorInfoResponseDtoBy(itemId);

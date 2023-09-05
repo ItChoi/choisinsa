@@ -1,0 +1,10 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+=== 로그인
+include::{snippets}/member_oauth_login/http-request.adoc[]
+include::{snippets}/member_oauth_login/path-parameters.adoc[]
+include::{snippets}/member_oauth_login/request-parameters.adoc[]
+include::{snippets}/member_oauth_login/http-response.adoc[]
+include::{snippets}/member_oauth_login/response-fields.adoc[]

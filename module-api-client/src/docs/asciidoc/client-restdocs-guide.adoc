@@ -12,7 +12,13 @@ endif::[]
 :sectlinks:
 :hardbreaks:
 
-회원 서비스 API 도큐먼트 문서
+서비스 API 도큐먼트 문서
 
 == *회원*
 include::service-member.adoc[]
+
+== *상품*
+include::service-item.adoc[]
+
+== *oauth*
+include::service-oauth.adoc[]
