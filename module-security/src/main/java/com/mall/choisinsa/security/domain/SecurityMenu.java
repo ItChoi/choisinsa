@@ -39,12 +39,12 @@ public class SecurityMenu {
     private String name;
 
     @Column
-    private Integer depth;
+    private int depth;
 
     @Column
-    private Integer displayOrder;
+    private int displayOrder;
 
     @Column
-    private Boolean isDisplay;
+    private int isDisplay;
 
 }

@@ -22,3 +22,6 @@ include::service-item.adoc[]
 
 == *oauth*
 include::service-oauth.adoc[]
+
+== 카테고리
+include::service-category.adoc[]

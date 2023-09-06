@@ -78,6 +78,8 @@ public class TestSecurityMemberConfig extends WebSecurityConfigurerAdapter {
                 "/api/kakao/oauth/authorize",
                 "/login/oauth2/code/**",
                 "/api/members/{loginId}/recommender",
+                "/api/categories/types",
+                "/api/categories/{areaType}/{categoryType}"
         };
     }
 

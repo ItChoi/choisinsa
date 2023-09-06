@@ -1,0 +1,14 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+=== 영역 타입 & 카테고리 타입에 해당하는 카테고리 조회
+include::{snippets}/member_top_category/http-request.adoc[]
+include::{snippets}/member_top_category/path-parameters.adoc[]
+include::{snippets}/member_top_category/http-response.adoc[]
+include::{snippets}/member_top_category/response-fields.adoc[]
+
+=== 모든 카테고리 타입 조회
+include::{snippets}/member_all_category_type/http-request.adoc[]
+include::{snippets}/member_all_category_type/http-response.adoc[]
+include::{snippets}/member_all_category_type/response-fields.adoc[]

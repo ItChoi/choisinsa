@@ -55,8 +55,8 @@ public class AuthorityApplicationReadyDto {
 
     @Getter
     public class MenuApplicationReadyDto {
-        private Integer depth;
-        private Integer displayOrder;
+        private int depth;
+        private int displayOrder;
         private String name;
         private List<MenuIncludeDetailApiUrlApplicationReadyDto> menuIncludeDetailApiUrls;
 

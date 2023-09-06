@@ -21,6 +21,4 @@ public class ItemController {
                                          ItemDetailRequestDto requestDto) {
         return ResponseWrapper.ok(itemService.findItemDetailInfoResponseDtoBy(itemId, requestDto));
     }
-
-
 }

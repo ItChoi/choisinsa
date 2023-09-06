@@ -37,14 +37,20 @@ public class Menu extends BaseDateTimeEntity {
     @Column
     private MenuType type;
 
+    /**
+     * 메뉴 코드
+     */
+    @Column
+    private String code;
+
     @Column
     private String name;
 
     @Column
-    private Integer depth;
+    private int depth;
 
     @Column
-    private Integer displayOrder;
+    private int displayOrder;
 
     @Column
     private Boolean isDisplay;
