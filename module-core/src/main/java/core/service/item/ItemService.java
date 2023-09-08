@@ -61,4 +61,10 @@ public class ItemService {
             itemResponseDto.setCanPurchaseItemStatus(ItemStatus.canPurchaseItemStatus(status));
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<Object> findItemCountAllPerCategory() {
+
+        return null;
+    }
 }

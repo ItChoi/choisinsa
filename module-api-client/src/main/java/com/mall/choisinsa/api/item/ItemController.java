@@ -21,4 +21,10 @@ public class ItemController {
                                          ItemDetailRequestDto requestDto) {
         return ResponseWrapper.ok(itemService.findItemDetailInfoResponseDtoBy(itemId, requestDto));
     }
+
+    @GetMapping("/count-per-category")
+    public ResponseWrapper getItemCountByCategory() {
+        return ResponseWrapper.ok(itemService.findItemCountAllPerCategory());
+    }
+
 }

@@ -53,3 +53,14 @@ bootJar { // SpringBoot 1.5 이하일 경우 jar
         into 'static/docs'
     }
 }
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/docs/asciidoc/")
+    into file("src/main/resources/static/docs/asciidoc")
+}
+
+build {
+    dependsOn copyDocument
+}

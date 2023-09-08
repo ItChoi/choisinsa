@@ -1,6 +1,5 @@
 HELP.md
 .gradle
-!build/docs/asciidoc
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
