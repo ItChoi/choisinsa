@@ -46,3 +46,5 @@ sql/**
 
 iamport-verification.*
 **/secret/**
+
+!build/docs/asciidoc
