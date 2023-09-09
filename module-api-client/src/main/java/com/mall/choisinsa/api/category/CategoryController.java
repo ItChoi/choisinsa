@@ -20,7 +20,6 @@ public class CategoryController {
     @GetMapping("/{areaType}/{categoryType}")
     public ResponseWrapper getAllByAreaTypeAndCategoryType(@PathVariable CategoryAreaType areaType,
                                                            @PathVariable CategoryType categoryType) {
-
         return ResponseWrapper.ok(categoryService.findTopCategoryResponseDtoBy(areaType, categoryType));
     }
 

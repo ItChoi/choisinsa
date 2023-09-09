@@ -64,7 +64,6 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public List<Object> findItemCountAllPerCategory() {
-
         return null;
     }
 }

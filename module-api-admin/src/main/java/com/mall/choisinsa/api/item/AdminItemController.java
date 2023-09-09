@@ -21,8 +21,6 @@ public class AdminItemController {
 
     private final AdminItemService adminItemService;
 
-    // TODO: 테스트 코드 작성
-
     @GetMapping
     public ResponseWrapper getItems(AdminItemSearchRequestDto requestDto,
                                     @AuthenticationPrincipal SecurityMemberDto loginUser) {
