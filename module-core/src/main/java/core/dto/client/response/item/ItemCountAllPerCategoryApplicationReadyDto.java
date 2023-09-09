@@ -1,16 +1,12 @@
 package core.dto.client.response.item;
 
-import com.mall.choisinsa.enumeration.item.ItemCategoryCode;
-import core.domain.category.Category;
 import core.domain.item.ItemCategory;
-import core.dto.client.response.category.ItemCountAllPerCategoryApplicationReadyDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Comparator;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
