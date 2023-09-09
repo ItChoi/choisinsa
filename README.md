@@ -16,7 +16,7 @@
 - 보여지지 않는 세부 규칙 & 정책은 고민하여 피그마를 통해 정리
 - 전체 데이터베이스 흐름은 dbdiagram을 통해 정리
 
-## 진행 완료 이슈
+## 진행 완료 항목
 ### 서비스 Controller
 1. [module-api-client] MemberController (회원 - 조회, 가입, 추천인, 로그인, sns 연동, 이메일 이용 가능 여부)
 2. [module-api-client] Oauth2Controller (oauth - sns 로그인, 현재 카카오만 연동)
@@ -29,7 +29,7 @@
 
 ### 시큐리티
 1. [module-core] ApplicationReadyListener (권한별 메뉴 인가 데이터 세팅)
-2. [module-core] AdminAuthMenuListener (메뉴 관련 엔티티 리스터)
+2. [module-core] AdminAuthMenuListener (메뉴 관련 엔티티 리스너)
 
 ### 테스트 코드
 - 우선 rest docs 문서 테스트 코드만 작성 - 각 Controller 네이밍 뒤에 Test, ex) MemberControllerTest

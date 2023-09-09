@@ -5,6 +5,7 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.hashtag.ItemHashTagType;
 import com.mall.choisinsa.enumeration.item.ItemStatus;
 import core.domain.item.Item;
+import core.domain.item.ItemCategory;
 import core.dto.client.request.item.ItemDetailRequestDto;
 import core.dto.client.response.item.*;
 import core.repository.item.ItemRepository;
@@ -12,8 +13,10 @@ import core.service.hashtag.ItemHashTagMappingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +26,7 @@ public class ItemService {
     private final ItemOptionService itemOptionService;
     private final ItemEditorInfoService itemEditorInfoService;
     private final ItemHashTagMappingService itemHashTagMappingService;
+    private final ItemCategoryService itemCategoryService;
 
     @Transactional(readOnly = true)
     public Item findByIdOrThrow(Long itemId) {
@@ -45,6 +49,30 @@ public class ItemService {
         return new ItemDetailInfoResponseDto(itemDto, itemOptionDtos, itemEditorInfoDto, itemHashTagDtos);
     }
 
+    @Transactional(readOnly = true)
+    public List<ItemCountAllPerCategoryApplicationReadyDto> findItemCountAllPerCategoryApplicationReadyDtoAll() {
+        List<ItemCategory> topItemCategories = itemCategoryService.findALlByParentIdIsNullOrderByDisplayOrderAsc();
+
+        List<ItemCountAllPerCategoryApplicationReadyDto> responseDtos = convertToItemCategoryApplicationReadyDtoAndSort(topItemCategories);
+        calculateItemCountAllPerCategory(responseDtos);
+
+        return responseDtos;
+    }
+
+    private void calculateItemCountAllPerCategory(Collection<ItemCountAllPerCategoryApplicationReadyDto> itemCategoryDtos) {
+        // TODO LIST
+    }
+
+    private List<ItemCountAllPerCategoryApplicationReadyDto> convertToItemCategoryApplicationReadyDtoAndSort(Collection<ItemCategory> topItemCategories) {
+        if (CollectionUtils.isEmpty(topItemCategories)) {
+            return Collections.emptyList();
+        }
+
+        return topItemCategories.stream()
+                .map(ItemCountAllPerCategoryApplicationReadyDto::new)
+                .collect(Collectors.toList());
+    }
+
     private ItemResponseDto findItemResponseDtoBy(Long itemId,
                                                   ItemDetailRequestDto requestDto) {
         ItemResponseDto itemResponseDto = itemRepository.findItemResponseDtoBy(itemId, requestDto);
@@ -61,9 +89,37 @@ public class ItemService {
             itemResponseDto.setCanPurchaseItemStatus(ItemStatus.canPurchaseItemStatus(status));
         }
     }
-
-    @Transactional(readOnly = true)
-    public List<Object> findItemCountAllPerCategory() {
-        return null;
-    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

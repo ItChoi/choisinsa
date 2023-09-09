@@ -34,6 +34,7 @@ public class CategoryService {
         return findCategoryResponseDtoBy(areaType, categoryType, 1);
     }
 
+
     private CategoryResponseDto findCategoryResponseDtoBy(CategoryAreaType areaType,
                                                           CategoryType categoryType,
                                                           int depth) {
