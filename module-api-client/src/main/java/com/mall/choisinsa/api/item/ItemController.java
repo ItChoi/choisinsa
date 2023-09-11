@@ -22,10 +22,11 @@ public class ItemController {
         return ResponseWrapper.ok(itemService.findItemDetailInfoResponseDtoBy(itemId, requestDto));
     }
 
-    /* 레디스로 조회 하도록
-    @GetMapping("/count-per-category")
+    // 레디스로 조회 하도록
+    // TODO: TEST
+    /*@GetMapping("/count-per-category")
     public ResponseWrapper getItemCountByCategory() {
-        return ResponseWrapper.ok(itemService.findItemCountAllPerCategory());
+        return ResponseWrapper.ok(itemService.findItemCountAllPerCategoryApplicationReadyDtoAll());
     }*/
 
 }

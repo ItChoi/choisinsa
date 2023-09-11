@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ItemCategoryRepository extends JpaRepository<ItemCategory, Long> {
+public interface ItemCategoryRepository extends JpaRepository<ItemCategory, Long>, ItemCategoryRepositoryCustom {
 
     List<ItemCategory> findALlByParentIdIsNullOrderByDisplayOrderAsc();
 

@@ -18,7 +18,8 @@ public class ApplicationReadyListener implements ApplicationListener<Application
     private final ItemService itemService;
 
     //public static Map<AuthorityType, List<AuthorityApplicationReadyDto>> menuDetailAuthWithAdminAuthType = new HashMap<>();
-    public static List<ItemCountAllPerCategoryApplicationReadyDto> menuDetailAuthWithAdminAuthType;
+    public static List<ItemCountAllPerCategoryApplicationReadyDto> allItemCountPerCategory;
+
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -32,8 +33,7 @@ public class ApplicationReadyListener implements ApplicationListener<Application
 
     private void initItemCountAllPerCategory() {
         // 카테고리별 아이템 개수
-
-
+        allItemCountPerCategory = itemService.findItemCountAllPerCategoryApplicationReadyDtoAll();
     }
 
     private void readyListener() {

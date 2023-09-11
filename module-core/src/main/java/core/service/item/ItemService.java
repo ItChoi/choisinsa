@@ -49,30 +49,6 @@ public class ItemService {
         return new ItemDetailInfoResponseDto(itemDto, itemOptionDtos, itemEditorInfoDto, itemHashTagDtos);
     }
 
-    @Transactional(readOnly = true)
-    public List<ItemCountAllPerCategoryApplicationReadyDto> findItemCountAllPerCategoryApplicationReadyDtoAll() {
-        List<ItemCategory> topItemCategories = itemCategoryService.findALlByParentIdIsNullOrderByDisplayOrderAsc();
-
-        List<ItemCountAllPerCategoryApplicationReadyDto> responseDtos = convertToItemCategoryApplicationReadyDtoAndSort(topItemCategories);
-        calculateItemCountAllPerCategory(responseDtos);
-
-        return responseDtos;
-    }
-
-    private void calculateItemCountAllPerCategory(Collection<ItemCountAllPerCategoryApplicationReadyDto> itemCategoryDtos) {
-        // TODO LIST
-    }
-
-    private List<ItemCountAllPerCategoryApplicationReadyDto> convertToItemCategoryApplicationReadyDtoAndSort(Collection<ItemCategory> topItemCategories) {
-        if (CollectionUtils.isEmpty(topItemCategories)) {
-            return Collections.emptyList();
-        }
-
-        return topItemCategories.stream()
-                .map(ItemCountAllPerCategoryApplicationReadyDto::new)
-                .collect(Collectors.toList());
-    }
-
     private ItemResponseDto findItemResponseDtoBy(Long itemId,
                                                   ItemDetailRequestDto requestDto) {
         ItemResponseDto itemResponseDto = itemRepository.findItemResponseDtoBy(itemId, requestDto);
@@ -89,37 +65,9 @@ public class ItemService {
             itemResponseDto.setCanPurchaseItemStatus(ItemStatus.canPurchaseItemStatus(status));
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<ItemCountAllPerCategoryApplicationReadyDto> findItemCountAllPerCategoryApplicationReadyDtoAll() {
+        return itemCategoryService.findItemCountAllPerCategoryApplicationReadyDtoAll();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
