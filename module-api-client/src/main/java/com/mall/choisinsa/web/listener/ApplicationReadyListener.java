@@ -17,7 +17,6 @@ public class ApplicationReadyListener implements ApplicationListener<Application
 
     private final ItemService itemService;
 
-    //public static Map<AuthorityType, List<AuthorityApplicationReadyDto>> menuDetailAuthWithAdminAuthType = new HashMap<>();
     public static List<ItemCountAllPerCategoryApplicationReadyDto> allItemCountPerCategory;
 
 

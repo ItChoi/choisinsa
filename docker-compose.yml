@@ -1,23 +1,28 @@
 # TEST CODE
-version: '2'
+version: '3'
 services:
-  db:
+  mysql:
+    env_file:
+      - mysql.env
     image: mysql:latest
+    container_name: mysql
     volumes:
       - /Users/csh/workspace/rdbms/mysql/choisinsa:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: wp
-      MYSQL_DATABASE: wp
-      MYSQL_USER: wp
-      MYSQL_PASSWORD: wp
-  wordpress:
-    image: wordpress:latest
-    volumes:
-      - ./wp:/var/www/html
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "8000:80"
-    restart: always
-    environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_PASSWORD: wp
+      - 3306:3306
+#  wordpress:
+#    image: adoptopenjdk16
+#    volumes:
+#      - ./wp:/var/www/html
+#    ports:
+#      - "8000:80"
+#    restart: always
+#    environment:
+#      WORDPRESS_DB_HOST: db:3306
+#      WORDPRESS_DB_PASSWORD: wp

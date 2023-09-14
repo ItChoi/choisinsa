@@ -46,3 +46,4 @@ sql/**
 
 iamport-verification.*
 **/secret/**
+*.env

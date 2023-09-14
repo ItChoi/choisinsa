@@ -3,6 +3,11 @@
 - [프로젝트 세부 사항 기획 및 정책 정리 - 피그마](https://www.figma.com/file/UbMVszmu3byhrEBEYfqhxm/ChoiSinsa?type=design&node-id=0-1&mode=design&t=wQcIFUfzDyhtBeqY-0)
 - [RDBMS ERD - dbdiagram](https://dbdiagram.io/d/6309f8a7f1a9b01b0ff374bd)
 
+## 우선순위 공부
+- 토이프로젝트 **잠시 중단** → 멀티 모듈 구조 리팩토링을 위해 서적 우선순위 공부
+    - 클론 아키텍쳐 서적 공부 ([https://github.com/ItChoi/TechBlog/tree/main/BookStudy/아키텍쳐/클린 아키텍처](https://github.com/ItChoi/TechBlog/tree/main/BookStudy/%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90/%ED%81%B4%EB%A6%B0%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98))
+    - 도커 교과서 서적 공부 ([https://github.com/ItChoi/TechBlog/tree/main/BookStudy/도커/도커 교과서](https://github.com/ItChoi/TechBlog/tree/main/BookStudy/%EB%8F%84%EC%BB%A4/%EB%8F%84%EC%BB%A4%20%EA%B5%90%EA%B3%BC%EC%84%9C))
+  
 ## 프로젝트 설정
 - java - openjdk16
 - spring boot - 2.7.2
