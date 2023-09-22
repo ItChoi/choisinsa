@@ -5,7 +5,6 @@ import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.member.GenderType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import com.mall.choisinsa.enumeration.member.MemberType;
-import com.mall.choisinsa.security.service.SecurityMemberService;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
@@ -39,9 +38,6 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
     @MockBean
     private MemberService memberService;
 
-    @MockBean
-    private SecurityMemberService securityMemberService;
-
     @DisplayName("로그인")
     @Test
     void login() throws Exception {
@@ -52,7 +48,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
         requestDto.setPassword("qwe123!");
 
         //when
-        given(securityMemberService.login(any(), any(), any()))
+        given(memberService.login(any()))
                 .willReturn("bearer token value");
 
         //then

@@ -2,8 +2,8 @@ package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.AdminApplicationBaseTest;
 import com.mall.choisinsa.enumeration.member.MemberType;
-import com.mall.choisinsa.security.service.SecurityMemberService;
 import core.dto.client.request.member.MemberLoginRequestDto;
+import core.service.member.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(AdminMemberController.class)
 class AdminMemberControllerTest extends AdminApplicationBaseTest {
     @MockBean
-    private SecurityMemberService securityMemberService;
+    private MemberService adminMemberService;
 
     @DisplayName("로그인")
     @Test
@@ -36,7 +36,7 @@ class AdminMemberControllerTest extends AdminApplicationBaseTest {
         requestDto.setPassword("qwe123!");
 
         //when
-        given(securityMemberService.login(any(), any(), any()))
+        given(adminMemberService.login(any()))
                 .willReturn("bearer token value");
 
         //then

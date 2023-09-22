@@ -1,14 +1,14 @@
 package com.mall.choisinsa.api.item;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
-import com.mall.choisinsa.security.dto.SecurityMemberDto;
+import com.mall.choisinsa.web.annotation.LoginUser;
 import core.dto.admin.request.item.AdminItemDetailRequestDto;
 import core.dto.admin.request.item.AdminItemEditorInfoRequestDto;
 import core.dto.admin.request.item.AdminItemRequestDto;
 import core.dto.admin.request.item.AdminItemSearchRequestDto;
+import core.dto.general.LoginUserDto;
 import core.service.item.AdminItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class AdminItemController {
 
     @GetMapping
     public ResponseWrapper getItems(AdminItemSearchRequestDto requestDto,
-                                    @AuthenticationPrincipal SecurityMemberDto loginUser) {
+                                    @LoginUser LoginUserDto loginUser) {
         // TODO: 서비스 페이지 개발 후, 정책 정하고 작업 들어가기
         // 멤버 타입에 따라 적합한 아이템 뿌려주기
         //return ResponseWrapper.ok(itemService.findAllByMemberId(loginUser.getMemberId(), requestDto));
@@ -32,15 +32,15 @@ public class AdminItemController {
 
     @PostMapping
     public ResponseWrapper insertItemWithFile(AdminItemRequestDto requestDto,
-                                              @AuthenticationPrincipal SecurityMemberDto loginUser) {
-        adminItemService.insertItemWithFile(loginUser.getMemberId(), requestDto);
+                                              @LoginUser LoginUserDto loginUser) {
+        //adminItemService.insertItemWithFile(loginUser.getMemberId(), requestDto);
         return ResponseWrapper.ok();
     }
 
     @PostMapping("/{itemId}")
     public ResponseWrapper updateItemWithFile(@PathVariable Long itemId,
                                               AdminItemRequestDto requestDto,
-                                              @AuthenticationPrincipal SecurityMemberDto loginUser) {
+                                              @LoginUser LoginUserDto loginUser) {
         adminItemService.updateItemWithFile(loginUser.getMemberId(), itemId, requestDto);
         return ResponseWrapper.ok();
     }

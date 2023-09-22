@@ -1,13 +1,8 @@
 package com.mall.choisinsa.security.provider;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.common.secret.ConstData;
-import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.security.domain.SecurityMember;
-import com.mall.choisinsa.security.domain.SecurityMemberSnsConnect;
 import com.mall.choisinsa.security.dto.SecurityMemberDto;
-import com.mall.choisinsa.security.service.SecurityUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -18,12 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.security.Key;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import static com.mall.choisinsa.security.service.SecurityUserDetailsService.toSecurityMemberDtoFromAuthorizedPrinciple;
@@ -32,16 +27,13 @@ import static com.mall.choisinsa.security.service.SecurityUserDetailsService.toS
 @Component
 public class JwtTokenProvider implements InitializingBean {
 
+    @Value("${jwt.member.secret}")
+    private String secret;
 
-    private final String secret;
-    private final long tokenValidityInMilliseconds;
+    @Value("${jwt.member.token-validity-in-seconds}")
+    private long tokenValidityInMilliseconds;
+
     private Key key;
-
-    public JwtTokenProvider(@Value("${jwt.member.secret}") String secret,
-                            @Value("${jwt.member.token-validity-in-seconds}") long tokenValidityInMilliseconds) {
-        this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInMilliseconds;
-    }
 
     @Override
     public void afterPropertiesSet() {

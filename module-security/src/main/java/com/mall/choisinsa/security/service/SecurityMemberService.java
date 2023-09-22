@@ -6,6 +6,7 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.domain.SecurityMemberSnsConnect;
+import com.mall.choisinsa.security.dto.SecurityMostSimpleLoginUserDto;
 import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
 import com.mall.choisinsa.security.repository.SecurityMemberRepository;
@@ -15,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,5 +97,25 @@ public class SecurityMemberService {
     @Transactional(readOnly = true)
     public Optional<SecurityMember> findById(Long memberId) {
         return securityMemberRepository.findById(memberId);
+    }
+
+    public SecurityMostSimpleLoginUserDto getLoginUser() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        if (securityContext == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_LOGGED_IN);
+        }
+
+        Authentication authentication = securityContext.getAuthentication();
+        if (authentication == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_LOGGED_IN);
+        }
+
+        if (authentication instanceof UsernamePasswordAuthenticationToken) {
+            if (authentication.getPrincipal() instanceof SecurityMemberDto) {
+                return new SecurityMostSimpleLoginUserDto((SecurityMemberDto) authentication.getPrincipal());
+            }
+        }
+
+        throw new ErrorTypeAdviceException(ErrorType.NOT_SUPPORT_AUTHENTICATION);
     }
 }

@@ -37,7 +37,8 @@ public enum ErrorType {
     NOT_FOUND_ITEM_EDITOR_MARKUP_TEXT(HttpStatus.BAD_REQUEST, "상품 에디터 마크업 텍스트를 찾을 수 없습니다."),
     NOT_FOUND_ITEM_OPTION_DETAIL(HttpStatus.BAD_REQUEST, "상품 옵션 상세를 찾을 수 없습니다."),
     NOT_FOUND_ITEM_THUMBNAIL(HttpStatus.BAD_REQUEST, "상품 썸네일 이미지를 찾을 수 없습니다."),
-    CAN_NOT_DELETE_STATUS(HttpStatus.BAD_REQUEST, "삭제 할 수 없는 상태입니다.");
+    CAN_NOT_DELETE_STATUS(HttpStatus.BAD_REQUEST, "삭제 할 수 없는 상태입니다."),
+    NOT_LOGGED_IN(HttpStatus.BAD_REQUEST, "로그인 하지 않았습니다.");
 
 
     private final HttpStatus httpStatus;

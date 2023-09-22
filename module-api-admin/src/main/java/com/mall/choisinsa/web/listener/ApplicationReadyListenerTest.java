@@ -1,3 +1,4 @@
+/*
 package com.mall.choisinsa.web.listener;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,3 +27,4 @@ public class ApplicationReadyListener implements ApplicationListener<Application
 
     }
 }
+*/

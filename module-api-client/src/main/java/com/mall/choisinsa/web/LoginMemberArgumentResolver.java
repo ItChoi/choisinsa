@@ -1,6 +1,6 @@
 package com.mall.choisinsa.web;
 
-import com.mall.choisinsa.annotation.LoginMember;
+import com.mall.choisinsa.annotation.LoginUser;
 import core.domain.member.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -16,7 +16,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean hasLoginMemberAnnotation = parameter.hasParameterAnnotation(LoginMember.class);
+        boolean hasLoginMemberAnnotation = parameter.hasParameterAnnotation(LoginUser.class);
         boolean hasMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
 
         return hasLoginMemberAnnotation && hasMemberType;
@@ -25,7 +25,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        // TODO: JWT 가져와서 체크 @LoginMember 애노테이션을 사용하고 있는 파라미터에 Member 객체 리턴하기.
+        // TODO: JWT 가져와서 체크 @LoginUser 애노테이션을 사용하고 있는 파라미터에 Member 객체 리턴하기.
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         request.getHeader("");
 

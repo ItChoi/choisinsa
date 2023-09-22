@@ -2,8 +2,8 @@ package com.mall.choisinsa.security.dto;
 
 import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.security.domain.SecurityMember;
-import lombok.*;
-import org.springframework.lang.Nullable;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 

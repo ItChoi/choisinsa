@@ -2,10 +2,8 @@ package com.mall.choisinsa;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
-import com.mall.choisinsa.security.dto.SecurityMemberDto;
-import com.mall.choisinsa.security.provider.JwtTokenProvider;
-import com.mall.choisinsa.security.service.Oauth2UserService;
-import com.mall.choisinsa.security.service.SecurityUserDetailsService;
+//import com.mall.choisinsa.security.service.Oauth2UserService;
+import com.mall.choisinsa.web.LoginResolverTest;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -14,6 +12,9 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -34,22 +35,27 @@ public class ClientApplicationBaseTest {
     public ObjectMapper objectMapper;
 
     @MockBean
+    public LoginResolverTest loginResolverTest;
+
+    @MockBean
     public AuthenticationProvider authenticationProvider;
 
     @MockBean
-    public SecurityUserDetailsService securityUserDetailsService;
+    public UserDetailsService userDetailsService;
 
-    @MockBean
-    public JwtTokenProvider jwtTokenProvider;
 
-    @MockBean
-    public Oauth2UserService oauth2UserService;
+    /*@MockBean
+    public Oauth2UserService oauth2UserService;*/
 
-    public SecurityMemberDto generateMemberSecurityMemberDto() {
-        return new SecurityMemberDto(
-                1L,
+
+    public UserDetails generateMemberSecurityMemberDto() {
+        return new User(
                 "testMember",
-                "test",
+                "1234",
+                true,
+                false,
+                false,
+                false,
                 List.of(new SimpleGrantedAuthority(AuthorityType.MEMBER.getText()))
         );
     }

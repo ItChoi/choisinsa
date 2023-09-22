@@ -2,9 +2,9 @@ package com.mall.choisinsa.security.config;
 
 import com.mall.choisinsa.security.filter.JwtFilter;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
-import com.mall.choisinsa.security.service.SecurityUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Profile("admin")
@@ -22,8 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class TestSecurityAdminConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationProvider authenticationProvider;
-    private final SecurityUserDetailsService securityUserDetailsService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -34,7 +34,7 @@ public class TestSecurityAdminConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(this.authenticationProvider)
-                .userDetailsService(this.securityUserDetailsService);
+                .userDetailsService(this.userDetailsService);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class TestSecurityAdminConfig extends WebSecurityConfigurerAdapter {
                 .sameOrigin();
 
         http.httpBasic();
-        http.addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(getAdminJwtTokenProvider()), UsernamePasswordAuthenticationFilter.class);
     }
 
     private String[] getAnyMatchersForStaticPaths() {
@@ -76,5 +76,10 @@ public class TestSecurityAdminConfig extends WebSecurityConfigurerAdapter {
         return new String[]{
                 "/api/admin/members/login"
         };
+    }
+
+    @Bean
+    public JwtTokenProvider getAdminJwtTokenProvider() {
+        return new JwtTokenProvider();
     }
 }

@@ -9,11 +9,13 @@ import core.domain.member.Member;
 import core.domain.member.MemberDetail;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import core.domain.member.MemberSnsConnect;
+import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto.MemberDetailRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.request.member.SnsMemberRegisterRequestDto;
 import core.dto.client.response.member.MemberResponseDto;
+import core.dto.general.LoginUserDto;
 import core.repository.member.MemberDetailRepository;
 import core.repository.member.MemberRepository;
 import core.service.event.EventService;
@@ -185,4 +187,18 @@ public class MemberService {
             throw new ErrorTypeAdviceException(ErrorType.NOT_AVAILABLE_DATA, "회원 상태");
         }
     }
+
+    @Transactional(readOnly = true)
+    public String login(MemberLoginRequestDto requestDto) {
+        return securityMemberService.login(
+                requestDto.getMemberType(),
+                requestDto.getLoginId(),
+                requestDto.getPassword());
+    }
+
+    public LoginUserDto getLoginUser() {
+        return new LoginUserDto(securityMemberService.getLoginUser());
+    }
+
+
 }

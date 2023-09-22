@@ -13,9 +13,9 @@ configurations {
 dependencies {
     implementation project(":module-common")
     implementation project(":module-core")
-    implementation project(":module-security")
+    //implementation project(":module-security")
 
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
     // 추가 adoc 파일들을 연산으로 사용할 수 있게 해주며, html로 export할 수 있게 해줌
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     // 카카오서트 - 카카오페이 본인인증
