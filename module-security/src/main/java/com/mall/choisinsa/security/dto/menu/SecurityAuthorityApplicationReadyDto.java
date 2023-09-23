@@ -14,16 +14,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
-public class AuthorityApplicationReadyDto {
+public class SecurityAuthorityApplicationReadyDto {
     private AuthorityType authorityType;
     private Boolean isAdminAuthority;
     private Boolean isDisplay;
     private Boolean isUseMenuAuthority;
-    List<MenuDetailAuthorityApplicationReadyDto> menuDetailAuthorities;
-    private MenuApplicationReadyDto menu;
+    private List<SecurityMenuDetailAuthorityApplicationReadyDto> menuDetailAuthorities;
+    private SecurityMenuApplicationReadyDto menu;
 
-    public AuthorityApplicationReadyDto(SecurityAuthority authority,
-                                        SecurityAuthorityMenu authorityMenu) {
+    public SecurityAuthorityApplicationReadyDto(SecurityAuthority authority,
+                                                SecurityAuthorityMenu authorityMenu) {
 
         if (authority.getType() != null) {
             this.authorityType = authority.getType();
@@ -33,20 +33,20 @@ public class AuthorityApplicationReadyDto {
             Set<SecurityMenuDetailAuthority> userDetailAuthorities = authorityMenu.getUserDetailAuthorities();
             if (!CollectionUtils.isEmpty(userDetailAuthorities)) {
                 this.menuDetailAuthorities = userDetailAuthorities.stream()
-                        .map(MenuDetailAuthorityApplicationReadyDto::new)
+                        .map(SecurityMenuDetailAuthorityApplicationReadyDto::new)
                         .collect(Collectors.toList());
             }
 
-            this.menu = new MenuApplicationReadyDto(authorityMenu.getMenu());
+            this.menu = new SecurityMenuApplicationReadyDto(authorityMenu.getMenu());
         }
     }
 
 
     @Getter
-    public class MenuDetailAuthorityApplicationReadyDto {
+    public class SecurityMenuDetailAuthorityApplicationReadyDto {
         private UserDetailAuthorityType detailAuthorityType;
 
-        public MenuDetailAuthorityApplicationReadyDto(SecurityMenuDetailAuthority menuDetailAuthority) {
+        public SecurityMenuDetailAuthorityApplicationReadyDto(SecurityMenuDetailAuthority menuDetailAuthority) {
             if (menuDetailAuthority != null) {
                 this.detailAuthorityType = menuDetailAuthority.getType();
             }
@@ -54,13 +54,13 @@ public class AuthorityApplicationReadyDto {
     }
 
     @Getter
-    public class MenuApplicationReadyDto {
+    public class SecurityMenuApplicationReadyDto {
         private int depth;
         private int displayOrder;
         private String name;
-        private List<MenuIncludeDetailApiUrlApplicationReadyDto> menuIncludeDetailApiUrls;
+        private List<SecurityMenuIncludeDetailApiUrlApplicationReadyDto> menuIncludeDetailApiUrls;
 
-        public MenuApplicationReadyDto(SecurityMenu menu) {
+        public SecurityMenuApplicationReadyDto(SecurityMenu menu) {
             if (menu == null) {
                 LogUtil.logErrorTypeAndOccurClass(ErrorType.NOT_EXISTS_REQUIRED_DATA, this.getClass());
             }
@@ -72,17 +72,17 @@ public class AuthorityApplicationReadyDto {
             Set<SecurityMenuIncludeDetailApiUrl> menuIncludeDetailApiUrls = menu.getMenuIncludeDetailApiUrls();
             if (!CollectionUtils.isEmpty(menuIncludeDetailApiUrls)) {
                 this.menuIncludeDetailApiUrls = menuIncludeDetailApiUrls.stream()
-                        .map(MenuIncludeDetailApiUrlApplicationReadyDto::new)
+                        .map(SecurityMenuIncludeDetailApiUrlApplicationReadyDto::new)
                         .collect(Collectors.toList());
             }
         }
 
         @Setter
         @Getter
-        public class MenuIncludeDetailApiUrlApplicationReadyDto {
+        public class SecurityMenuIncludeDetailApiUrlApplicationReadyDto {
             private String apiUrl;
 
-            public MenuIncludeDetailApiUrlApplicationReadyDto(SecurityMenuIncludeDetailApiUrl menuIncludeDetailApiUrl) {
+            public SecurityMenuIncludeDetailApiUrlApplicationReadyDto(SecurityMenuIncludeDetailApiUrl menuIncludeDetailApiUrl) {
                 this.apiUrl = menuIncludeDetailApiUrl.getApiUrl();
             }
         }

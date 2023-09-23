@@ -1,10 +1,12 @@
-package com.mall.choisinsa.security.listener.profile;
+package core.listener;
 
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.security.dto.menu.AuthorityApplicationReadyDto;
+import com.mall.choisinsa.security.dto.menu.SecurityAuthorityApplicationReadyDto;
 import com.mall.choisinsa.security.service.SecurityAuthorityService;
+import core.dto.admin.response.authority.AuthorityApplicationReadyDto;
+import core.service.authority.admin.AdminAuthorityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -22,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final SecurityAuthorityService authorityService;
+    private final AdminAuthorityService authorityService;
 
     public static Map<AuthorityType, List<AuthorityApplicationReadyDto>> menuDetailAuthWithAdminAuthType = new HashMap<>();
 

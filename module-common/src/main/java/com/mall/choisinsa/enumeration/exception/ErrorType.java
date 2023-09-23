@@ -21,6 +21,7 @@ public enum ErrorType {
     UNSUPPORTED_JWT_TOKEN(HttpStatus.INTERNAL_SERVER_ERROR, "지원하지 않는 JWT 토큰입니다."),
     INVALID_JWT_TOKEN(HttpStatus.INTERNAL_SERVER_ERROR, "유효하지 않은 JWT 토큰입니다."),
     MISMATCH_REQUEST(HttpStatus.BAD_REQUEST, "입력하신 정보가 일치하지 않습니다."),
+    MISMATCH_DATA_SIZE(HttpStatus.BAD_REQUEST, "입력하신 데이터 개수가 일치하지 않습니다."),
     NOT_EXISTS_REQUIRED_DATA(HttpStatus.BAD_REQUEST, "필수 데이터가 존재하지 않습니다."),
     MISMATCH_AUTHORITY(HttpStatus.BAD_REQUEST, "권한이 일치하지 않습니다."),
     ALREADY_EXISTS_DATA(HttpStatus.BAD_REQUEST, "%s이(가) 이미 존재합니다."),
@@ -38,7 +39,10 @@ public enum ErrorType {
     NOT_FOUND_ITEM_OPTION_DETAIL(HttpStatus.BAD_REQUEST, "상품 옵션 상세를 찾을 수 없습니다."),
     NOT_FOUND_ITEM_THUMBNAIL(HttpStatus.BAD_REQUEST, "상품 썸네일 이미지를 찾을 수 없습니다."),
     CAN_NOT_DELETE_STATUS(HttpStatus.BAD_REQUEST, "삭제 할 수 없는 상태입니다."),
-    NOT_LOGGED_IN(HttpStatus.BAD_REQUEST, "로그인 하지 않았습니다.");
+    NOT_LOGGED_IN(HttpStatus.BAD_REQUEST, "로그인 하지 않았습니다."),
+    NOT_FOUND_AUTHORITY(HttpStatus.BAD_REQUEST, "권한을 찾을 수 없습니다."),
+    NOT_NULL(HttpStatus.BAD_REQUEST, "값이 NULL일 수 없습니다."),
+    NOT_EMPTY(HttpStatus.BAD_REQUEST, "값이 비어있을 수 없습니다.");
 
 
     private final HttpStatus httpStatus;

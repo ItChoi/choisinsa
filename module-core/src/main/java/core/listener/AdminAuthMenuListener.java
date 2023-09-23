@@ -1,6 +1,8 @@
-package com.mall.choisinsa.security.listener.profile;
+package core.listener;
 
 import com.mall.choisinsa.security.service.SecurityAuthorityService;
+import core.service.authority.AuthorityService;
+import core.service.authority.admin.AdminAuthorityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
@@ -14,9 +16,9 @@ import javax.persistence.PostUpdate;
 @Slf4j
 @Component
 public class AdminAuthMenuListener {
-    private SecurityAuthorityService authorityService;
+    private AdminAuthorityService authorityService;
 
-    public AdminAuthMenuListener(@Lazy SecurityAuthorityService authorityService) {
+    public AdminAuthMenuListener(@Lazy AdminAuthorityService authorityService) {
         this.authorityService = authorityService;
     }
 

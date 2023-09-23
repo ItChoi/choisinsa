@@ -1,13 +1,14 @@
 package core.domain.authority;
 
 import com.mall.choisinsa.enumeration.authority.UserDetailAuthorityType;
-import com.mall.choisinsa.security.listener.profile.AdminAuthMenuListener;
+import core.listener.AdminAuthMenuListener;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
 
 @EntityListeners(value = {AdminAuthMenuListener.class})
+//@EntityListeners(value = {AdminAuthMenuListenerInterface.class})
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
