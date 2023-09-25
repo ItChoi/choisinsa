@@ -22,18 +22,17 @@ public enum AuthorityType {
                                            boolean isAdmin) {
 
         DomainServiceType domainServiceType = isAdmin ? DomainServiceType.ADMIN : DomainServiceType.MEMBER;
-        return getAuthorityTypeBy(domainServiceType).contains(type);
+        return getAuthoritiesTypeBy(domainServiceType).contains(type);
     }
 
-    public static List<AuthorityType> getAuthorityTypeBy(DomainServiceType domainServiceType) {
+    public static List<AuthorityType> getAuthoritiesTypeBy(DomainServiceType domainServiceType) {
         return Arrays.stream(AuthorityType.values())
                 .filter(authorityType -> authorityType.serviceType == domainServiceType)
                 .collect(Collectors.toList());
     }
 
-    public static List<AuthorityType> getAuthorityTypeBy(boolean isAdmin) {
+    public static List<AuthorityType> getAuthoritiesTypeBy(boolean isAdmin) {
         DomainServiceType serviceType = isAdmin ? DomainServiceType.ADMIN : DomainServiceType.MEMBER;
-        return getAuthorityTypeBy(serviceType);
+        return getAuthoritiesTypeBy(serviceType);
     }
-
 }

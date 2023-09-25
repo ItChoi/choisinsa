@@ -1,10 +1,8 @@
-/*
 package com.mall.choisinsa.web.listener;
 
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import core.domain.authority.AdminAuthMenuListenerInterface;
 import core.dto.admin.response.authority.AuthorityApplicationReadyDto;
 import core.service.authority.admin.AdminAuthorityService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +18,11 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent>, AdminAuthMenuListenerInterface {
+public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final AdminAuthorityService adminAuthorityService;
+    private final AdminAuthorityService authorityService;
 
-    public static Map<AuthorityType, List<AuthorityApplicationReadyDto>> menuDetailAuthWithAdminAuthType = new HashMap<>();
+    public static Map<AuthorityType, List<AuthorityApplicationReadyDto>>menuDetailAuthWithAdminAuthType  = new HashMap<>();
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -38,7 +36,6 @@ public class ApplicationReadyListener implements ApplicationListener<Application
 
     private void readyListener() {
         initAuthorityMenuInMemoryData();
-
     }
 
     private void validateEndListener() {
@@ -51,7 +48,6 @@ public class ApplicationReadyListener implements ApplicationListener<Application
     }
 
     private void initAuthorityMenuInMemoryData() {
-        this.menuDetailAuthWithAdminAuthType = adminAuthorityService.initAuthorityMenuInMemoryData(true);
+        menuDetailAuthWithAdminAuthType = authorityService.initAuthorityMenuInMemoryData(true);
     }
 }
-*/

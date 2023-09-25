@@ -3,9 +3,12 @@ package core.dto.admin.response.authority;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
 import com.mall.choisinsa.enumeration.authority.UserDetailAuthorityType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.security.domain.*;
-import com.mall.choisinsa.security.dto.menu.SecurityAuthorityApplicationReadyDto;
 import com.mall.choisinsa.util.log.LogUtil;
+import core.domain.authority.Authority;
+import core.domain.authority.AuthorityMenu;
+import core.domain.authority.MenuDetailAuthority;
+import core.domain.menu.Menu;
+import core.domain.menu.MenuIncludeDetailApiUrl;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.CollectionUtils;
@@ -23,34 +26,38 @@ public class AuthorityApplicationReadyDto {
     private List<MenuDetailAuthorityApplicationReadyDto> menuDetailAuthorities;
     private MenuApplicationReadyDto menu;
 
-    public AuthorityApplicationReadyDto(SecurityAuthority authority,
-                                        SecurityAuthorityMenu authorityMenu) {
+    public AuthorityApplicationReadyDto(Authority authority,
+                                        AuthorityMenu authorityMenu,
+                                        Menu menu) {
 
         if (authority.getType() != null) {
             this.authorityType = authority.getType();
             this.isAdminAuthority = authority.getIsAdminAuthority();
             this.isDisplay = authority.getIsDisplay();
             this.isUseMenuAuthority = authority.getIsUseMenuAuthority();
-            Set<SecurityMenuDetailAuthority> userDetailAuthorities = authorityMenu.getUserDetailAuthorities();
+            Set<MenuDetailAuthority> userDetailAuthorities = authorityMenu.getUserDetailAuthorities();
             if (!CollectionUtils.isEmpty(userDetailAuthorities)) {
                 this.menuDetailAuthorities = userDetailAuthorities.stream()
                         .map(MenuDetailAuthorityApplicationReadyDto::new)
                         .collect(Collectors.toList());
             }
 
-            this.menu = new MenuApplicationReadyDto(authorityMenu.getMenu());
+            this.menu = new MenuApplicationReadyDto(menu);
         }
     }
 
-    public AuthorityApplicationReadyDto(SecurityAuthorityApplicationReadyDto securityAuthorityApplicationReadyDto) {
-        this.authorityType = securityAuthorityApplicationReadyDto.getAuthorityType();
-        this.isAdminAuthority = securityAuthorityApplicationReadyDto.getIsAdminAuthority();
-        this.isDisplay = securityAuthorityApplicationReadyDto.getIsDisplay();
-        this.isUseMenuAuthority = securityAuthorityApplicationReadyDto.getIsUseMenuAuthority();
-        this.menuDetailAuthorities = securityAuthorityApplicationReadyDto.getMenuDetailAuthorities().stream()
-                .map(MenuDetailAuthorityApplicationReadyDto::new)
-                .collect(Collectors.toList());
-        this.menu = new MenuApplicationReadyDto(securityAuthorityApplicationReadyDto.getMenu());
+    public AuthorityApplicationReadyDto(AuthorityApplicationReadyDto authorityApplicationReadyDto) {
+        this.authorityType = authorityApplicationReadyDto.getAuthorityType();
+        this.isAdminAuthority = authorityApplicationReadyDto.getIsAdminAuthority();
+        this.isDisplay = authorityApplicationReadyDto.getIsDisplay();
+        this.isUseMenuAuthority = authorityApplicationReadyDto.getIsUseMenuAuthority();
+        List<MenuDetailAuthorityApplicationReadyDto> menuDetailAuthorities = authorityApplicationReadyDto.getMenuDetailAuthorities();
+        if (!CollectionUtils.isEmpty(menuDetailAuthorities)) {
+            this.menuDetailAuthorities = menuDetailAuthorities.stream()
+                    .map(MenuDetailAuthorityApplicationReadyDto::new)
+                    .collect(Collectors.toList());
+        }
+        this.menu = new MenuApplicationReadyDto(authorityApplicationReadyDto.getMenu());
     }
 
 
@@ -59,14 +66,14 @@ public class AuthorityApplicationReadyDto {
     public class MenuDetailAuthorityApplicationReadyDto {
         private UserDetailAuthorityType detailAuthorityType;
 
-        public MenuDetailAuthorityApplicationReadyDto(SecurityMenuDetailAuthority menuDetailAuthority) {
+        public MenuDetailAuthorityApplicationReadyDto(MenuDetailAuthority menuDetailAuthority) {
             if (menuDetailAuthority != null) {
                 this.detailAuthorityType = menuDetailAuthority.getType();
             }
         }
 
-        public MenuDetailAuthorityApplicationReadyDto(SecurityAuthorityApplicationReadyDto.SecurityMenuDetailAuthorityApplicationReadyDto securityMenuDetailAuthorityApplicationReadyDto) {
-            this.detailAuthorityType = securityMenuDetailAuthorityApplicationReadyDto.getDetailAuthorityType();
+        public MenuDetailAuthorityApplicationReadyDto(AuthorityApplicationReadyDto.MenuDetailAuthorityApplicationReadyDto menuDetailAuthorityApplicationReadyDto) {
+            this.detailAuthorityType = menuDetailAuthorityApplicationReadyDto.getDetailAuthorityType();
         }
     }
 
@@ -77,7 +84,7 @@ public class AuthorityApplicationReadyDto {
         private String name;
         private List<MenuIncludeDetailApiUrlApplicationReadyDto> menuIncludeDetailApiUrls;
 
-        public MenuApplicationReadyDto(SecurityMenu menu) {
+        public MenuApplicationReadyDto(Menu menu) {
             if (menu == null) {
                 LogUtil.logErrorTypeAndOccurClass(ErrorType.NOT_EXISTS_REQUIRED_DATA, this.getClass());
             }
@@ -86,7 +93,7 @@ public class AuthorityApplicationReadyDto {
             this.displayOrder = menu.getDisplayOrder();
             this.name = menu.getName();
 
-            Set<SecurityMenuIncludeDetailApiUrl> menuIncludeDetailApiUrls = menu.getMenuIncludeDetailApiUrls();
+            Set<MenuIncludeDetailApiUrl> menuIncludeDetailApiUrls = menu.getMenuIncludeDetailApiUrls();
             if (!CollectionUtils.isEmpty(menuIncludeDetailApiUrls)) {
                 this.menuIncludeDetailApiUrls = menuIncludeDetailApiUrls.stream()
                         .map(MenuIncludeDetailApiUrlApplicationReadyDto::new)
@@ -94,7 +101,7 @@ public class AuthorityApplicationReadyDto {
             }
         }
 
-        public MenuApplicationReadyDto(SecurityAuthorityApplicationReadyDto.SecurityMenuApplicationReadyDto menu) {
+        public MenuApplicationReadyDto(AuthorityApplicationReadyDto.MenuApplicationReadyDto menu) {
             this.depth = menu.getDepth();
             this.displayOrder = menu.getDisplayOrder();
             this.name = menu.getName();
@@ -108,11 +115,11 @@ public class AuthorityApplicationReadyDto {
         public class MenuIncludeDetailApiUrlApplicationReadyDto {
             private String apiUrl;
 
-            public MenuIncludeDetailApiUrlApplicationReadyDto(SecurityMenuIncludeDetailApiUrl menuIncludeDetailApiUrl) {
+            public MenuIncludeDetailApiUrlApplicationReadyDto(MenuIncludeDetailApiUrl menuIncludeDetailApiUrl) {
                 this.apiUrl = menuIncludeDetailApiUrl.getApiUrl();
             }
 
-            public MenuIncludeDetailApiUrlApplicationReadyDto(SecurityAuthorityApplicationReadyDto.SecurityMenuApplicationReadyDto.SecurityMenuIncludeDetailApiUrlApplicationReadyDto menuIncludeDetailApiUrl) {
+            public MenuIncludeDetailApiUrlApplicationReadyDto(AuthorityApplicationReadyDto.MenuApplicationReadyDto.MenuIncludeDetailApiUrlApplicationReadyDto menuIncludeDetailApiUrl) {
                 this.apiUrl = menuIncludeDetailApiUrl.getApiUrl();
             }
         }

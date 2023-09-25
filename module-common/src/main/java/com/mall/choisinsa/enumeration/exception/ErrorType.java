@@ -41,8 +41,10 @@ public enum ErrorType {
     CAN_NOT_DELETE_STATUS(HttpStatus.BAD_REQUEST, "삭제 할 수 없는 상태입니다."),
     NOT_LOGGED_IN(HttpStatus.BAD_REQUEST, "로그인 하지 않았습니다."),
     NOT_FOUND_AUTHORITY(HttpStatus.BAD_REQUEST, "권한을 찾을 수 없습니다."),
-    NOT_NULL(HttpStatus.BAD_REQUEST, "값이 NULL일 수 없습니다."),
-    NOT_EMPTY(HttpStatus.BAD_REQUEST, "값이 비어있을 수 없습니다.");
+    NOT_FOUND_AUTHORITY_MENU(HttpStatus.BAD_REQUEST, "권한 매핑 메뉴를 찾을 수 없습니다."),
+    NOT_FOUND_MENU(HttpStatus.BAD_REQUEST, "메뉴를 찾을 수 없습니다."),
+    NOT_EMPTY(HttpStatus.BAD_REQUEST, "값이 비어있을 수 없습니다."),
+    NOT_NULL(HttpStatus.BAD_REQUEST, "값이 NULL일 수 없습니다.");
 
 
     private final HttpStatus httpStatus;

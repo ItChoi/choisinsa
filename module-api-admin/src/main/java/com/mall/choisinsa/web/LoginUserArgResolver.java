@@ -12,7 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @RequiredArgsConstructor
 @Component
-public class LoginResolverTest implements HandlerMethodArgumentResolver {
+public class LoginUserArgResolver implements HandlerMethodArgumentResolver {
 
     private final MemberService memberService;
     /**
@@ -49,7 +49,6 @@ public class LoginResolverTest implements HandlerMethodArgumentResolver {
                                   ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) throws Exception {
-
         return memberService.getLoginUser();
     }
 }

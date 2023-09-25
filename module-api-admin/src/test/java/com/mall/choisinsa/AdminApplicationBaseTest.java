@@ -2,11 +2,8 @@ package com.mall.choisinsa;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
-import com.mall.choisinsa.web.LoginResolverTest;
-import core.dto.general.LoginUserDto;
-import core.service.member.MemberService;
+import com.mall.choisinsa.web.LoginUserArgResolver;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,7 +34,7 @@ public class AdminApplicationBaseTest {
     public ObjectMapper objectMapper;
 
     @MockBean
-    public LoginResolverTest loginResolverTest;
+    public LoginUserArgResolver loginUserArgResolver;
 
     @MockBean
     public AuthenticationProvider authenticationProvider;

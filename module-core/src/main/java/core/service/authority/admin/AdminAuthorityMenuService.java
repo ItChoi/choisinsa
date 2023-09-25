@@ -1,9 +1,12 @@
 package core.service.authority.admin;
 
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import com.mall.choisinsa.enumeration.authority.AuthorityType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.security.domain.SecurityAuthorityMenu;
+import core.annotation.AuthMenuDirtyCheckListener;
 import core.domain.authority.AuthorityMenu;
+import core.domain.menu.Menu;
 import core.dto.admin.request.authority.AdminAuthorityMenuInsertRequestDto;
 import core.repository.authority.AuthorityMenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class AdminAuthorityMenuService {
     private final AuthorityMenuRepository adminAuthorityMenuRepository;
     private final AdminMenuService adminMenuService;
 
+    @AuthMenuDirtyCheckListener
     @Transactional
     public void insertAuthorityMenus(Long authorityId,
                                      Collection<AdminAuthorityMenuInsertRequestDto> requestDtos) {
@@ -73,8 +77,14 @@ public class AdminAuthorityMenuService {
     }
 
     @Transactional(readOnly = true)
-    public List<SecurityAuthorityMenu> findAllByAuthority_IsDisplayAndAuthority_IsUseMenuAuthority(boolean isDisplay,
-                                                                                                   boolean isUseMenuAuthority) {
-        return adminAuthorityMenuRepository.findAllByAuthority_IsDisplayAndAuthority_IsUseMenuAuthority(isDisplay, isUseMenuAuthority);
+    //public List<SecurityAuthorityMenu> findAllByTypeInAndAuthority_IsUseMenuAuthority(Collection<AuthorityType> types,
+    public List<AuthorityMenu> findAllByTypeInAndAuthority_IsUseMenuAuthority(Collection<AuthorityType> types,
+                                                                                      boolean isDisplay) {
+        return adminAuthorityMenuRepository.findAllByAuthority_TypeInAndAuthority_IsDisplay(types, isDisplay);
+    }
+
+    @Transactional(readOnly = true)
+    public Menu findMenuByMenuIdOrThrow(Long menuId) {
+        return adminMenuService.findByIdOrThrow(menuId);
     }
 }

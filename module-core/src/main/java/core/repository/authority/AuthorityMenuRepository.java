@@ -1,5 +1,6 @@
 package core.repository.authority;
 
+import com.mall.choisinsa.enumeration.authority.AuthorityType;
 import com.mall.choisinsa.security.domain.SecurityAuthorityMenu;
 import core.domain.authority.AuthorityMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,7 @@ public interface AuthorityMenuRepository extends JpaRepository<AuthorityMenu, Lo
     List<AuthorityMenu> findAllByAuthorityIdAndMenuIdIn(Long authorityId,
                                                         Collection<Long> menuIds);
 
-    List<SecurityAuthorityMenu> findAllByAuthority_IsDisplayAndAuthority_IsUseMenuAuthority(boolean isDisplay,
-                                                                                            boolean isUseMenuAuthority);
+    List<AuthorityMenu> findAllByAuthority_TypeInAndAuthority_IsDisplay(Collection<AuthorityType> types,
+                                                                        boolean isDisplay);
+
 }

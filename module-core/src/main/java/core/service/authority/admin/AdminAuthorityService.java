@@ -3,11 +3,9 @@ package core.service.authority.admin;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.security.domain.SecurityAuthority;
-import com.mall.choisinsa.security.domain.SecurityAuthorityMenu;
-import com.mall.choisinsa.security.dto.menu.SecurityAuthorityApplicationReadyDto;
-import com.mall.choisinsa.security.service.SecurityAuthorityService;
 import core.domain.authority.Authority;
+import core.domain.authority.AuthorityMenu;
+import core.domain.menu.Menu;
 import core.dto.admin.request.authority.AdminAuthorityMenuInsertRequestDto;
 import core.dto.admin.response.authority.AuthorityApplicationReadyDto;
 import core.repository.authority.AuthorityRepository;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -28,33 +25,41 @@ public class AdminAuthorityService {
 
     @Transactional(readOnly = true)
     public Map<AuthorityType, List<AuthorityApplicationReadyDto>> initAuthorityMenuInMemoryData(boolean isAdminMenu) {
-        Map<AuthorityType, List<SecurityAuthorityApplicationReadyDto>> authorityTypeListMap = initAuthorityMenuInMemoryDataTest(isAdminMenu);
-        return convertValuesToAuthorityApplicationReadyDto(authorityTypeListMap);
+//        Map<AuthorityType, List<AuthorityApplicationReadyDto>> authorityTypeListMap = initAuthorityMenuInMemoryDataTest(isAdminMenu);
+//        return convertValuesToAuthorityApplicationReadyDto(authorityTypeListMap);
+        return initAuthorityMenuInMemoryDataTest(isAdminMenu);
     }
 
     @Transactional(readOnly = true)
-    public List<SecurityAuthorityMenu> findAuthorityMenuAllBy(boolean isDisplay,
-                                                              boolean isUseMenuAuthority) {
+    public List<AuthorityMenu> findAuthorityMenuAllBy(boolean isAdmin,
+                                                      boolean isDisplay) {
 
-        return adminAuthorityMenuService.findAllByAuthority_IsDisplayAndAuthority_IsUseMenuAuthority(isDisplay, isUseMenuAuthority);
+        List<AuthorityType> authorityTypes = AuthorityType.getAuthoritiesTypeBy(isAdmin);
+        return adminAuthorityMenuService.findAllByTypeInAndAuthority_IsUseMenuAuthority(authorityTypes, isDisplay);
     }
 
     @Transactional(readOnly = true)
-    public Map<AuthorityType, List<SecurityAuthorityApplicationReadyDto>> initAuthorityMenuInMemoryDataTest(boolean isAdminMenu) {
-        System.out.println("asdasdasd");
-        Map<AuthorityType, List<SecurityAuthorityApplicationReadyDto>> authMenusWithAuthType = new HashMap<>();
-        /*settingAuthMenuEmptyArrayWithAuthType(isAdminMenu, authMenusWithAuthType);
+    public Map<AuthorityType, List<AuthorityApplicationReadyDto>> initAuthorityMenuInMemoryDataTest(boolean isAdminMenu) {
+        Map<AuthorityType, List<AuthorityApplicationReadyDto>> authMenusWithAuthType = initAuthMenuWithAuthType(isAdminMenu);
 
-        findAuthorityMenuAllBy(true, true).forEach(
+        List<AuthorityMenu> authorityMenus = findAuthorityMenuAllBy(isAdminMenu, true);
+        authorityMenus.forEach(
                 authorityMenu -> {
-                    SecurityAuthority authority = authorityMenu.getAuthority();
-                    List<SecurityAuthorityApplicationReadyDto> authMenus = authMenusWithAuthType.get(authority.getType());
+                    Authority authority = findByIdOrThrow(authorityMenu.getAuthorityId());
+                    Menu menu = adminAuthorityMenuService.findMenuByMenuIdOrThrow(authorityMenu.getMenuId());
+                    List<AuthorityApplicationReadyDto> authMenus = authMenusWithAuthType.get(authority.getType());
                     if (authMenus != null) {
-                        authMenus.add(new SecurityAuthorityApplicationReadyDto(authority, authorityMenu));
+                        authMenus.add(new AuthorityApplicationReadyDto(authority, authorityMenu, menu));
                     }
                 }
-        );*/
+        );
 
+        return authMenusWithAuthType;
+    }
+
+    private Map<AuthorityType, List<AuthorityApplicationReadyDto>> initAuthMenuWithAuthType(boolean isAdminMenu) {
+        Map<AuthorityType, List<AuthorityApplicationReadyDto>> authMenusWithAuthType = new HashMap<>();
+        settingAuthMenuEmptyArrayWithAuthType(isAdminMenu, authMenusWithAuthType);
         return authMenusWithAuthType;
     }
 
@@ -63,20 +68,9 @@ public class AdminAuthorityService {
             authMenusWithAuthType.clear();
         }
 
-        for (AuthorityType authType : AuthorityType.getAuthorityTypeBy(isAdmin)) {
+        for (AuthorityType authType : AuthorityType.getAuthoritiesTypeBy(isAdmin)) {
             authMenusWithAuthType.put(authType, new ArrayList<>());
         }
-    }
-
-    private Map<AuthorityType, List<AuthorityApplicationReadyDto>> convertValuesToAuthorityApplicationReadyDto(Map<AuthorityType, List<SecurityAuthorityApplicationReadyDto>> authorityTypeListMap) {
-        return authorityTypeListMap.entrySet().stream()
-                .flatMap(entry -> entry.getValue().stream()
-                        .map(AuthorityApplicationReadyDto::new)
-                )
-                .collect(Collectors.groupingBy(
-                        AuthorityApplicationReadyDto::getAuthorityType,
-                        Collectors.toList())
-                );
     }
 
     @Transactional

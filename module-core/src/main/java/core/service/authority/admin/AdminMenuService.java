@@ -2,6 +2,7 @@ package core.service.authority.admin;
 
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.domain.menu.Menu;
 import core.repository.menu.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,11 @@ public class AdminMenuService {
         }
 
         return menuRepository.countByIdIn(menuIds) == menuIds.size();
+    }
+
+    @Transactional(readOnly = true)
+    public Menu findByIdOrThrow(Long menuId) {
+        return menuRepository.findById(menuId)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.NOT_FOUND_MENU));
     }
 }

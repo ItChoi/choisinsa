@@ -15,7 +15,7 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final LoginResolverTest loginUserArgumentResolver;
+    private final LoginUserArgResolver loginUserArgumentResolver;
 
     @Bean
     public FilterRegistrationBean logFilter() {
