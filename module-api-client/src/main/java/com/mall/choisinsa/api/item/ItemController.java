@@ -26,15 +26,16 @@ public class ItemController {
 
     // 레디스로 조회 하도록
     // TODO: TEST
-    /*@GetMapping("/count-per-category")
+    @GetMapping("/item-count-per-category")
     public ResponseWrapper getItemCountByCategory() {
         return ResponseWrapper.ok(itemService.findItemCountAllPerCategoryApplicationReadyDtoAll());
-    }*/
+    }
 
     // 레디스로 조회 하도록
     // TODO: TEST
-    @GetMapping("/most-sales-per-top-item-categories")
-    public ResponseWrapper getMostItemSalesPerTopItemCategories(Integer itemSize) {
-        return ResponseWrapper.ok(itemStatsService.findMostItemSalesPerTopItemCategories(itemSize));
+    @GetMapping("/priority-item-sales-per-category")
+    public ResponseWrapper getPriorityItemSalesPerCategory(Integer year) {
+        //statistics
+        return ResponseWrapper.ok(itemStatsService.findItemSalesStatsWrapperResponseDtoBy(year));
     }
 }

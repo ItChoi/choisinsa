@@ -33,7 +33,7 @@ public class AdminItemController {
     @PostMapping
     public ResponseWrapper insertItemWithFile(AdminItemRequestDto requestDto,
                                               @LoginUser LoginUserDto loginUser) {
-        //adminItemService.insertItemWithFile(loginUser.getMemberId(), requestDto);
+        adminItemService.insertItemWithFile(loginUser.getMemberId(), requestDto);
         return ResponseWrapper.ok();
     }
 

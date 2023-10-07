@@ -29,9 +29,6 @@ public class ItemSalesStats extends BaseDateTimeEntity {
     @Column
     private LocalDateTime salesDate;
 
-    @Column
-    private Long itemCategoryId;
-
     /**
      * 상품 PK
      */

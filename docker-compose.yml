@@ -1,13 +1,12 @@
 # TEST CODE
 version: '3'
 services:
-  mysql:
+  choisinsa-mysql:
     env_file:
       - mysql.env
-    image: mysql:latest
-    container_name: mysql
+    image: itchoi0429/choisinsa-mysql:latest
     volumes:
-      - /Users/csh/workspace/rdbms/mysql/choisinsa:/var/lib/mysql
+      - choisinsa-db-volume:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -16,6 +15,15 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - 3306:3306
+    networks:
+      - choisinsa-app-network
+networks:
+  choisinsa-app-network:
+    external:
+      name: choisinsa-app-network
+volumes:
+  choisinsa-db-volume: {}
+
 #  wordpress:
 #    image: adoptopenjdk16
 #    volumes:

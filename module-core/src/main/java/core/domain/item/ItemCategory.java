@@ -21,6 +21,9 @@ public class ItemCategory extends BaseDateTimeEntity {
     private Long id;
 
     @Column
+    private Long rootParentId;
+
+    @Column
     private Long parentId;
 
     @ManyToOne(fetch = FetchType.LAZY)

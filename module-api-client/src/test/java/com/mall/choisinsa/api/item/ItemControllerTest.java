@@ -7,16 +7,19 @@ import com.mall.choisinsa.enumeration.item.ItemStatus;
 import com.mall.choisinsa.enumeration.item.TargetType;
 import core.dto.client.request.item.ItemDetailRequestDto;
 import core.dto.client.response.item.*;
+import core.dto.client.response.stats.ItemSalesStatsWrapperResponseDto;
+import core.dto.client.response.stats.PriorityItemSalesStatsPerItemCategoryResponseDto;
 import core.service.item.ItemService;
+import core.service.stats.ItemStatsService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -33,6 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ItemControllerTest extends ClientApplicationBaseTest {
     @MockBean
     private ItemService itemService;
+    @MockBean
+    private ItemStatsService itemStatsService;
 
     @DisplayName("아이템 상세 조회")
     @Test
@@ -119,6 +124,146 @@ public class ItemControllerTest extends ClientApplicationBaseTest {
                                 fieldWithPath("data.itemHashTags[].content").type(JsonFieldType.STRING).description("상품 해시태그 내용").optional()
                         )
                 ));
+    }
+
+    @DisplayName("모든 카테고리별(계층 구조) 상품 개수 조회")
+    @Test
+    void getItemCountByCategory() throws Exception {
+        //given
+
+        //when
+        given(itemService.findItemCountAllPerCategoryApplicationReadyDtoAll())
+                .willReturn(generateItemCountAllPerCategoryApplicationReadyDto());
+
+        //then
+        this.mockMvc.perform(get("/api/items/item-count-per-category"))
+                .andExpect(status().isOk())
+                .andDo(document("member_get_item_count_per_category",
+                        responseFields(
+                                fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorMsg").description("예외 메시지"),
+                                fieldWithPath("data").description("결과 데이터"),
+                                fieldWithPath("data[].itemCategoryId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK"),
+                                fieldWithPath("data[].code").type(JsonFieldType.STRING).description("상품 카테고리 코드"),
+                                fieldWithPath("data[].parentCode").type(JsonFieldType.STRING).description("상품 카테고리 부모 코드").optional(),
+                                fieldWithPath("data[].depth").type(JsonFieldType.NUMBER).description("상품 계층"),
+                                fieldWithPath("data[].displayOrder").type(JsonFieldType.NUMBER).description("상품 노출 순서"),
+                                fieldWithPath("data[].categoryName").type(JsonFieldType.STRING).description("상품 카테고리명"),
+                                fieldWithPath("data[].itemCount").type(JsonFieldType.NUMBER).description("상품 상품 개수"),
+                                fieldWithPath("data[].includedLowerCategoryTotalItemCount").type(JsonFieldType.NUMBER).description("하위 상품 포함 개수"),
+                                fieldWithPath("data[].children[]").type(JsonFieldType.ARRAY).description("자식 객체 리스트").optional(),
+                                fieldWithPath("data[].children[].itemCategoryId").type(JsonFieldType.NUMBER).description("자식 상품 카테고리 코드").optional(),
+                                fieldWithPath("data[].children[].code").type(JsonFieldType.STRING).description("자식 상품 카테고리 부모 코드").optional(),
+                                fieldWithPath("data[].children[].parentCode").type(JsonFieldType.STRING).description("자식 상품 계층").optional(),
+                                fieldWithPath("data[].children[].depth").type(JsonFieldType.NUMBER).description("자식 상품 노출 순서").optional(),
+                                fieldWithPath("data[].children[].displayOrder").type(JsonFieldType.NUMBER).description("자식 상품 카테고리명").optional(),
+                                fieldWithPath("data[].children[].categoryName").type(JsonFieldType.STRING).description("자식 상품 상품 개수").optional(),
+                                fieldWithPath("data[].children[].itemCount").type(JsonFieldType.NUMBER).description("자식 하위 상품 포함 개수").optional(),
+                                fieldWithPath("data[].children[].includedLowerCategoryTotalItemCount").type(JsonFieldType.NUMBER).description("자식 하위 상품 포함 개수").optional(),
+                                fieldWithPath("data[].children[].children[]").type(JsonFieldType.ARRAY).description("자식 하위 상품 포함 개수").ignored()
+                        )
+                ));
+    }
+
+    @DisplayName("모든 카테고리별 상품 판매 통계 정보 조회")
+    @Test
+    void getPriorityItemSalesPerCategory() throws Exception {
+        //given
+        Integer yera = 2023;
+
+        //when
+        given(itemStatsService.findItemSalesStatsWrapperResponseDtoBy(any()))
+                .willReturn(generateItemSalesStatsWrapperResponseDto());
+
+        //then
+        this.mockMvc.perform(get("/api/items/priority-item-sales-per-category")
+                        .param("year", "2003"))
+                .andExpect(status().isOk())
+                .andDo(document("member_get_priority_item_sales_per_category",
+                        requestParameters(
+                                parameterWithName("year").description("파티션 연도")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorMsg").description("예외 메시지"),
+                                fieldWithPath("data").description("결과 데이터"),
+                                fieldWithPath("data.priorityItemSalesStatistics[]").type(JsonFieldType.ARRAY).description("상품 카테고리 PK"),
+                                fieldWithPath("data.priorityItemSalesStatistics[].rootItemCategoryId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK").optional(),
+                                fieldWithPath("data.priorityItemSalesStatistics[].parentItemCategoryId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK").optional(),
+                                fieldWithPath("data.priorityItemSalesStatistics[].itemCategoryId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK"),
+                                fieldWithPath("data.priorityItemSalesStatistics[].itemId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK"),
+                                fieldWithPath("data.priorityItemSalesStatistics[].totalQuantity").type(JsonFieldType.NUMBER).description("상품 카테고리 PK"),
+
+                                fieldWithPath("data.priorityItemSalesStatisticsWithRootParentId").type(JsonFieldType.OBJECT).description("상품 카테고리 PK"),
+                                fieldWithPath("data.priorityItemSalesStatisticsWithRootParentId.*[].rootItemCategoryId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK").optional(),
+                                fieldWithPath("data.priorityItemSalesStatisticsWithRootParentId.*[].parentItemCategoryId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK").optional(),
+                                fieldWithPath("data.priorityItemSalesStatisticsWithRootParentId.*[].itemCategoryId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK"),
+                                fieldWithPath("data.priorityItemSalesStatisticsWithRootParentId.*[].itemId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK"),
+                                fieldWithPath("data.priorityItemSalesStatisticsWithRootParentId.*[].totalQuantity").type(JsonFieldType.NUMBER).description("상품 카테고리 PK")
+                        )
+                ));
+    }
+
+    private ItemSalesStatsWrapperResponseDto generateItemSalesStatsWrapperResponseDto() {
+        List<PriorityItemSalesStatsPerItemCategoryResponseDto> priorityItemSalesStatistics = List.of(
+                new PriorityItemSalesStatsPerItemCategoryResponseDto(
+                        null,
+                        null,
+                        1L,
+                        111L,
+                        15
+                ),
+                new PriorityItemSalesStatsPerItemCategoryResponseDto(
+                        1L,
+                        1L,
+                        2L,
+                        111L,
+                        15
+                )
+        );
+
+        Map<Long, List<PriorityItemSalesStatsPerItemCategoryResponseDto>> priorityItemSalesStatisticsWithItemCategoryId = new LinkedHashMap<>();
+        for (PriorityItemSalesStatsPerItemCategoryResponseDto priorityItemSalesStats : priorityItemSalesStatistics) {
+            Long key = priorityItemSalesStats.getRootItemCategoryId() == null ? priorityItemSalesStats.getItemCategoryId() : priorityItemSalesStats.getRootItemCategoryId();
+
+            List<PriorityItemSalesStatsPerItemCategoryResponseDto> values = priorityItemSalesStatisticsWithItemCategoryId.get(key);
+            if (CollectionUtils.isEmpty(values)) {
+                values = new ArrayList<>();
+                priorityItemSalesStatisticsWithItemCategoryId.put(key, values);
+            }
+
+            values.add(priorityItemSalesStats);
+        }
+
+        return new ItemSalesStatsWrapperResponseDto(priorityItemSalesStatistics, priorityItemSalesStatisticsWithItemCategoryId);
+    }
+
+    private List<ItemCountAllPerCategoryApplicationReadyDto> generateItemCountAllPerCategoryApplicationReadyDto() {
+        return List.of(
+                new ItemCountAllPerCategoryApplicationReadyDto(
+                        1L,
+                        "TEST_ITEM_CATEGORY_CODE",
+                        null,
+                        1,
+                        1,
+                        "테스트 상품 카테고리",
+                        3L,
+                        5L,
+                        Set.of(
+                                new ItemCountAllPerCategoryApplicationReadyDto(
+                                        2L,
+                                        "TEST_ITEM_CATEGORY_CODE_CHILD",
+                                        "TEST_ITEM_CATEGORY_CODE",
+                                        2,
+                                        1,
+                                        "테스트 상품 카테고리",
+                                        2L,
+                                        2L,
+                                        Set.of()
+                                )
+                        )
+                )
+        );
     }
 
     private ItemDetailInfoResponseDto generateItemDetailInfoResponseDto() {

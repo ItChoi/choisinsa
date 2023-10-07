@@ -79,7 +79,8 @@ public class TestSecurityMemberConfig extends WebSecurityConfigurerAdapter {
                 "/api/members/{loginId}/recommender",
                 "/api/categories/types",
                 "/api/categories/{areaType}/{categoryType}",
-                "/api/items/count-per-category",
+                "/api/items/item-count-per-category",
+                "/api/items/most-sales-per-top-item-categories",
         };
     }
 

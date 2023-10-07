@@ -9,3 +9,13 @@ include::{snippets}/member_get_item_detail/request-parameters.adoc[]
 include::{snippets}/member_get_item_detail/http-response.adoc[]
 include::{snippets}/member_get_item_detail/response-fields.adoc[]
 
+=== 모든 카테고리별(계층 구조) 상품 개수 조회
+include::{snippets}/member_get_item_count_per_category/http-request.adoc[]
+include::{snippets}/member_get_item_count_per_category/http-response.adoc[]
+include::{snippets}/member_get_item_count_per_category/response-fields.adoc[]
+
+=== 모든 카테고리별 상품 판매 통계 정보 조회
+include::{snippets}/member_get_priority_item_sales_per_category/http-request.adoc[]
+include::{snippets}/member_get_priority_item_sales_per_category/request-parameters.adoc[]
+include::{snippets}/member_get_priority_item_sales_per_category/http-response.adoc[]
+include::{snippets}/member_get_priority_item_sales_per_category/response-fields.adoc[]

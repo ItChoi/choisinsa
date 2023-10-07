@@ -1,6 +1,7 @@
 package core.service.item;
 
 import core.domain.item.ItemCategory;
+import core.domain.stats.ItemSalesStats;
 import core.dto.client.response.item.ItemCountAllPerCategoryApplicationReadyDto;
 import core.dto.client.response.item.ItemCountPerItemCategoryResponseDto;
 import core.repository.item.ItemCategoryRepository;
@@ -25,13 +26,13 @@ public class ItemCategoryService {
 
     @Transactional(readOnly = true)
     public List<ItemCategory> findALlByParentIdIsNullOrderByDisplayOrderAsc() {
-        return itemCategoryRepository.findALlByParentIdIsNullOrderByDisplayOrderAsc();
+        return itemCategoryRepository.findAllByParentIdIsNullOrderByDisplayOrderAsc();
     }
 
     @Transactional(readOnly = true)
     public List<ItemCountAllPerCategoryApplicationReadyDto> findItemCountAllPerCategoryApplicationReadyDtoAll() {
         List<ItemCategory> topItemCategories = findALlByParentIdIsNullOrderByDisplayOrderAsc();
-        return convertToItemCategoryApplicationReadyDtoAndSort(topItemCategories);
+        return convertToSortedItemCategoryApplicationReadyDto(topItemCategories);
     }
 
     private List<Long> extractItemCategoryIds(Collection<ItemCountAllPerCategoryApplicationReadyDto> responseDtos) {
@@ -102,13 +103,12 @@ public class ItemCategoryService {
         return includedLowerCategoryTotalItemCount;
     }
 
-
-    private List<ItemCountAllPerCategoryApplicationReadyDto> convertToItemCategoryApplicationReadyDtoAndSort(Collection<ItemCategory> topItemCategories) {
-        if (CollectionUtils.isEmpty(topItemCategories)) {
+    private List<ItemCountAllPerCategoryApplicationReadyDto> convertToSortedItemCategoryApplicationReadyDto(Collection<ItemCategory> itemCategories) {
+        if (CollectionUtils.isEmpty(itemCategories)) {
             return Collections.emptyList();
         }
 
-        List<ItemCountAllPerCategoryApplicationReadyDto> responseDtos = topItemCategories.stream()
+        List<ItemCountAllPerCategoryApplicationReadyDto> responseDtos = itemCategories.stream()
                 .map(ItemCountAllPerCategoryApplicationReadyDto::new)
                 .collect(Collectors.toList());
 
@@ -117,36 +117,3 @@ public class ItemCategoryService {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,7 +5,6 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.hashtag.ItemHashTagType;
 import com.mall.choisinsa.enumeration.item.ItemStatus;
 import core.domain.item.Item;
-import core.domain.item.ItemCategory;
 import core.dto.client.request.item.ItemDetailRequestDto;
 import core.dto.client.response.item.*;
 import core.repository.item.ItemRepository;
@@ -13,10 +12,8 @@ import core.service.hashtag.ItemHashTagMappingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
