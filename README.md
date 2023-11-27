@@ -1,6 +1,6 @@
 # 최신사 토이프로젝트
 - [프로젝트 전반적인 설정 및 이슈 관리 - 노션]([https://www.notion.so/ChoiSinSa-c77c2469974845e2b9c7dcca11717772](https://candied-turner-915.notion.site/ChoiSinSa-c77c2469974845e2b9c7dcca11717772?pvs=4))
-- [프로젝트 세부 사항 기획 및 정책 정리 - 피그마](https://www.figma.com/file/UbMVszmu3byhrEBEYfqhxm/ChoiSinsa?type=design&node-id=0-1&mode=design&t=wQcIFUfzDyhtBeqY-0)
+- [프로젝트 세부 사항 기획 및 정책 정리 - 피그마]([https://www.figma.com/file/UbMVszmu3byhrEBEYfqhxm/ChoiSinsa?type=design&node-id=0-1&mode=design&t=wQcIFUfzDyhtBeqY-0](https://www.figma.com/file/UbMVszmu3byhrEBEYfqhxm/ChoiSinsa?type=design&node-id=0-1&mode=design&t=hmHbtOPmjBj09pZM-0))
 - [RDBMS ERD - dbdiagram](https://dbdiagram.io/d/6309f8a7f1a9b01b0ff374bd)
 
 ## 우선순위 공부
