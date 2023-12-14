@@ -1,9 +1,23 @@
 # TEST CODE
 version: '3'
 services:
-  choisinsa-mysql:
+  choisinsa-admin-app:
+    ports:
+      - 8081:8081
+    build:
+      context: .
+      dockerfile: ./module-api-admin/Dockerfile
+
+  choisinsa-client-app:
+    ports:
+      - 8080:8080
+    build:
+      context: .
+      dockerfile: ./module-api-client/Dockerfile
+
+  choisinsa-mysql-1:
     env_file:
-      - mysql.env
+      - .env
     image: itchoi0429/choisinsa-mysql:latest
     volumes:
       - choisinsa-db-volume:/var/lib/mysql
@@ -17,6 +31,7 @@ services:
       - 3306:3306
     networks:
       - choisinsa-app-network
+
 networks:
   choisinsa-app-network:
     external:

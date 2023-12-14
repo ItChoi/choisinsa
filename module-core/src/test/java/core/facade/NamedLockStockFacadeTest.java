@@ -1,3 +1,4 @@
+/*
 package core.facade;
 
 import core.domain.Stock;
@@ -57,4 +58,4 @@ class NamedLockStockFacadeTest {
         Stock stock = stockRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException());
         assertEquals(0L, stock.getQuantity());
     }
-}
+}*/

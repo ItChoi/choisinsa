@@ -51,3 +51,7 @@ bootJar { // SpringBoot 1.5 이하일 경우 jar
         into 'static/docs'
     }
 }
+
+jar {
+    enabled = false
+}

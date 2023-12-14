@@ -8,7 +8,6 @@ import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
-/*
 @EnableAutoConfiguration
 @SpringBootConfiguration
 @ComponentScan(excludeFilters = { @ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
@@ -20,4 +19,3 @@ public class ModuleSecurityConfiguration {
     }
 
 }
-*/

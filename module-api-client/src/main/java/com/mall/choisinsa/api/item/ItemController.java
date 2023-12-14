@@ -25,7 +25,7 @@ public class ItemController {
     }
 
     // 레디스로 조회 하도록
-    // TODO: TEST
+    // TODO: TEST, 브랜드 포함 하기
     @GetMapping("/item-count-per-category")
     public ResponseWrapper getItemCountByCategory() {
         return ResponseWrapper.ok(itemService.findItemCountAllPerCategoryApplicationReadyDtoAll());
@@ -35,7 +35,6 @@ public class ItemController {
     // TODO: TEST
     @GetMapping("/priority-item-sales-per-category")
     public ResponseWrapper getPriorityItemSalesPerCategory(Integer year) {
-        //statistics
         return ResponseWrapper.ok(itemStatsService.findItemSalesStatsWrapperResponseDtoBy(year));
     }
 }

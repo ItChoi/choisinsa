@@ -80,7 +80,7 @@ public class TestSecurityMemberConfig extends WebSecurityConfigurerAdapter {
                 "/api/categories/types",
                 "/api/categories/{areaType}/{categoryType}",
                 "/api/items/item-count-per-category",
-                "/api/items/most-sales-per-top-item-categories",
+                "/api/items/priority-item-sales-per-category",
         };
     }
 

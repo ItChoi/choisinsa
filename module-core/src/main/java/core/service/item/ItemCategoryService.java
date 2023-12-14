@@ -78,7 +78,8 @@ public class ItemCategoryService {
     }
 
     private long calculateTotalItemCountRecursively(ItemCountAllPerCategoryApplicationReadyDto itemCategoryDto,
-                                                   Map<Long, Long> itemCountWithItemCategoryId) {
+                                                    Map<Long, Long> itemCountWithItemCategoryId) {
+
         if (itemCategoryDto == null) {
             return 0;
         }
