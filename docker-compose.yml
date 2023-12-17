@@ -7,6 +7,7 @@ services:
     build:
       context: .
       dockerfile: ./module-api-admin/Dockerfile
+    depends_on: choisinsa-mysql-1
 
   choisinsa-client-app:
     ports:
@@ -14,6 +15,7 @@ services:
     build:
       context: .
       dockerfile: ./module-api-client/Dockerfile
+    depends_on: choisinsa-mysql-1
 
   choisinsa-mysql-1:
     env_file:
