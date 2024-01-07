@@ -48,6 +48,7 @@ asciidoctor {
 }
 
 bootJar { // SpringBoot 1.5 이하일 경우 jar
+    mainClass = 'com.mall.choisinsa.AdminApplication'
     dependsOn asciidoctor
     from ("${asciidoctor.outputDir}") {
         into 'static/docs'

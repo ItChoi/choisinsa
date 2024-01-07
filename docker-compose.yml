@@ -4,26 +4,38 @@ services:
   choisinsa-admin-app:
     ports:
       - 8081:8081
+    image: itchoi0429/choisinsa-admin-app:latest
+    container_name: choisinsa-admin-app
     build:
       context: .
       dockerfile: ./module-api-admin/Dockerfile
-    depends_on: choisinsa-mysql-1
+    depends_on:
+      - choisinsa-mysql
+    networks:
+      - choisinsa-app-network
 
   choisinsa-client-app:
     ports:
       - 8080:8080
+    image: itchoi0429/choisinsa-client-app:latest
+    container_name: choisinsa-client-app
     build:
       context: .
       dockerfile: ./module-api-client/Dockerfile
-    depends_on: choisinsa-mysql-1
+    depends_on:
+      - choisinsa-mysql
+    networks:
+      - choisinsa-app-network
 
-  choisinsa-mysql-1:
-    env_file:
-      - .env
+  choisinsa-mysql:
     image: itchoi0429/choisinsa-mysql:latest
+    container_name: choisinsa-mysql
+#    container_name: choisinsa-mysql-1
     volumes:
       - choisinsa-db-volume:/var/lib/mysql
     restart: always
+    env_file:
+      - .env
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
