@@ -1,3 +1,4 @@
+/*
 package com.mall.choisinsa.common.exception;
 
 import com.mall.choisinsa.enumeration.exception.ErrorType;
@@ -23,3 +24,4 @@ public class ErrorResult {
         this.message = ErrorType.formatErrorMsg(errorType, customStr);
     }
 }
+*/

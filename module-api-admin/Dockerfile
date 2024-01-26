@@ -5,7 +5,7 @@ WORKDIR /build
 COPY ./build.gradle /build/
 RUN gradle build -x test --parallel --continue > /dev/null 2>&1 || true
 
-COPY ./ /build
+COPY ./ /build/
 RUN gradle build --parallel
 
 FROM adoptopenjdk:16
@@ -19,7 +19,7 @@ ENV PROFILE "admin"
 
 WORKDIR ${APP_HOME}
 
-COPY --from=gradle-builder /build/build/libs/*.jar ./module-api-admin.jar
+COPY --from=gradle-builder /build/libs/*.jar ./module-api-admin.jar
 RUN chmod +x ./module-api-admin.jar
 
 ENTRYPOINT ["java", "-Dspring.profiles.active=admin", "-jar", "module-api-admin.jar"]

@@ -54,6 +54,7 @@ class CategoryControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("카테고리 PK"),
@@ -97,6 +98,7 @@ class CategoryControllerTest extends ClientApplicationBaseTest {
                 .andDo(document("member_all_category_type",
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
                                 fieldWithPath("data[].name").type(JsonFieldType.STRING).description("카테고리 타입명"),

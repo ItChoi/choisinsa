@@ -1,13 +1,13 @@
 package com.mall.choisinsa.web.exception.advice;
 
-import com.mall.choisinsa.common.exception.ErrorResult;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import com.mall.choisinsa.dto.response.ResponseWrapper;
 import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import jdk.jshell.spi.ExecutionControl.UserException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -34,30 +34,29 @@ public class ExceptionControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResult illegalExHandler(IllegalArgumentException e) {
+    public ResponseWrapper illegalExHandler(IllegalArgumentException e) {
         log.error("[EXCEPTION] {}:", e);
-        return new ErrorResult(ErrorType.BAD_REQUEST);
+        return ResponseWrapper.error(ErrorType.BAD_REQUEST);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<ErrorResult> userExHandler(UserException e) {
+    public ResponseWrapper userExHandler(UserException e) {
         log.error("[EXCEPTION] {}:", e);
-        ErrorType badRequest = ErrorType.BAD_REQUEST;
-        return new ResponseEntity<>(new ErrorResult(badRequest), badRequest.getHttpStatus());
+        return ResponseWrapper.error(ErrorType.BAD_REQUEST);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ErrorTypeAdviceException.class)
-    public ResponseEntity<ErrorResult> errorTypeExHandler(ErrorTypeAdviceException e) {
-        ErrorResult errorResult = e.getErrorResult();
-        log.error("[EXCEPTION] {}:", errorResult.getMessage());
-        return new ResponseEntity<>(errorResult, errorResult.getHttpStatus());
+    public ResponseWrapper errorTypeExHandler(ErrorTypeAdviceException e) {
+        log.error("[EXCEPTION] {}:", e.getMessage());
+        return ResponseWrapper.error(e.getResponseWrapper().getErrorType());
     }
 
-    /*@ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorResult> errorTypeExHandler(AuthenticationException e) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BindException.class)
+    public ResponseWrapper errorTypeExHandler(BindException e) {
         log.error("[EXCEPTION] {}:", e);
-        ErrorResult errorResult = new ErrorResult(ErrorType.BAD_REQUEST);
-
-        return new ResponseEntity<>(errorResult, errorResult.getHttpStatus());
-    }*/
+        return ResponseWrapper.error(ErrorType.BAD_REQUEST);
+    }
 }

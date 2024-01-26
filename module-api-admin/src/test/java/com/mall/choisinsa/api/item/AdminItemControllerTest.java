@@ -96,6 +96,7 @@ class AdminItemControllerTest extends AdminApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )
@@ -167,6 +168,7 @@ class AdminItemControllerTest extends AdminApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )
@@ -205,6 +207,7 @@ class AdminItemControllerTest extends AdminApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )
@@ -262,6 +265,7 @@ class AdminItemControllerTest extends AdminApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )
@@ -320,6 +324,7 @@ class AdminItemControllerTest extends AdminApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )
@@ -348,6 +353,7 @@ class AdminItemControllerTest extends AdminApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )
@@ -377,6 +383,7 @@ class AdminItemControllerTest extends AdminApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )

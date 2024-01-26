@@ -57,7 +57,7 @@ public class TestSecurityMemberConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .sameOrigin();
 
-        http.httpBasic();
+        http.httpBasic().disable();
         http.addFilterBefore(new JwtFilter(getClientJwtTokenProvider()), UsernamePasswordAuthenticationFilter.class);
     }
 

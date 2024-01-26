@@ -6,7 +6,7 @@ WORKDIR /build
 COPY ./build.gradle /build/
 RUN gradle build -x test --parallel --continue > /dev/null 2>&1 || true
 
-COPY ./ /build
+COPY ./ /build/
 RUN gradle build --parallel
 
 FROM adoptopenjdk:16
@@ -25,7 +25,6 @@ WORKDIR ${APP_HOME}
 
 COPY --from=gradle-builder /build/build/libs/*.jar ./module-api-client.jar
 RUN chmod +x ./module-api-client.jar
-
 
 #ARG JAR_FILE=./build/libs/*.jar
 #

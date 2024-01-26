@@ -64,6 +64,7 @@ public class ItemControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
                                 fieldWithPath("data.item.id").type(JsonFieldType.NUMBER).description("상품 PK"),
@@ -141,6 +142,7 @@ public class ItemControllerTest extends ClientApplicationBaseTest {
                 .andDo(document("member_get_item_count_per_category",
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
                                 fieldWithPath("data[].itemCategoryId").type(JsonFieldType.NUMBER).description("상품 카테고리 PK"),
@@ -185,6 +187,7 @@ public class ItemControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
                                 fieldWithPath("data.priorityItemSalesStatistics[]").type(JsonFieldType.ARRAY).description("상품 카테고리 PK"),

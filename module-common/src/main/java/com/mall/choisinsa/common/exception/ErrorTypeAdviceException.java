@@ -1,5 +1,6 @@
 package com.mall.choisinsa.common.exception;
 
+import com.mall.choisinsa.dto.response.ResponseWrapper;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,15 +9,15 @@ import lombok.Setter;
 @Setter
 public class ErrorTypeAdviceException extends RuntimeException {
 
-    private ErrorResult errorResult;
+    private ResponseWrapper responseWrapper;
 
     public ErrorTypeAdviceException(ErrorType errorType) {
-        this.errorResult = new ErrorResult(errorType);
+        this.responseWrapper = ResponseWrapper.error(errorType);
     }
 
     public ErrorTypeAdviceException(ErrorType errorType,
                                     String customStr) {
-        this.errorResult = new ErrorResult(errorType, customStr);
+        this.responseWrapper = ResponseWrapper.error(errorType, customStr);
     }
 
 }

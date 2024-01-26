@@ -65,6 +65,6 @@ subprojects {
 
 }
 
-bootJar {
+jar {
     enabled = false
 }

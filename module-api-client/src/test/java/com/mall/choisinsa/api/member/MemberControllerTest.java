@@ -64,6 +64,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
                                 fieldWithPath("data.token").type(JsonFieldType.STRING).description("bearer token")
@@ -90,6 +91,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("회원 PK"),
@@ -144,6 +146,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )
@@ -164,6 +167,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN).description("true: 추천 가능, false: 추천 불가능")
                         )
@@ -196,6 +200,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터")
                         )
@@ -220,6 +225,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN).description("true: 이메일 이용 가능, false: 이메일 이용 불가능")
                         )
