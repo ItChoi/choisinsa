@@ -8,7 +8,7 @@ import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
-@EnableAutoConfiguration
+/*@EnableAutoConfiguration
 @SpringBootConfiguration
 @ComponentScan(excludeFilters = { @ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
         @ComponentScan.Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
@@ -18,4 +18,4 @@ public class ModuleSecurityConfiguration {
         SpringApplication.run(ModuleSecurityConfiguration.class, args);
     }
 
-}
+}*/

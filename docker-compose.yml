@@ -46,6 +46,19 @@ services:
     networks:
       - choisinsa-app-network
 
+  choisinsa-redis:
+    image: redis
+    container_name: choisinsa-redis
+    ports:
+      - ${REDIS_CLIENT_PORT}:${REDIS_SERVER_PORT}
+    command: redis-server /usr/local/conf/redis.conf
+    volumes:
+      - ./redis/data:/data
+      - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
+    restart: always
+    networks:
+      - choisinsa-app-network
+
 networks:
   choisinsa-app-network:
     external:

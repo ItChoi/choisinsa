@@ -1,5 +1,7 @@
 package core.service.hashtag;
 
+import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.hashtag.ItemHashTagType;
 import core.domain.hashtag.ItemHashTagMapping;
 import core.dto.client.response.item.ItemHashTagResponseDto;
@@ -24,6 +26,10 @@ public class ItemHashTagMappingService {
     @Transactional(readOnly = true)
     public List<ItemHashTagResponseDto> findItemHashTagResponseDtoAllBy(Long itemId,
                                                                         ItemHashTagType type) {
+        if (itemId == null || type == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+
         List<Long> hashTagIds = itemHashTagMappingRepository.findAllByItemIdAndType(itemId, type).stream()
                 .sorted(Comparator.comparingInt(ItemHashTagMapping::getDisplayOrder))
                 .map(ItemHashTagMapping::getHashTagId)

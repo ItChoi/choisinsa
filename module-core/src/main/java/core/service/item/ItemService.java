@@ -34,10 +34,6 @@ public class ItemService {
     @Transactional(readOnly = true)
     public ItemDetailInfoResponseDto findItemDetailInfoResponseDtoBy(Long itemId,
                                                                      ItemDetailRequestDto requestDto) {
-        if (itemId == null || requestDto == null || requestDto.getBrandId() == null) {
-            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
-        }
-
         ItemResponseDto itemDto = findItemResponseDtoBy(itemId, requestDto);
         List<ItemOptionResponseDto> itemOptionDtos = itemOptionService.findItemOptionResponseDtoAllBy(itemId);
         ItemEditorInfoResponseDto itemEditorInfoDto = itemEditorInfoService.findItemEditorInfoResponseDtoBy(itemId);
@@ -48,6 +44,10 @@ public class ItemService {
 
     private ItemResponseDto findItemResponseDtoBy(Long itemId,
                                                   ItemDetailRequestDto requestDto) {
+        if (itemId == null || requestDto == null || requestDto.getBrandId() == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+
         ItemResponseDto itemResponseDto = itemRepository.findItemResponseDtoBy(itemId, requestDto);
         updateRelativeItemStatusBy(itemResponseDto);
 

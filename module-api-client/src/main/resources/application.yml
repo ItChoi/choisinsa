@@ -4,7 +4,7 @@ server:
 spring:
   profiles:
     active: client
-    include: database,aws,oauth,jwt
+    include: database,aws,oauth,jwt,redis
 
   messages:
     basename: messages

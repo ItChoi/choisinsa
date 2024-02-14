@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -141,6 +142,10 @@ public class ItemOptionService {
 
     @Transactional(readOnly = true)
     public List<ItemOptionResponseDto> findItemOptionResponseDtoAllBy(Long itemId) {
+        if (itemId == null) {
+            return Collections.emptyList();
+        }
+
         List<ItemOptionResponseDto> itemOptionDtos = findOrderedAllByItemId(itemId).stream()
                 .map(ItemOptionMapper.INSTANCE::toItemOptionResponseDto)
                 .collect(Collectors.toList());

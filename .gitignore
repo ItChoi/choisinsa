@@ -41,6 +41,7 @@ application-database.yml
 application-self-verification.yml
 application-jwt.yml
 application-oauth.yml
+application-redis.yml
 
 sql/**
 
