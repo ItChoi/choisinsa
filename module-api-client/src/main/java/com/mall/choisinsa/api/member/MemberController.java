@@ -64,5 +64,7 @@ public class MemberController {
     public ResponseWrapper isAvailableEmail(@PathVariable String email) {
         return ResponseWrapper.ok(memberService.isExistEmail(email));
     }
+
+
 }
 

@@ -2,6 +2,7 @@ package com.mall.choisinsa.security.provider;
 
 import com.mall.choisinsa.common.secret.ConstData;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
+import com.mall.choisinsa.security.dto.JwtTokenDto;
 import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -27,39 +28,69 @@ import static com.mall.choisinsa.security.service.SecurityUserDetailsService.toS
 @Component
 public class JwtTokenProvider implements InitializingBean {
 
-    @Value("${jwt.member.secret}")
-    private String secret;
+    @Value("${jwt.access-token.secret}")
+    private String accessTokenSecret;
 
-    @Value("${jwt.member.token-validity-in-seconds}")
-    private long tokenValidityInMilliseconds;
+    @Value("${jwt.access-token.validity-in-seconds}")
+    private long accessTokenValidityInMilliseconds;
 
-    private Key key;
+    @Value("${jwt.refresh-token.secret}")
+    private String refreshTokenSecret;
+
+    @Value("${jwt.refresh-token.validity-in-seconds}")
+    private long refreshTokenValidityInMilliseconds;
+
+    private Key accessTokenkey;
+    private Key refreshTokenkey;
 
     @Override
     public void afterPropertiesSet() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+        byte[] accessKeyBytes = Decoders.BASE64.decode(accessTokenSecret);
+        this.accessTokenkey = Keys.hmacShaKeyFor(accessKeyBytes);
+
+        byte[] refreshKeyBytes = Decoders.BASE64.decode(refreshTokenSecret);
+        this.refreshTokenkey = Keys.hmacShaKeyFor(refreshKeyBytes);
     }
 
     public String createToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-
+        String authorities = getAuthoritiesWithAuthentication(authentication);
         SecurityMemberDto securityMemberDto = toSecurityMemberDtoFromAuthorizedPrinciple(authentication);
+        return getJwtsBuilder(securityMemberDto, authorities, accessTokenkey, accessTokenValidityInMilliseconds);
+    }
+
+    private String getJwtsBuilder(SecurityMemberDto securityMemberDto,
+                                  String authorities,
+                                  Key key,
+                                  long tokenValidityInMilliseconds) {
         return Jwts.builder()
-                .setSubject(authentication.getName())
+                .setSubject(securityMemberDto.getLoginId())
                 .claim(ConstData.JWT_USER_ID, securityMemberDto.getMemberId())
                 .claim(ConstData.AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS512)
-                .setExpiration(getJwtValidity())
+                .setExpiration(getJwtValidity(tokenValidityInMilliseconds))
                 .compact();
+    }
+
+    private static String getAuthoritiesWithAuthentication(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+    }
+
+    public JwtTokenDto createJwtToken(Authentication authentication) {
+        String authorities = getAuthoritiesWithAuthentication(authentication);
+        SecurityMemberDto securityMemberDto = toSecurityMemberDtoFromAuthorizedPrinciple(authentication);
+
+        return new JwtTokenDto(
+                getJwtsBuilder(securityMemberDto, authorities, accessTokenkey, accessTokenValidityInMilliseconds),
+                getJwtsBuilder(securityMemberDto, authorities, refreshTokenkey, refreshTokenValidityInMilliseconds)
+        );
     }
 
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts
                 .parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(accessTokenkey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -82,7 +113,7 @@ public class JwtTokenProvider implements InitializingBean {
     public boolean isValidJwtToken(String token) {
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(key)
+                    .setSigningKey(accessTokenkey)
                     .build()
                     .parseClaimsJws(token);
             return true;
@@ -99,9 +130,9 @@ public class JwtTokenProvider implements InitializingBean {
         return false;
     }
 
-    private Date getJwtValidity() {
+    private Date getJwtValidity(long validityInMilliseconds) {
         long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        Date validity = new Date(now + validityInMilliseconds);
         return validity;
     }
 }

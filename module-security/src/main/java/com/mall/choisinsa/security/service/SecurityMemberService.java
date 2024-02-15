@@ -6,6 +6,7 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.domain.SecurityMemberSnsConnect;
+import com.mall.choisinsa.security.dto.JwtTokenDto;
 import com.mall.choisinsa.security.dto.SecurityMostSimpleLoginUserDto;
 import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
@@ -36,16 +37,16 @@ public class SecurityMemberService {
     private final SecurityMemberRepository securityMemberRepository;
     private final SecurityMemberSnsConnectService securityMemberSnsConnectService;
 
-
     public String login(MemberType memberType,
-                        String loginId,
-                        String password) {
+                             String loginId,
+                             String password) {
         validateLoginInfoOrThrowException(memberType, loginId, password);
 
         Authentication authenticate = authenticationProvider.authenticate(
                 new UsernamePasswordAuthenticationToken(loginId, password)
         );
         validateLoginInfoAfterAuth(memberType, authenticate);
+        //jwtTokenProvider.createJwtToken(authenticate);
 
         return jwtTokenProvider.createToken(authenticate);
     }

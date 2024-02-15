@@ -24,7 +24,7 @@ public class RedisService {
                         String value,
                         Long expiredSec) {
         redisTemplate.opsForValue()
-                .set(key, value, expiredSec, TimeUnit.MILLISECONDS);
+                .set(key, value, expiredSec, TimeUnit.SECONDS);
     }
 
     public String getData(String key) {

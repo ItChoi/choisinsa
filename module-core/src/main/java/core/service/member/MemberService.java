@@ -15,13 +15,16 @@ import core.dto.client.request.member.MemberRegisterRequestDto.MemberDetailRegis
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.request.member.SnsMemberRegisterRequestDto;
 import core.dto.client.response.member.MemberResponseDto;
+import com.mall.choisinsa.security.dto.JwtTokenDto;
 import core.dto.general.LoginUserDto;
 import core.repository.member.MemberDetailRepository;
 import core.repository.member.MemberRepository;
 import core.service.event.EventService;
+import core.service.redis.RedisService;
 import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -38,6 +41,11 @@ public class MemberService {
     private final MemberDetailRepository memberDetailRepository;
     private final MemberSnsConnectService memberSnsConnectService;
     private final SecurityMemberService securityMemberService;
+
+    private final RedisService redisService;
+
+    @Value("${jwt.refresh-token.validity-in-seconds}")
+    private long refreshTokenValidityInMilliseconds;
 
     @Transactional(readOnly = true)
     public boolean canRecommendByLoginId(String loginId) {
@@ -190,15 +198,26 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public String login(MemberLoginRequestDto requestDto) {
+        String loginId = requestDto.getLoginId();
+        // TODO 리프레시 토큰 -> 레디스 설정
+        redisService.setData(
+                loginId + ":refreshToken",
+                "refreshToken value",
+                refreshTokenValidityInMilliseconds / 1000
+        );
+
         return securityMemberService.login(
                 requestDto.getMemberType(),
-                requestDto.getLoginId(),
+                loginId,
                 requestDto.getPassword());
     }
 
     public LoginUserDto getLoginUser() {
         return new LoginUserDto(securityMemberService.getLoginUser());
     }
+
+
+
 
 
 }
