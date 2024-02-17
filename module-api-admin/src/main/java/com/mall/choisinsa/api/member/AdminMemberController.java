@@ -1,6 +1,7 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.dto.response.ResponseWrapper;
+import com.mall.choisinsa.web.dto.JwtTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.response.member.MemberLoginResponseDto;
 import core.service.member.MemberService;
@@ -22,7 +23,7 @@ public class AdminMemberController {
     @PostMapping("/login")
     public ResponseWrapper login(@Validated @RequestBody MemberLoginRequestDto requestDto) {
         return ResponseWrapper.ok(
-                new MemberLoginResponseDto(memberService.login(requestDto))
+                new JwtTokenDto(memberService.login(requestDto))
         );
     }
 

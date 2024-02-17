@@ -37,7 +37,7 @@ public class SecurityMemberService {
     private final SecurityMemberRepository securityMemberRepository;
     private final SecurityMemberSnsConnectService securityMemberSnsConnectService;
 
-    public String login(MemberType memberType,
+    public JwtTokenDto login(MemberType memberType,
                              String loginId,
                              String password) {
         validateLoginInfoOrThrowException(memberType, loginId, password);
@@ -46,9 +46,7 @@ public class SecurityMemberService {
                 new UsernamePasswordAuthenticationToken(loginId, password)
         );
         validateLoginInfoAfterAuth(memberType, authenticate);
-        //jwtTokenProvider.createJwtToken(authenticate);
-
-        return jwtTokenProvider.createToken(authenticate);
+        return jwtTokenProvider.createJwtToken(authenticate);
     }
 
     private void validateLoginInfoAfterAuth(MemberType memberType,
@@ -64,7 +62,7 @@ public class SecurityMemberService {
         }
     }
 
-    public String loginWithSns(SnsType snsType,
+    public JwtTokenDto loginWithSns(SnsType snsType,
                                String snsId) {
 
         SecurityMemberSnsConnect memberSnsConnect = securityMemberSnsConnectService.findBySnsTypeAndSnsIdOrThrow(snsType, snsId);

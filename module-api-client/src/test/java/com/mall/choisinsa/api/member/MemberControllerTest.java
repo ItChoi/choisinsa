@@ -10,6 +10,7 @@ import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.response.member.MemberDetailResponseDto;
 import core.dto.client.response.member.MemberResponseDto;
+import core.dto.general.CoreJwtTokenDto;
 import core.service.member.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
 
         //when
         given(memberService.login(any()))
-                .willReturn("bearer token value");
+                .willReturn(new CoreJwtTokenDto("bearer token value", "refresh token asdasdas"));
 
         //then
         this.mockMvc.perform(post("/api/members/login")
@@ -67,7 +68,8 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                                 fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
-                                fieldWithPath("data.token").type(JsonFieldType.STRING).description("bearer token")
+                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("bearer token"),
+                                fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("refresh token")
                         )
                 ));
     }

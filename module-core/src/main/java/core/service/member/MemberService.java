@@ -5,6 +5,7 @@ import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import com.mall.choisinsa.security.service.SecurityMemberService;
 import com.mall.choisinsa.util.domain.MemberUtil.MemberValidator;
+import com.mall.choisinsa.common.generator.redis.RedisKeyGenerator;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
 import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
@@ -15,7 +16,7 @@ import core.dto.client.request.member.MemberRegisterRequestDto.MemberDetailRegis
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.request.member.SnsMemberRegisterRequestDto;
 import core.dto.client.response.member.MemberResponseDto;
-import com.mall.choisinsa.security.dto.JwtTokenDto;
+import core.dto.general.CoreJwtTokenDto;
 import core.dto.general.LoginUserDto;
 import core.repository.member.MemberDetailRepository;
 import core.repository.member.MemberRepository;
@@ -197,19 +198,21 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public String login(MemberLoginRequestDto requestDto) {
+    public CoreJwtTokenDto login(MemberLoginRequestDto requestDto) {
         String loginId = requestDto.getLoginId();
-        // TODO 리프레시 토큰 -> 레디스 설정
+
+        CoreJwtTokenDto coreJwtTokenDto = new CoreJwtTokenDto(securityMemberService.login(
+                requestDto.getMemberType(),
+                loginId,
+                requestDto.getPassword()));
+
         redisService.setData(
-                loginId + ":refreshToken",
-                "refreshToken value",
+                RedisKeyGenerator.jwtRefreshToken(loginId),
+                coreJwtTokenDto.getRefreshToken(),
                 refreshTokenValidityInMilliseconds / 1000
         );
 
-        return securityMemberService.login(
-                requestDto.getMemberType(),
-                loginId,
-                requestDto.getPassword());
+        return coreJwtTokenDto;
     }
 
     public LoginUserDto getLoginUser() {

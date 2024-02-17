@@ -2,10 +2,10 @@ package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.annotation.LoginUser;
 import com.mall.choisinsa.dto.response.ResponseWrapper;
+import com.mall.choisinsa.web.dto.JwtTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
-import core.dto.client.response.member.MemberLoginResponseDto;
 import core.dto.general.LoginUserDto;
 import core.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +29,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseWrapper login(@Validated @RequestBody MemberLoginRequestDto requestDto) {
-        return ResponseWrapper.ok(
-                new MemberLoginResponseDto(memberService.login(requestDto))
-        );
+        return ResponseWrapper.ok(new JwtTokenDto(memberService.login(requestDto)));
     }
 
     // @LoginUser -> ArgumentResolver 로직 완성 후 사용하기.
