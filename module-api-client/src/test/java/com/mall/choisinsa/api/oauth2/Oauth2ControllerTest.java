@@ -5,6 +5,7 @@ import com.mall.choisinsa.enumeration.SnsType;
 import core.dto.client.response.oauth2.Oauth2LoginResponseDto;
 import core.dto.client.response.oauth2.Oauth2ResponseDto;
 import core.dto.client.response.oauth2.Oauth2UserResponseDto;
+import core.dto.general.CoreJwtTokenDto;
 import core.service.oauth2.Oauth2Service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,6 @@ public class Oauth2ControllerTest extends ClientApplicationBaseTest {
         //given
         Oauth2LoginResponseDto oauth2LoginResponseDto = generateOauth2LoginResponseDto();
 
-
         //when
         given(oauth2Service.login(any(), any()))
                 .willReturn(oauth2LoginResponseDto);
@@ -63,8 +63,9 @@ public class Oauth2ControllerTest extends ClientApplicationBaseTest {
                                 fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").description("결과 데이터"),
-                                fieldWithPath("data.jwtAccessToken").type(JsonFieldType.STRING).description("jwt token"),
-                                fieldWithPath("data.oauth2AcessToken").type(JsonFieldType.STRING).description("oauth access token"),
+                                fieldWithPath("data.jwtTokenDto.accessToken").type(JsonFieldType.STRING).description("access token"),
+                                fieldWithPath("data.jwtTokenDto.refreshToken").type(JsonFieldType.STRING).description("refresh token"),
+                                fieldWithPath("data.oauth2AccessToken").type(JsonFieldType.STRING).description("oauth access token"),
                                 fieldWithPath("data.snsType").type(JsonFieldType.STRING).description("sns type: " + Arrays.stream(SnsType.values()).map(SnsType::name).collect(Collectors.joining(" | "))),
                                 fieldWithPath("data.oauth2UserInfo").type(JsonFieldType.OBJECT).description("oauth 유저 정보"),
                                 fieldWithPath("data.oauth2UserInfo.isAlreadyConnectSns").type(JsonFieldType.BOOLEAN).description("이미 sns 로그인 연동했는지 여부"),
@@ -86,7 +87,7 @@ public class Oauth2ControllerTest extends ClientApplicationBaseTest {
 
     private static Oauth2LoginResponseDto generateOauth2LoginResponseDto() {
         return new Oauth2LoginResponseDto(
-                "token value",
+                new CoreJwtTokenDto("access token value", "refresh token value"),
                 "oauth token",
                 SnsType.INSTAGRAM,
                 new Oauth2ResponseDto(

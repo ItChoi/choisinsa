@@ -15,7 +15,7 @@ public class SnsMemberRegisterRequestDto {
     @NotBlank
     private String snsId;
     @NotBlank
-    private String oauth2AcessToken;
+    private String oauth2AccessToken;
     @NotNull @Valid
     private MemberRegisterRequestDto memberInfo;
 }

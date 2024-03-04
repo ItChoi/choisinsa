@@ -1,12 +1,13 @@
 package com.mall.choisinsa;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mall.choisinsa.api.member.MemberController;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
-//import com.mall.choisinsa.security.service.Oauth2UserService;
 import com.mall.choisinsa.web.LoginResolverTest;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -22,6 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+@WebMvcTest(controllers = {
+        MemberController.class
+})
 @ActiveProfiles({"client"})
 @AutoConfigureRestDocs(uriScheme = "http", uriHost = "localhost", uriPort = 8080)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})

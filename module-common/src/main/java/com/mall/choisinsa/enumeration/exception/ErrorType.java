@@ -44,7 +44,8 @@ public enum ErrorType {
     NOT_FOUND_AUTHORITY_MENU(HttpStatus.BAD_REQUEST, "권한 매핑 메뉴를 찾을 수 없습니다."),
     NOT_FOUND_MENU(HttpStatus.BAD_REQUEST, "메뉴를 찾을 수 없습니다."),
     NOT_EMPTY(HttpStatus.BAD_REQUEST, "값이 비어있을 수 없습니다."),
-    NOT_NULL(HttpStatus.BAD_REQUEST, "값이 NULL일 수 없습니다.");
+    NOT_NULL(HttpStatus.BAD_REQUEST, "값이 NULL일 수 없습니다."),
+    CAN_NOT_REISSUE_TOKEN(HttpStatus.BAD_REQUEST, "액세스 토큰을 재발급 받을 수 없습니다.");
 
 
     private final HttpStatus httpStatus;

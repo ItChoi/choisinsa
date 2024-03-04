@@ -5,6 +5,8 @@ import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.member.GenderType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import com.mall.choisinsa.enumeration.member.MemberType;
+import com.mall.choisinsa.web.dto.JwtTokenDto;
+import com.mall.choisinsa.web.dto.ReissueTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
@@ -14,7 +16,6 @@ import core.dto.general.CoreJwtTokenDto;
 import core.service.member.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -33,7 +35,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MemberController.class)
 public class MemberControllerTest extends ClientApplicationBaseTest {
 
     @MockBean
@@ -230,6 +231,34 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                                 fieldWithPath("errorType").description("예외 타입"),
                                 fieldWithPath("errorMsg").description("예외 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN).description("true: 이메일 이용 가능, false: 이메일 이용 불가능")
+                        )
+                ));
+    }
+
+    @DisplayName("액세스 토큰 재발급 - 기존 액세스 토큰이 만료됐고, 리프레시 토큰이 유효한지 체크하여 새로운 액세스 토큰을 발급해준다.")
+    @Test
+    void refreshAccessToken() throws Exception {
+        //given
+        ReissueTokenDto requestDto = new ReissueTokenDto("Expired Access Token Value");
+
+        //when
+        when(memberService.refreshAccessToken(any(), any()))
+                .thenReturn("access token value");
+
+        //then
+        this.mockMvc.perform(post("/api/members/token/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk())
+                .andDo(document("reissue_access_token",
+                        requestFields(
+                                fieldWithPath("expiredAccessToken").type(JsonFieldType.STRING).description("만료된 액세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").description("http status text"),
+                                fieldWithPath("errorType").description("예외 타입"),
+                                fieldWithPath("errorMsg").description("예외 메시지"),
+                                fieldWithPath("data").type(JsonFieldType.STRING).description("액세스 토큰")
                         )
                 ));
     }

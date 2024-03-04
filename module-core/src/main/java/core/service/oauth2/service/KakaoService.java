@@ -87,12 +87,12 @@ public class KakaoService {
         }
     }
 
-    public Oauth2ResponseDto getUser(String oauth2AcessToken) {
+    public Oauth2ResponseDto getUser(String oauth2AccessToken) {
         Object obj = httpCommunication.requestPostWithToken(
                 KAKAO_GET_USER_URL,
                 MediaType.APPLICATION_FORM_URLENCODED,
                 AuthorizationType.AUTHORIZATION,
-                oauth2AcessToken);
+                oauth2AccessToken);
 
         Oauth2UserResponseDto snsUserInfo = getUserWithKakaoInfo(obj);
         return new Oauth2ResponseDto(

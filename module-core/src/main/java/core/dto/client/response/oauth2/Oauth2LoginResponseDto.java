@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Oauth2LoginResponseDto {
     private CoreJwtTokenDto jwtTokenDto;
-    private String oauth2AcessToken;
+    private String oauth2AccessToken;
     private SnsType snsType;
     private Oauth2ResponseDto oauth2UserInfo;
 }

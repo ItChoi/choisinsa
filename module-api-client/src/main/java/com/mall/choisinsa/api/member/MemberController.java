@@ -1,8 +1,11 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.annotation.LoginUser;
+import com.mall.choisinsa.common.secret.ApiUri;
+import com.mall.choisinsa.common.secret.ConstData;
 import com.mall.choisinsa.dto.response.ResponseWrapper;
 import com.mall.choisinsa.web.dto.JwtTokenDto;
+import com.mall.choisinsa.web.dto.ReissueTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
@@ -12,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping(ApiUri.API_MEMBER_RESOURCES)
 public class MemberController {
     // TEST CODE: private final StockService stockService;
     // TEST CODE: private final MemberValidator memberValidator;
@@ -57,12 +62,19 @@ public class MemberController {
         return ResponseWrapper.ok();
     }
 
-    // TODO: url 변경 필요 있을 듯
     @GetMapping("/{email}/is-available")
     public ResponseWrapper isAvailableEmail(@PathVariable String email) {
         return ResponseWrapper.ok(memberService.isExistEmail(email));
     }
 
+    //@PostMapping("/token/refresh")
+    @PostMapping(ApiUri.REFRESH_TOKEN_URL)
+    public ResponseWrapper refreshAccessToken(@Valid @RequestBody ReissueTokenDto requestDto,
+                                              @LoginUser LoginUserDto loginUser) {
+        return ResponseWrapper.ok(memberService.refreshAccessToken(loginUser.getLoginId(), requestDto.convert()));
+    }
+
+    // TODO: OTP - redis
 
 }
 

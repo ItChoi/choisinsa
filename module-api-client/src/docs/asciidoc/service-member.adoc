@@ -38,3 +38,9 @@ include::{snippets}/is_available_email/http-request.adoc[]
 include::{snippets}/is_available_email/path-parameters.adoc[]
 include::{snippets}/is_available_email/http-response.adoc[]
 include::{snippets}/is_available_email/response-fields.adoc[]
+
+=== 액세스 토큰 재발급
+include::{snippets}/reissue_access_token/http-request.adoc[]
+include::{snippets}/reissue_access_token/request-fields.adoc[]
+include::{snippets}/reissue_access_token/http-response.adoc[]
+include::{snippets}/reissue_access_token/response-fields.adoc[]

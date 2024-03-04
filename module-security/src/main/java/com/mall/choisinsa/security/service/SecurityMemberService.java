@@ -7,6 +7,7 @@ import com.mall.choisinsa.enumeration.member.MemberType;
 import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.domain.SecurityMemberSnsConnect;
 import com.mall.choisinsa.security.dto.JwtTokenDto;
+import com.mall.choisinsa.security.dto.ReissueTokenDto;
 import com.mall.choisinsa.security.dto.SecurityMostSimpleLoginUserDto;
 import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
@@ -63,7 +64,7 @@ public class SecurityMemberService {
     }
 
     public JwtTokenDto loginWithSns(SnsType snsType,
-                               String snsId) {
+                                    String snsId) {
 
         SecurityMemberSnsConnect memberSnsConnect = securityMemberSnsConnectService.findBySnsTypeAndSnsIdOrThrow(snsType, snsId);
         SecurityMember securityMember = findByIdOrThrow(memberSnsConnect.getMemberId());
@@ -116,5 +117,24 @@ public class SecurityMemberService {
         }
 
         throw new ErrorTypeAdviceException(ErrorType.NOT_SUPPORT_AUTHENTICATION);
+    }
+
+    public String reissueAccessToken(String refreshToken,
+                                     ReissueTokenDto reissueTokenDto) {
+        validateJwtToken(refreshToken, reissueTokenDto);
+        if (jwtTokenProvider.isExpiredJwtToken(reissueTokenDto.getExpiredAccessToken())) {
+            if (jwtTokenProvider.isValidRefreshToken(refreshToken)) {
+                return jwtTokenProvider.createToken(refreshToken);
+            }
+        }
+
+        throw new ErrorTypeAdviceException(ErrorType.CAN_NOT_REISSUE_TOKEN);
+    }
+
+    private void validateJwtToken(String refreshToken,
+                                  ReissueTokenDto reissueTokenDto) {
+        if (!StringUtils.hasText(refreshToken) || reissueTokenDto == null || !StringUtils.hasText(reissueTokenDto.getExpiredAccessToken())) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
     }
 }

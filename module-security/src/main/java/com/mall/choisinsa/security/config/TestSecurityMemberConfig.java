@@ -2,7 +2,6 @@ package com.mall.choisinsa.security.config;
 
 import com.mall.choisinsa.security.filter.JwtFilter;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
-import com.mall.choisinsa.security.service.Oauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

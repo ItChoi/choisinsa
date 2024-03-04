@@ -17,4 +17,8 @@ public class CoreJwtTokenDto {
         this.accessToken = jwtTokenDto.getAccessToken();
         this.refreshToken = jwtTokenDto.getRefreshToken();
     }
+
+    public JwtTokenDto convert() {
+        return new JwtTokenDto(this.accessToken, this.refreshToken);
+    }
 }

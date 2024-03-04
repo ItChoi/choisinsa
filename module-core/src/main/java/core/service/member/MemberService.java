@@ -17,6 +17,7 @@ import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.request.member.SnsMemberRegisterRequestDto;
 import core.dto.client.response.member.MemberResponseDto;
 import core.dto.general.CoreJwtTokenDto;
+import core.dto.general.CoreReissueTokenDto;
 import core.dto.general.LoginUserDto;
 import core.repository.member.MemberDetailRepository;
 import core.repository.member.MemberRepository;
@@ -201,10 +202,11 @@ public class MemberService {
     public CoreJwtTokenDto login(MemberLoginRequestDto requestDto) {
         String loginId = requestDto.getLoginId();
 
-        CoreJwtTokenDto coreJwtTokenDto = new CoreJwtTokenDto(securityMemberService.login(
-                requestDto.getMemberType(),
-                loginId,
-                requestDto.getPassword()));
+        CoreJwtTokenDto coreJwtTokenDto = new CoreJwtTokenDto(
+                securityMemberService.login(
+                        requestDto.getMemberType(),
+                        loginId,
+                        requestDto.getPassword()));
 
         redisService.setData(
                 RedisKeyGenerator.jwtRefreshToken(loginId),
@@ -220,7 +222,11 @@ public class MemberService {
     }
 
 
-
-
-
+    public String refreshAccessToken(String loginId,
+                                     CoreReissueTokenDto requestDto) {
+        return securityMemberService.reissueAccessToken(
+                redisService.getData(RedisKeyGenerator.jwtRefreshToken(loginId)),
+                requestDto.convert()
+        );
+    }
 }

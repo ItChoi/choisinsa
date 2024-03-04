@@ -1,6 +1,6 @@
-package com.mall.choisinsa.web.dto;
+package core.dto.general;
 
-import core.dto.general.CoreReissueTokenDto;
+import com.mall.choisinsa.security.dto.ReissueTokenDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +11,12 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ReissueTokenDto {
+public class CoreReissueTokenDto {
 
     @NotBlank
     private String expiredAccessToken;
 
-    public CoreReissueTokenDto convert() {
-        return new CoreReissueTokenDto(expiredAccessToken);
+    public ReissueTokenDto convert() {
+        return new ReissueTokenDto(expiredAccessToken);
     }
 }

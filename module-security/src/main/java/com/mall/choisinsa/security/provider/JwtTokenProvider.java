@@ -58,6 +58,10 @@ public class JwtTokenProvider implements InitializingBean {
         return getJwtsBuilder(securityMemberDto, authorities, accessTokenkey, accessTokenValidityInMilliseconds);
     }
 
+    public String createToken(String refreshToken) {
+        return createToken(getAuthentication(refreshToken));
+    }
+
     private String getJwtsBuilder(SecurityMemberDto securityMemberDto,
                                   String authorities,
                                   Key key,
@@ -110,10 +114,19 @@ public class JwtTokenProvider implements InitializingBean {
         );
     }
 
-    public boolean isValidJwtToken(String token) {
+    public boolean isValidAccessToken(String token) {
+        return isValidToken(token, accessTokenkey);
+    }
+
+    public boolean isValidRefreshToken(String token) {
+        return isValidToken(token, refreshTokenkey);
+    }
+
+    private boolean isValidToken(String token,
+                                 Key key) {
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(accessTokenkey)
+                    .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
             return true;
@@ -128,6 +141,19 @@ public class JwtTokenProvider implements InitializingBean {
         }
 
         return false;
+    }
+
+    public boolean isExpiredJwtToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(accessTokenkey)
+                    .build()
+                    .parseClaimsJws(token);
+
+            return false;
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
     }
 
     private Date getJwtValidity(long validityInMilliseconds) {

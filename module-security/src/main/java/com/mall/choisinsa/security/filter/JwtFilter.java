@@ -1,11 +1,10 @@
 package com.mall.choisinsa.security.filter;
 
+import com.mall.choisinsa.common.secret.ApiUri;
 import com.mall.choisinsa.common.secret.ConstData;
 import com.mall.choisinsa.enumeration.authority.AuthorizationType;
 import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.security.domain.SecurityMember;
 import com.mall.choisinsa.security.provider.JwtTokenProvider;
-import com.mall.choisinsa.security.service.SecurityMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -27,17 +26,29 @@ public class JwtFilter extends GenericFilter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = resolveToken(httpServletRequest);
-        String requestURI = httpServletRequest.getRequestURI();
+        String requestUri = httpServletRequest.getRequestURI();
 
-        if (StringUtils.hasText(token) && jwtTokenProvider.isValidJwtToken(token)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.debug("Security Context에 '{}' 인증 정보를 저장했습니다. uri: {}", authentication.getName(), requestURI);
+        if (StringUtils.hasText(token) && jwtTokenProvider.isValidAccessToken(token)) {
+            saveAuthForRequest(requestUri, token);
         } else {
-            log.debug("[JWT ERROR]: {} / {}", requestURI, ErrorType.WRONG_JWT_TOKEN.getMessage());
+            if (ApiUri.REFRESH_VALID_URL_FOR_EXPIRED_ACCESS.equals(requestUri)) {
+                if (jwtTokenProvider.isValidRefreshToken(token)) {
+                    saveAuthForRequest(requestUri, token);
+                }
+            } else {
+                log.debug("[JWT ERROR]: {} / {}", requestUri, ErrorType.WRONG_JWT_TOKEN.getMessage());
+            }
         }
 
         chain.doFilter(request, response);
+    }
+
+    private void saveAuthForRequest(String requestUri,
+                                    String token) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        log.debug("Security Context에 '{}' 인증 정보를 저장했습니다. uri: {}", authentication.getName(), requestUri);
     }
 
     // 토큰 정보 꺼내오기.
