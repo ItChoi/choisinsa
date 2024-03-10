@@ -1,9 +1,12 @@
 package com.mall.choisinsa.web;
 
 import com.mall.choisinsa.annotation.LoginUser;
+import com.mall.choisinsa.common.secret.ConstData;
 import core.domain.member.Member;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.websocket.Constants;
 import org.springframework.core.MethodParameter;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -28,6 +31,11 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         // TODO: JWT 가져와서 체크 @LoginUser 애노테이션을 사용하고 있는 파라미터에 Member 객체 리턴하기.
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         request.getHeader("");
+
+        String bearerToken = request.getHeader(Constants.AUTHORIZATION_HEADER_NAME);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(ConstData.AUTHORIZATION_BEARER)) {
+            return bearerToken.substring(7);
+        }
 
         return null;
     }

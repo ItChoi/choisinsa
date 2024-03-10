@@ -92,9 +92,14 @@ public class JwtTokenProvider implements InitializingBean {
     }
 
     public Authentication getAuthentication(String token) {
+        return getAuthentication(accessTokenkey, token);
+    }
+
+    public Authentication getAuthentication(Key key,
+                                            String token) {
         Claims claims = Jwts
                 .parserBuilder()
-                .setSigningKey(accessTokenkey)
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -112,6 +117,10 @@ public class JwtTokenProvider implements InitializingBean {
                 token,
                 authorities
         );
+    }
+
+    public Authentication getAuthenticationWithRefresh(String token) {
+        return getAuthentication(refreshTokenkey, token);
     }
 
     public boolean isValidAccessToken(String token) {

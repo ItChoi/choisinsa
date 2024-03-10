@@ -9,12 +9,13 @@ import org.mapstruct.factory.Mappers;
 import java.util.function.Function;
 
 
-@Mapper(
+/*@Mapper(
         componentModel = "spring",
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE
-)
+)*/
+@Mapper
 public interface ItemOptionMapper {
 
     ItemOptionMapper INSTANCE = Mappers.getMapper(ItemOptionMapper.class);

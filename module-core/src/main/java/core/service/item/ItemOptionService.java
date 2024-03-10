@@ -146,10 +146,12 @@ public class ItemOptionService {
             return Collections.emptyList();
         }
 
-        List<ItemOptionResponseDto> itemOptionDtos = findOrderedAllByItemId(itemId).stream()
+        /*List<ItemOptionResponseDto> itemOptionDtos = findOrderedAllByItemId(itemId).stream()
                 .map(ItemOptionMapper.INSTANCE::toItemOptionResponseDto)
                 .collect(Collectors.toList());
 
-        return itemOptionDtos;
+        return itemOptionDtos;*/
+
+        return null;
     }
 }

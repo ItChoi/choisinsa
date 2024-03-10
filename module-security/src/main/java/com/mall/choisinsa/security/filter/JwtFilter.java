@@ -29,11 +29,13 @@ public class JwtFilter extends GenericFilter {
         String requestUri = httpServletRequest.getRequestURI();
 
         if (StringUtils.hasText(token) && jwtTokenProvider.isValidAccessToken(token)) {
-            saveAuthForRequest(requestUri, token);
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
             if (ApiUri.REFRESH_VALID_URL_FOR_EXPIRED_ACCESS.equals(requestUri)) {
                 if (jwtTokenProvider.isValidRefreshToken(token)) {
-                    saveAuthForRequest(requestUri, token);
+                    Authentication authentication = jwtTokenProvider.getAuthenticationWithRefresh(token);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } else {
                 log.debug("[JWT ERROR]: {} / {}", requestUri, ErrorType.WRONG_JWT_TOKEN.getMessage());
@@ -48,7 +50,6 @@ public class JwtFilter extends GenericFilter {
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        log.debug("Security Context에 '{}' 인증 정보를 저장했습니다. uri: {}", authentication.getName(), requestUri);
     }
 
     // 토큰 정보 꺼내오기.
