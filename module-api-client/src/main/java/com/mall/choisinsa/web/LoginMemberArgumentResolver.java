@@ -2,7 +2,9 @@ package com.mall.choisinsa.web;
 
 import com.mall.choisinsa.annotation.LoginUser;
 import com.mall.choisinsa.common.secret.ConstData;
+import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import core.domain.member.Member;
+import core.dto.general.LoginUserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.websocket.Constants;
 import org.springframework.core.MethodParameter;
@@ -17,10 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasLoginMemberAnnotation = parameter.hasParameterAnnotation(LoginUser.class);
-        boolean hasMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
+        boolean hasMemberType = LoginUserDto.class.isAssignableFrom(parameter.getParameterType());
 
         return hasLoginMemberAnnotation && hasMemberType;
     }

@@ -1,13 +1,17 @@
 package com.mall.choisinsa.web;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    private final LoginUserArgResolver loginUserArgumentResolver;
 
     /*@Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -29,7 +33,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new LoginMemberArgumentResolver());
+        //resolvers.add(new LoginMemberArgumentResolver());
+        resolvers.add(loginUserArgumentResolver);
     }
 
     // Converter에 더 확장된 기능

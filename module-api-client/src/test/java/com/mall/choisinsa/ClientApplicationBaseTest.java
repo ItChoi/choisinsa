@@ -3,7 +3,7 @@ package com.mall.choisinsa;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.choisinsa.api.member.MemberController;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
-import com.mall.choisinsa.web.LoginResolverTest;
+import com.mall.choisinsa.web.LoginUserArgResolver;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -39,7 +39,7 @@ public class ClientApplicationBaseTest {
     public ObjectMapper objectMapper;
 
     @MockBean
-    public LoginResolverTest loginResolverTest;
+    public LoginUserArgResolver loginUserArgResolver;
 
     @MockBean
     public AuthenticationProvider authenticationProvider;
