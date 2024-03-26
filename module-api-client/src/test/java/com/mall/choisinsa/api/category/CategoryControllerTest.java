@@ -3,7 +3,6 @@ package com.mall.choisinsa.api.category;
 import com.mall.choisinsa.ClientApplicationBaseTest;
 import com.mall.choisinsa.enumeration.category.CategoryAreaType;
 import com.mall.choisinsa.enumeration.category.CategoryType;
-import com.mall.choisinsa.enumeration.member.MemberStatus;
 import core.domain.category.Category;
 import core.dto.client.response.category.CategoryResponseDto;
 import core.dto.client.response.category.CategoryTypeResponseDto;
@@ -26,7 +25,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CategoryController.class)

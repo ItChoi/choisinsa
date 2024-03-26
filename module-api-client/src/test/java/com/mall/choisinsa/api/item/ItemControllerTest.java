@@ -34,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ItemController.class)
 public class ItemControllerTest extends ClientApplicationBaseTest {
+
     @MockBean
     private ItemService itemService;
     @MockBean

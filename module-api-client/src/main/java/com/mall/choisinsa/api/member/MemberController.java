@@ -21,6 +21,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(ApiUri.API_MEMBER_RESOURCES)
 public class MemberController {
+
     // TEST CODE: private final StockService stockService;
     // TEST CODE: private final MemberValidator memberValidator;
     private final MemberService memberService;

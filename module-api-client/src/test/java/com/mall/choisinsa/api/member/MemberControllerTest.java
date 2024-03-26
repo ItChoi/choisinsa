@@ -5,7 +5,6 @@ import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.member.GenderType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import com.mall.choisinsa.enumeration.member.MemberType;
-import com.mall.choisinsa.web.dto.JwtTokenDto;
 import com.mall.choisinsa.web.dto.ReissueTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
@@ -16,6 +15,7 @@ import core.dto.general.CoreJwtTokenDto;
 import core.service.member.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -35,6 +35,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(MemberController.class)
 public class MemberControllerTest extends ClientApplicationBaseTest {
 
     @MockBean
@@ -62,7 +63,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                         requestFields(
                                 fieldWithPath("memberType").type(JsonFieldType.STRING).description("회원 타입: " + Arrays.stream(MemberType.values()).map(MemberType::name).collect(Collectors.joining(" | "))),
                                 fieldWithPath("loginId").type(JsonFieldType.STRING).description("로그인 아이디"),
-                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호").optional()
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                         ),
                         responseFields(
                                 fieldWithPath("status").description("http status text"),

@@ -8,7 +8,7 @@ endif::[]
 :source-highlighter: highlightjs
 :toc: left
 :toc-title: Index
-:toclevels: 3
+:toclevels: 2
 :sectlinks:
 :hardbreaks:
 
