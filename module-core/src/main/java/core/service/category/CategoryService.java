@@ -1,9 +1,9 @@
 package core.service.category;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.category.CategoryAreaType;
 import com.mall.choisinsa.enumeration.category.CategoryType;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorType;
 import core.domain.category.Category;
 import core.dto.client.response.category.CategoryResponseDto;
 import core.dto.client.response.category.CategoryTypeResponseDto;

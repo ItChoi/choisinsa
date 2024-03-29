@@ -1,7 +1,7 @@
 package core.service.item;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorType;
 import core.domain.item.ItemOption;
 import core.domain.item.ItemOptionDetail;
 import core.dto.admin.request.item.AdminItemOptionDetailRequestDto;

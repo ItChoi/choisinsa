@@ -1,7 +1,7 @@
 package core.service.item;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorType;
 import com.mall.choisinsa.enumeration.item.ItemStatus;
 import core.aws.s3.AwsS3Support;
 import core.aws.s3.S3FolderType;
@@ -10,7 +10,7 @@ import core.domain.member.Member;
 import core.dto.admin.request.item.AdminItemDetailRequestDto;
 import core.dto.admin.request.item.AdminItemRequestDto;
 import core.dto.admin.request.item.AdminItemEditorInfoRequestDto;
-import core.mapper.item.ItemMapper;
+import core.common.mapper.item.ItemMapper;
 import core.repository.brand.BrandRepository;
 import core.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;

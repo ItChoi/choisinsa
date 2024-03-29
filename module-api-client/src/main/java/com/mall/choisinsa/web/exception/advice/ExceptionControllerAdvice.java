@@ -1,9 +1,9 @@
 package com.mall.choisinsa.web.exception.advice;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.dto.response.ResponseWrapper;
+import core.common.exception.ErrorTypeAdviceException;
+import core.dto.ResponseWrapper;
 import com.mall.choisinsa.enumeration.SnsType;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorType;
 import jdk.jshell.spi.ExecutionControl.UserException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

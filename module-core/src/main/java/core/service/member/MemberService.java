@@ -1,15 +1,19 @@
 package core.service.member;
 
+import com.mall.choisinsa.common.redis.RedisKeyGenerator;
 import com.mall.choisinsa.enumeration.SnsType;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
-import com.mall.choisinsa.security.service.SecurityMemberService;
-import com.mall.choisinsa.util.domain.MemberUtil.MemberValidator;
-import com.mall.choisinsa.common.generator.redis.RedisKeyGenerator;
+import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.exception.ErrorType;
+import core.common.exception.ErrorTypeAdviceException;
+import core.common.validator.MemberValidator;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
 import core.domain.member.MemberSnsConnect;
+import core.dto.JwtTokenDto;
+import core.dto.ReissueTokenDto;
+import core.dto.SecurityMemberDto;
+import core.dto.SecurityMostSimpleLoginUserDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto.MemberDetailRegisterRequestDto;
@@ -19,6 +23,7 @@ import core.dto.client.response.member.MemberResponseDto;
 import core.dto.general.CoreJwtTokenDto;
 import core.dto.general.CoreReissueTokenDto;
 import core.dto.general.LoginUserDto;
+import core.provider.JwtTokenProvider;
 import core.repository.member.MemberDetailRepository;
 import core.repository.member.MemberRepository;
 import core.service.event.EventService;
@@ -27,6 +32,12 @@ import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -42,7 +53,11 @@ public class MemberService {
     private final EventService eventService;
     private final MemberDetailRepository memberDetailRepository;
     private final MemberSnsConnectService memberSnsConnectService;
-    private final SecurityMemberService securityMemberService;
+
+    private final AuthenticationProvider authenticationProvider;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
+
 
     private final RedisService redisService;
 
@@ -106,7 +121,7 @@ public class MemberService {
             throw new ErrorTypeAdviceException(ErrorType.ALREADY_EXISTS_DATA, "이메일");
         }
 
-        String encodePassword = securityMemberService.encodePassword(password);
+        String encodePassword = encodePassword(password);
         Member savedMember = memberRepository.save(requestDto.toMember(encodePassword));
         Long memberId = savedMember.getId();
         memberDetailRepository.save(toMemberDetailBy(memberId, requestDto.getMemberDetail()));
@@ -203,7 +218,7 @@ public class MemberService {
         String loginId = requestDto.getLoginId();
 
         CoreJwtTokenDto coreJwtTokenDto = new CoreJwtTokenDto(
-                securityMemberService.login(
+                login(
                         requestDto.getMemberType(),
                         loginId,
                         requestDto.getPassword()));
@@ -224,9 +239,99 @@ public class MemberService {
 
     public String refreshAccessToken(String loginId,
                                      CoreReissueTokenDto requestDto) {
-        return securityMemberService.reissueAccessToken(
+        return reissueAccessToken(
                 redisService.getData(RedisKeyGenerator.jwtRefreshToken(loginId)),
-                requestDto.convert()
+                requestDto
         );
     }
+
+    public JwtTokenDto login(MemberType memberType,
+                             String loginId,
+                             String password) {
+        validateLoginInfoOrThrowException(memberType, loginId, password);
+
+        Authentication authenticate = authenticationProvider.authenticate(
+                new UsernamePasswordAuthenticationToken(loginId, password)
+        );
+        validateLoginInfoAfterAuth(memberType, authenticate);
+        return jwtTokenProvider.createJwtToken(authenticate);
+    }
+
+    private void validateLoginInfoAfterAuth(MemberType memberType,
+                                            Authentication authenticate) {
+        Object principal = authenticate.getPrincipal();
+        if (!(principal instanceof SecurityMemberDto)) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_SUPPORT_AUTHENTICATION);
+        }
+
+        SecurityMemberDto memberDto = (SecurityMemberDto) principal;
+        if (memberType == null || memberType != memberDto.getMemberType()) {
+            throw new ErrorTypeAdviceException(ErrorType.MISMATCH_AUTHORITY);
+        }
+    }
+
+    public JwtTokenDto loginWithSns(SnsType snsType,
+                                    String snsId) {
+
+        SecurityMemberSnsConnect memberSnsConnect = securityMemberSnsConnectService.findBySnsTypeAndSnsIdOrThrow(snsType, snsId);
+        SecurityMember securityMember = findByIdOrThrow(memberSnsConnect.getMemberId());
+        return login(MemberType.MEMBER, securityMember.getLoginId(), securityMember.getPassword());
+    }
+
+    private void validateLoginInfoOrThrowException(MemberType memberType,
+                                                   String loginId,
+                                                   String password) {
+        if (memberType == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+
+        MemberValidator.validateLoginOrThrow(loginId, password);
+    }
+
+    public String encodePassword(String plainText) {
+        if (!StringUtils.hasText(plainText)) {
+            return null;
+        }
+        return passwordEncoder.encode(plainText);
+    }
+
+    public SecurityMostSimpleLoginUserDto getLoginUser() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        if (securityContext == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_LOGGED_IN);
+        }
+
+        Authentication authentication = securityContext.getAuthentication();
+        if (authentication == null) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_LOGGED_IN);
+        }
+
+        if (authentication instanceof UsernamePasswordAuthenticationToken) {
+            if (authentication.getPrincipal() instanceof SecurityMemberDto) {
+                return new SecurityMostSimpleLoginUserDto((SecurityMemberDto) authentication.getPrincipal());
+            }
+        }
+
+        throw new ErrorTypeAdviceException(ErrorType.NOT_SUPPORT_AUTHENTICATION);
+    }
+
+    public String reissueAccessToken(String refreshToken,
+                                     ReissueTokenDto reissueTokenDto) {
+        validateJwtToken(refreshToken, reissueTokenDto);
+        if (jwtTokenProvider.isExpiredJwtToken(reissueTokenDto.getExpiredAccessToken())) {
+            if (jwtTokenProvider.isValidRefreshToken(refreshToken)) {
+                return jwtTokenProvider.createToken(refreshToken);
+            }
+        }
+
+        throw new ErrorTypeAdviceException(ErrorType.CAN_NOT_REISSUE_TOKEN);
+    }
+
+    private void validateJwtToken(String refreshToken,
+                                  ReissueTokenDto reissueTokenDto) {
+        if (!StringUtils.hasText(refreshToken) || reissueTokenDto == null || !StringUtils.hasText(reissueTokenDto.getExpiredAccessToken())) {
+            throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
+        }
+    }
+
 }

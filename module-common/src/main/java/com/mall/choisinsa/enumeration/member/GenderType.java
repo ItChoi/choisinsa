@@ -2,8 +2,7 @@ package com.mall.choisinsa.enumeration.member;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.Nullable;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @RequiredArgsConstructor
@@ -14,9 +13,8 @@ public enum GenderType {
 
     private final String desc;
 
-    @Nullable
     public static GenderType from(String type) {
-        if (StringUtils.hasText(type)) {
+        if (StringUtils.isBlank(type)) {
             return null;
         }
 

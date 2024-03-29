@@ -1,6 +1,6 @@
 package core.dto.general;
 
-import com.mall.choisinsa.security.dto.JwtTokenDto;
+import core.dto.JwtTokenDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

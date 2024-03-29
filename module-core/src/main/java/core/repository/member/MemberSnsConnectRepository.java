@@ -19,4 +19,7 @@ public interface MemberSnsConnectRepository extends JpaRepository<MemberSnsConne
 
     Optional<MemberSnsConnect> findByMemberIdAndSnsType(Long memberId,
                                                         SnsType snsType);
+
+    Optional<MemberSnsConnect> findBySnsTypeAndSnsId(SnsType loginType,
+                                                             String snsId);
 }

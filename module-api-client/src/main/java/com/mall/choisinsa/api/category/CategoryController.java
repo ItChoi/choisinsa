@@ -1,6 +1,6 @@
 package com.mall.choisinsa.api.category;
 
-import com.mall.choisinsa.dto.response.ResponseWrapper;
+import core.dto.ResponseWrapper;
 import com.mall.choisinsa.enumeration.category.CategoryAreaType;
 import com.mall.choisinsa.enumeration.category.CategoryType;
 import core.service.category.CategoryService;

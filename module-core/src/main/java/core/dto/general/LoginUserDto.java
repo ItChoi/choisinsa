@@ -1,6 +1,6 @@
 package core.dto.general;
 
-import com.mall.choisinsa.security.dto.SecurityMostSimpleLoginUserDto;
+import core.dto.SecurityMostSimpleLoginUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

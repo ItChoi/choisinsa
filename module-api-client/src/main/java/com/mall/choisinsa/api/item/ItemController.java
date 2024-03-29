@@ -1,6 +1,6 @@
 package com.mall.choisinsa.api.item;
 
-import com.mall.choisinsa.dto.response.ResponseWrapper;
+import core.dto.ResponseWrapper;
 import core.dto.client.request.item.ItemDetailRequestDto;
 import core.service.item.ItemService;
 import core.service.stats.ItemStatsService;

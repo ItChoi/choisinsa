@@ -1,7 +1,7 @@
 package core.dto.client.response.member;
 
 import com.mall.choisinsa.enumeration.member.MemberStatus;
-import com.mall.choisinsa.util.security.EncryptionUtil;
+import core.common.util.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
 import lombok.Getter;

@@ -2,7 +2,6 @@ package com.mall.choisinsa.enumeration.authority;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.Nullable;
 
 @Getter
 @RequiredArgsConstructor

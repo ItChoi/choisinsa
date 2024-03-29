@@ -1,9 +1,8 @@
 package core.dto.client.request.member;
 
-import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.member.GenderType;
 import com.mall.choisinsa.enumeration.member.MemberType;
-import com.mall.choisinsa.util.security.EncryptionUtil;
+import core.common.util.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
 import lombok.*;

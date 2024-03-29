@@ -1,6 +1,6 @@
 package com.mall.choisinsa.api.item;
 
-import com.mall.choisinsa.dto.response.ResponseWrapper;
+import core.dto.ResponseWrapper;
 import com.mall.choisinsa.web.annotation.LoginUser;
 import core.dto.admin.request.item.AdminItemDetailRequestDto;
 import core.dto.admin.request.item.AdminItemEditorInfoRequestDto;

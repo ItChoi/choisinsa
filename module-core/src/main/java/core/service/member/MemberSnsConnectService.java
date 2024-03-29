@@ -1,8 +1,8 @@
 package core.service.member;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.SnsType;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorType;
 import core.domain.member.MemberSnsConnect;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.repository.member.MemberSnsConnectRepository;
@@ -64,5 +64,18 @@ public class MemberSnsConnectService {
         // 해당 회원의 sns type이 이미 존재하는 경우
         findByMemberIdAndSnsType(memberId, snsType)
                 .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.ALREADY_EXISTS_DATA, "SNS 계정 연동"));
+    }
+
+    @Transactional(readOnly = true)
+    public MemberSnsConnect findBySnsTypeAndSnsIdOrThrow(SnsType snsType,
+                                                                 String snsId) {
+        return findBySnsTypeAndSnsId(snsType, snsId)
+                .orElseThrow(() -> new ErrorTypeAdviceException(ErrorType.BAD_REQUEST));
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<MemberSnsConnect> findBySnsTypeAndSnsId(SnsType snsType,
+                                                                    String snsId) {
+        return memberSnsConnectRepository.findBySnsTypeAndSnsId(snsType, snsId);
     }
 }

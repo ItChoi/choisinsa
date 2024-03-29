@@ -1,13 +1,12 @@
 package com.mall.choisinsa.api.authority;
 
-import com.mall.choisinsa.dto.response.ResponseWrapper;
+import core.dto.ResponseWrapper;
 import core.dto.admin.request.authority.AdminAuthorityMenuInsertRequestDto;
 import core.service.authority.admin.AdminAuthorityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController

@@ -1,8 +1,8 @@
 package com.mall.choisinsa.web.listener;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorType;
 import core.dto.admin.response.authority.AuthorityApplicationReadyDto;
 import core.service.authority.admin.AdminAuthorityService;
 import lombok.RequiredArgsConstructor;

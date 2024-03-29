@@ -1,9 +1,8 @@
 package core.service.authority.admin;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.security.domain.SecurityAuthorityMenu;
+import core.common.exception.ErrorType;
 import core.annotation.AuthMenuDirtyCheckListener;
 import core.domain.authority.AuthorityMenu;
 import core.domain.menu.Menu;

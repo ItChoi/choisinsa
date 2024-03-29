@@ -15,10 +15,14 @@ public class MemberSnsConnect extends BaseDateTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
     @Column
     private Long memberId;
+
     @Column
     private String snsId;
+
+    @Enumerated(EnumType.STRING)
     @Column
     private SnsType snsType;
 }

@@ -1,7 +1,6 @@
 package core.repository.authority;
 
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
-import com.mall.choisinsa.security.domain.SecurityAuthorityMenu;
 import core.domain.authority.AuthorityMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
 

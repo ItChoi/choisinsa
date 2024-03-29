@@ -1,6 +1,5 @@
 package core.dto.general;
 
-import com.mall.choisinsa.security.dto.ReissueTokenDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,8 +14,4 @@ public class CoreReissueTokenDto {
 
     @NotBlank
     private String expiredAccessToken;
-
-    public ReissueTokenDto convert() {
-        return new ReissueTokenDto(expiredAccessToken);
-    }
 }

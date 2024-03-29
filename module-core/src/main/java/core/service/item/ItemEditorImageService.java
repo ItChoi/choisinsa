@@ -1,7 +1,7 @@
 package core.service.item;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorType;
 import core.aws.s3.AwsS3Support;
 import core.aws.s3.S3FolderType;
 import core.domain.item.ItemEditorImage;

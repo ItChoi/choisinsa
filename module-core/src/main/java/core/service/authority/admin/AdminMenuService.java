@@ -1,7 +1,7 @@
 package core.service.authority.admin;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorType;
 import core.domain.menu.Menu;
 import core.repository.menu.MenuRepository;
 import lombok.RequiredArgsConstructor;

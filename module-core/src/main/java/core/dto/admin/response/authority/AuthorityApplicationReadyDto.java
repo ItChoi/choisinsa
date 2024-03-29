@@ -2,8 +2,6 @@ package core.dto.admin.response.authority;
 
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
 import com.mall.choisinsa.enumeration.authority.UserDetailAuthorityType;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
-import com.mall.choisinsa.util.log.LogUtil;
 import core.domain.authority.Authority;
 import core.domain.authority.AuthorityMenu;
 import core.domain.authority.MenuDetailAuthority;
@@ -85,10 +83,6 @@ public class AuthorityApplicationReadyDto {
         private List<MenuIncludeDetailApiUrlApplicationReadyDto> menuIncludeDetailApiUrls;
 
         public MenuApplicationReadyDto(Menu menu) {
-            if (menu == null) {
-                LogUtil.logErrorTypeAndOccurClass(ErrorType.NOT_EXISTS_REQUIRED_DATA, this.getClass());
-            }
-
             this.depth = menu.getDepth();
             this.displayOrder = menu.getDisplayOrder();
             this.name = menu.getName();

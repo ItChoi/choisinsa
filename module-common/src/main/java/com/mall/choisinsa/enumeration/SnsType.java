@@ -2,7 +2,7 @@ package com.mall.choisinsa.enumeration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ public enum SnsType {
     private final String desc;
 
     public static SnsType matchToLowerCase(String value) {
-        if (!StringUtils.hasText(value)) return null;
+        if (StringUtils.isBlank(value)) return null;
 
         for (SnsType snsType : values()) {
             if (snsType.name().equalsIgnoreCase(value)) {

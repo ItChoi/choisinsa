@@ -1,7 +1,7 @@
 package core.service.hashtag;
 
-import com.mall.choisinsa.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.exception.ErrorType;
+import core.common.exception.ErrorTypeAdviceException;
+import core.common.exception.ErrorType;
 import com.mall.choisinsa.enumeration.hashtag.ItemHashTagType;
 import core.domain.hashtag.ItemHashTagMapping;
 import core.dto.client.response.item.ItemHashTagResponseDto;

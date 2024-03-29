@@ -2,8 +2,7 @@ package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.annotation.LoginUser;
 import com.mall.choisinsa.common.secret.ApiUri;
-import com.mall.choisinsa.common.secret.ConstData;
-import com.mall.choisinsa.dto.response.ResponseWrapper;
+import core.dto.ResponseWrapper;
 import com.mall.choisinsa.web.dto.JwtTokenDto;
 import com.mall.choisinsa.web.dto.ReissueTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
@@ -23,7 +22,7 @@ import javax.validation.Valid;
 public class MemberController {
 
     // TEST CODE: private final StockService stockService;
-    // TEST CODE: private final MemberValidator memberValidator;
+    // TEST CODE: private final MemberValidatorAAA memberValidator;
     private final MemberService memberService;
     //private final SecurityMemberService securityMemberService;
 
