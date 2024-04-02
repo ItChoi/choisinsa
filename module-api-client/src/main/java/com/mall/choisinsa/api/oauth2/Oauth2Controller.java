@@ -21,7 +21,6 @@ public class Oauth2Controller {
     @GetMapping("/login/oauth2/code/{snsType}")
     public ResponseWrapper oauthLogin(@PathVariable SnsType snsType,
                                       Oauth2LoginRequestDto requestDto) {
-
         return ResponseWrapper.ok(oauth2Service.login(snsType, requestDto));
     }
 

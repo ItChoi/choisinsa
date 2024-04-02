@@ -3,6 +3,7 @@ package core.filter;
 import com.mall.choisinsa.common.secret.ApiUri;
 import com.mall.choisinsa.common.secret.ConstData;
 import com.mall.choisinsa.enumeration.authority.AuthorizationType;
+import core.common.exception.ErrorType;
 import core.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Slf4j

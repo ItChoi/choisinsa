@@ -1,10 +1,8 @@
 package core.service.oauth2;
 
-import core.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.enumeration.SnsType;
 import core.common.exception.ErrorType;
-import com.mall.choisinsa.security.dto.JwtTokenDto;
-import com.mall.choisinsa.security.service.SecurityMemberService;
+import core.common.exception.ErrorTypeAdviceException;
 import core.dto.JwtTokenDto;
 import core.dto.client.request.oauth2.Oauth2LoginRequestDto;
 import core.dto.client.response.oauth2.Oauth2LoginResponseDto;
@@ -24,7 +22,7 @@ import org.springframework.stereotype.Service;
 @Profile("client")
 @RequiredArgsConstructor
 @Service
-public class Oauth2Service extends DefaultOAuth2UserService {
+public class Oauth2Service /*extends DefaultOAuth2UserService */{
 
     private final KakaoService kakaoService;
     private final MemberService memberService;
@@ -54,8 +52,8 @@ public class Oauth2Service extends DefaultOAuth2UserService {
         throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);
     }
 
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        return super.loadUser(userRequest);
-    }
+//    @Override
+//    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+//        return super.loadUser(userRequest);
+//    }
 }

@@ -2,7 +2,6 @@ package com.mall.choisinsa.web;
 
 import com.mall.choisinsa.annotation.LoginUser;
 import com.mall.choisinsa.common.secret.ConstData;
-import com.mall.choisinsa.security.dto.SecurityMemberDto;
 import core.domain.member.Member;
 import core.dto.general.LoginUserDto;
 import lombok.extern.slf4j.Slf4j;

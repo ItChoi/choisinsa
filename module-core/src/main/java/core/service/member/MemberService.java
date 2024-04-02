@@ -233,7 +233,7 @@ public class MemberService {
     }
 
     public LoginUserDto getLoginUser() {
-        return new LoginUserDto(securityMemberService.getLoginUser());
+        return new LoginUserDto(getSecurtyLoginUser());
     }
 
 
@@ -273,8 +273,8 @@ public class MemberService {
     public JwtTokenDto loginWithSns(SnsType snsType,
                                     String snsId) {
 
-        SecurityMemberSnsConnect memberSnsConnect = securityMemberSnsConnectService.findBySnsTypeAndSnsIdOrThrow(snsType, snsId);
-        SecurityMember securityMember = findByIdOrThrow(memberSnsConnect.getMemberId());
+        MemberSnsConnect memberSnsConnect = memberSnsConnectService.findBySnsTypeAndSnsIdOrThrow(snsType, snsId);
+        Member securityMember = findByIdOrThrow(memberSnsConnect.getMemberId());
         return login(MemberType.MEMBER, securityMember.getLoginId(), securityMember.getPassword());
     }
 
@@ -295,7 +295,7 @@ public class MemberService {
         return passwordEncoder.encode(plainText);
     }
 
-    public SecurityMostSimpleLoginUserDto getLoginUser() {
+    public SecurityMostSimpleLoginUserDto getSecurtyLoginUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         if (securityContext == null) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_LOGGED_IN);
@@ -316,7 +316,7 @@ public class MemberService {
     }
 
     public String reissueAccessToken(String refreshToken,
-                                     ReissueTokenDto reissueTokenDto) {
+                                     CoreReissueTokenDto reissueTokenDto) {
         validateJwtToken(refreshToken, reissueTokenDto);
         if (jwtTokenProvider.isExpiredJwtToken(reissueTokenDto.getExpiredAccessToken())) {
             if (jwtTokenProvider.isValidRefreshToken(refreshToken)) {
@@ -328,7 +328,7 @@ public class MemberService {
     }
 
     private void validateJwtToken(String refreshToken,
-                                  ReissueTokenDto reissueTokenDto) {
+                                  CoreReissueTokenDto reissueTokenDto) {
         if (!StringUtils.hasText(refreshToken) || reissueTokenDto == null || !StringUtils.hasText(reissueTokenDto.getExpiredAccessToken())) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }
