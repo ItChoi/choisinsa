@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CoreReissueTokenDto {
+public class ReissueTokenDto {
 
     @NotBlank
     private String expiredAccessToken;

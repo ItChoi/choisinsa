@@ -1,6 +1,6 @@
 package core.dto.general;
 
-import core.dto.SecurityMostSimpleLoginUserDto;
+import core.dto.SecurityMemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +14,8 @@ public class LoginUserDto {
     private Long memberId;
     private String loginId;
 
-    public LoginUserDto(SecurityMostSimpleLoginUserDto securityMostSimpleLoginUserDto) {
-        this.memberId = securityMostSimpleLoginUserDto.getMemberId();
-        this.loginId = securityMostSimpleLoginUserDto.getLoginId();
+    public LoginUserDto(SecurityMemberDto securityMemberDto) {
+        this.memberId = securityMemberDto.getMemberId();
+        this.loginId = securityMemberDto.getLoginId();
     }
 }

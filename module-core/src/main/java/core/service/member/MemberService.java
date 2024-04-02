@@ -10,18 +10,15 @@ import core.common.validator.MemberValidator;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;
 import core.domain.member.MemberSnsConnect;
-import core.dto.JwtTokenDto;
-import core.dto.ReissueTokenDto;
 import core.dto.SecurityMemberDto;
-import core.dto.SecurityMostSimpleLoginUserDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto.MemberDetailRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.request.member.SnsMemberRegisterRequestDto;
 import core.dto.client.response.member.MemberResponseDto;
-import core.dto.general.CoreJwtTokenDto;
-import core.dto.general.CoreReissueTokenDto;
+import core.dto.general.JwtTokenDto;
+import core.dto.general.ReissueTokenDto;
 import core.dto.general.LoginUserDto;
 import core.provider.JwtTokenProvider;
 import core.repository.member.MemberDetailRepository;
@@ -214,31 +211,20 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public CoreJwtTokenDto login(MemberLoginRequestDto requestDto) {
-        String loginId = requestDto.getLoginId();
-
-        CoreJwtTokenDto coreJwtTokenDto = new CoreJwtTokenDto(
-                login(
-                        requestDto.getMemberType(),
-                        loginId,
-                        requestDto.getPassword()));
+    public JwtTokenDto login(MemberLoginRequestDto requestDto) {
+        JwtTokenDto jwtTokenDto = login(requestDto.getMemberType(), requestDto.getLoginId(), requestDto.getPassword());
 
         redisService.setData(
-                RedisKeyGenerator.jwtRefreshToken(loginId),
-                coreJwtTokenDto.getRefreshToken(),
+                RedisKeyGenerator.jwtRefreshToken(requestDto.getLoginId()),
+                jwtTokenDto.getRefreshToken(),
                 refreshTokenValidityInMilliseconds / 1000
         );
 
-        return coreJwtTokenDto;
+        return jwtTokenDto;
     }
-
-    public LoginUserDto getLoginUser() {
-        return new LoginUserDto(getSecurtyLoginUser());
-    }
-
 
     public String refreshAccessToken(String loginId,
-                                     CoreReissueTokenDto requestDto) {
+                                     ReissueTokenDto requestDto) {
         return reissueAccessToken(
                 redisService.getData(RedisKeyGenerator.jwtRefreshToken(loginId)),
                 requestDto
@@ -246,8 +232,8 @@ public class MemberService {
     }
 
     public JwtTokenDto login(MemberType memberType,
-                             String loginId,
-                             String password) {
+                                      String loginId,
+                                      String password) {
         validateLoginInfoOrThrowException(memberType, loginId, password);
 
         Authentication authenticate = authenticationProvider.authenticate(
@@ -271,7 +257,7 @@ public class MemberService {
     }
 
     public JwtTokenDto loginWithSns(SnsType snsType,
-                                    String snsId) {
+                                             String snsId) {
 
         MemberSnsConnect memberSnsConnect = memberSnsConnectService.findBySnsTypeAndSnsIdOrThrow(snsType, snsId);
         Member securityMember = findByIdOrThrow(memberSnsConnect.getMemberId());
@@ -295,7 +281,7 @@ public class MemberService {
         return passwordEncoder.encode(plainText);
     }
 
-    public SecurityMostSimpleLoginUserDto getSecurtyLoginUser() {
+    public LoginUserDto getLoginUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         if (securityContext == null) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_LOGGED_IN);
@@ -308,7 +294,7 @@ public class MemberService {
 
         if (authentication instanceof UsernamePasswordAuthenticationToken) {
             if (authentication.getPrincipal() instanceof SecurityMemberDto) {
-                return new SecurityMostSimpleLoginUserDto((SecurityMemberDto) authentication.getPrincipal());
+                return new LoginUserDto((SecurityMemberDto) authentication.getPrincipal());
             }
         }
 
@@ -316,7 +302,7 @@ public class MemberService {
     }
 
     public String reissueAccessToken(String refreshToken,
-                                     CoreReissueTokenDto reissueTokenDto) {
+                                     ReissueTokenDto reissueTokenDto) {
         validateJwtToken(refreshToken, reissueTokenDto);
         if (jwtTokenProvider.isExpiredJwtToken(reissueTokenDto.getExpiredAccessToken())) {
             if (jwtTokenProvider.isValidRefreshToken(refreshToken)) {
@@ -328,7 +314,7 @@ public class MemberService {
     }
 
     private void validateJwtToken(String refreshToken,
-                                  CoreReissueTokenDto reissueTokenDto) {
+                                  ReissueTokenDto reissueTokenDto) {
         if (!StringUtils.hasText(refreshToken) || reissueTokenDto == null || !StringUtils.hasText(reissueTokenDto.getExpiredAccessToken())) {
             throw new ErrorTypeAdviceException(ErrorType.NOT_EXISTS_REQUIRED_DATA);
         }

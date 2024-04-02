@@ -2,9 +2,8 @@ package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.AdminApplicationBaseTest;
 import com.mall.choisinsa.enumeration.member.MemberType;
-import com.mall.choisinsa.web.dto.JwtTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
-import core.dto.general.CoreJwtTokenDto;
+import core.dto.general.JwtTokenDto;
 import core.service.member.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +38,7 @@ class AdminMemberControllerTest extends AdminApplicationBaseTest {
 
         //when
         given(adminMemberService.login(any()))
-                .willReturn(new CoreJwtTokenDto("acasdsadasdsad", "asdasdasdasdas"));
+                .willReturn(new JwtTokenDto("acasdsadasdsad", "asdasdasdasdas"));
 
         //then
         this.mockMvc.perform(post("/api/admin/members/login")

@@ -2,8 +2,8 @@ package core.provider;
 
 import com.mall.choisinsa.common.secret.ConstData;
 import core.common.exception.ErrorType;
-import core.dto.JwtTokenDto;
 import core.dto.SecurityMemberDto;
+import core.dto.general.JwtTokenDto;
 import core.service.member.UserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

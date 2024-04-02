@@ -1,4 +1,4 @@
-package com.mall.choisinsa.web;
+package com.mall.choisinsa.web.resolver;
 
 import com.mall.choisinsa.annotation.LoginUser;
 import core.service.member.MemberService;

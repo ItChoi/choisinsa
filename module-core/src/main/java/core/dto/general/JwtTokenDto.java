@@ -1,4 +1,4 @@
-package core.dto;
+package core.dto.general;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,11 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ReissueTokenDto {
-
-    private String expiredAccessToken;
-
-    public ReissueTokenDto convert() {
-        return new ReissueTokenDto(expiredAccessToken);
-    }
+public class JwtTokenDto {
+    private String accessToken;
+    private String refreshToken;
 }

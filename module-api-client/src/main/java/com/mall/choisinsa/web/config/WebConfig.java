@@ -1,5 +1,6 @@
-package com.mall.choisinsa.web;
+package com.mall.choisinsa.web.config;
 
+import com.mall.choisinsa.web.resolver.LoginUserArgResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

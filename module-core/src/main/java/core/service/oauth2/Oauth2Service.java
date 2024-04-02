@@ -3,20 +3,15 @@ package core.service.oauth2;
 import com.mall.choisinsa.enumeration.SnsType;
 import core.common.exception.ErrorType;
 import core.common.exception.ErrorTypeAdviceException;
-import core.dto.JwtTokenDto;
 import core.dto.client.request.oauth2.Oauth2LoginRequestDto;
 import core.dto.client.response.oauth2.Oauth2LoginResponseDto;
 import core.dto.client.response.oauth2.Oauth2ResponseDto;
 import core.dto.client.response.oauth2.Oauth2UserResponseDto;
-import core.dto.general.CoreJwtTokenDto;
+import core.dto.general.JwtTokenDto;
 import core.service.member.MemberService;
 import core.service.oauth2.service.KakaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Profile("client")
@@ -29,7 +24,6 @@ public class Oauth2Service /*extends DefaultOAuth2UserService */{
 
     public Oauth2LoginResponseDto login(SnsType snsType,
                                         Oauth2LoginRequestDto requestDto) {
-
         if (snsType == SnsType.KAKAO) {
             String oauth2Token = kakaoService.authorizeOauth(requestDto);
             Oauth2ResponseDto oauth2UserInfo = kakaoService.getUser(oauth2Token);
@@ -41,12 +35,12 @@ public class Oauth2Service /*extends DefaultOAuth2UserService */{
                     jwtTokenDto = memberService.loginWithSns(snsType, memberInfo.getId());
                 }
             }
+
             return new Oauth2LoginResponseDto(
-                    new CoreJwtTokenDto(jwtTokenDto),
+                    jwtTokenDto,
                     oauth2Token,
                     snsType,
-                    oauth2UserInfo
-            );
+                    oauth2UserInfo);
         }
 
         throw new ErrorTypeAdviceException(ErrorType.BAD_REQUEST);

@@ -3,12 +3,11 @@ package com.mall.choisinsa.api.member;
 import com.mall.choisinsa.annotation.LoginUser;
 import com.mall.choisinsa.common.secret.ApiUri;
 import core.dto.ResponseWrapper;
-import com.mall.choisinsa.web.dto.JwtTokenDto;
-import com.mall.choisinsa.web.dto.ReissueTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.general.LoginUserDto;
+import core.dto.general.ReissueTokenDto;
 import core.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +33,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseWrapper login(@Validated @RequestBody MemberLoginRequestDto requestDto) {
-        return ResponseWrapper.ok(new JwtTokenDto(memberService.login(requestDto)));
+        return ResponseWrapper.ok(memberService.login(requestDto));
     }
 
     // @LoginUser -> ArgumentResolver 로직 완성 후 사용하기.
@@ -71,7 +70,7 @@ public class MemberController {
     @PostMapping(ApiUri.REFRESH_TOKEN_URL)
     public ResponseWrapper refreshAccessToken(@Valid @RequestBody ReissueTokenDto requestDto,
                                               @LoginUser LoginUserDto loginUser) {
-        return ResponseWrapper.ok(memberService.refreshAccessToken(loginUser.getLoginId(), requestDto.convert()));
+        return ResponseWrapper.ok(memberService.refreshAccessToken(loginUser.getLoginId(), requestDto));
     }
 
     // TODO: OTP - redis

@@ -5,13 +5,12 @@ import com.mall.choisinsa.enumeration.SnsType;
 import com.mall.choisinsa.enumeration.member.GenderType;
 import com.mall.choisinsa.enumeration.member.MemberStatus;
 import com.mall.choisinsa.enumeration.member.MemberType;
-import com.mall.choisinsa.web.dto.ReissueTokenDto;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.response.member.MemberDetailResponseDto;
 import core.dto.client.response.member.MemberResponseDto;
-import core.dto.general.CoreJwtTokenDto;
+import core.dto.general.JwtTokenDto;
 import core.service.member.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +51,7 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
 
         //when
         given(memberService.login(any()))
-                .willReturn(new CoreJwtTokenDto("bearer token value", "refresh token asdasdas"));
+                .willReturn(new JwtTokenDto("bearer token value", "refresh token asdasdas"));
 
         //then
         this.mockMvc.perform(post("/api/members/login")

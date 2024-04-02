@@ -5,7 +5,7 @@ import com.mall.choisinsa.enumeration.SnsType;
 import core.dto.client.response.oauth2.Oauth2LoginResponseDto;
 import core.dto.client.response.oauth2.Oauth2ResponseDto;
 import core.dto.client.response.oauth2.Oauth2UserResponseDto;
-import core.dto.general.CoreJwtTokenDto;
+import core.dto.general.JwtTokenDto;
 import core.service.oauth2.Oauth2Service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,7 +87,7 @@ public class Oauth2ControllerTest extends ClientApplicationBaseTest {
 
     private static Oauth2LoginResponseDto generateOauth2LoginResponseDto() {
         return new Oauth2LoginResponseDto(
-                new CoreJwtTokenDto("access token value", "refresh token value"),
+                new JwtTokenDto("access token value", "refresh token value"),
                 "oauth token",
                 SnsType.INSTAGRAM,
                 new Oauth2ResponseDto(
