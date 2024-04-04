@@ -11,6 +11,7 @@ import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;
 import core.dto.client.response.member.MemberDetailResponseDto;
 import core.dto.client.response.member.MemberResponseDto;
 import core.dto.general.JwtTokenDto;
+import core.dto.general.ReissueTokenDto;
 import core.service.member.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(MemberController.class)
@@ -85,8 +85,8 @@ public class MemberControllerTest extends ClientApplicationBaseTest {
                 .willReturn(generateMemberResponseDto());
 
         //then
-        this.mockMvc.perform(get("/api/members/{memberId}", 1L)
-                        .with(user(generateMemberSecurityMemberDto())))
+        this.mockMvc.perform(get("/api/members/{memberId}", 1L))
+                        //.with(user(generateMemberSecurityMemberDto())))
                 .andExpect(status().isOk())
                 .andDo(document("member_my_information",
                         pathParameters(

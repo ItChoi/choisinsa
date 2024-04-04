@@ -3,7 +3,6 @@ package core.repository.brand;
 import com.mall.choisinsa.enumeration.member.MemberType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import core.domain.member.Member;
-import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;

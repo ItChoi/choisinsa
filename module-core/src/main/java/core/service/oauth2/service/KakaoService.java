@@ -15,7 +15,6 @@ import core.dto.client.response.oauth2.Oauth2UserResponseDto;
 import core.service.authority.MemberCertificationService;
 import core.common.http.HttpCommunication;
 import core.service.member.MemberService;
-import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -70,7 +69,6 @@ public class KakaoService {
         return oauth2TokenInfo.getAccess_token();
     }
 
-    @Nullable
     public Oauth2LoginRequestDto getAuthorizeCode(KakaoAuthorizeCodeRequestDto requestDto) {
         Object obj = httpCommunication.requestGet(KAKAO_OAUTH_AUTHORIZE_URL, requestDto);
 

@@ -2,9 +2,9 @@ package core.dto.admin.request.item;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import core.domain.item.ItemDetail;
-import jodd.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class AdminItemDetailRequestDto {
         return this.companyId != null
                 && this.brandId != null
                 && this.manufacturingDate != null
-                && !StringUtil.isAllBlank(
+                && !StringUtils.isAllBlank(
                     this.itemNumber,
                     this.materialName,
                     this.manufacturer,

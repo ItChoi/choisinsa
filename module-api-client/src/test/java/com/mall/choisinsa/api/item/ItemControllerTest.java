@@ -29,7 +29,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+//import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ItemController.class)
@@ -53,7 +53,7 @@ public class ItemControllerTest extends ClientApplicationBaseTest {
 
         //then
         this.mockMvc.perform(get("/api/items/{itemId}", 1L)
-                        .with(user(generateMemberSecurityMemberDto()))
+//                        .with(user(generateMemberSecurityMemberDto()))
                         .param("brandId", "1"))
                 .andExpect(status().isOk())
                 .andDo(document("member_get_item_detail",

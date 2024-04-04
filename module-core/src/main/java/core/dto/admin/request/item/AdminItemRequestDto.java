@@ -1,9 +1,9 @@
 package core.dto.admin.request.item;
 
 import com.mall.choisinsa.enumeration.item.TargetType;
-import io.micrometer.core.instrument.util.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

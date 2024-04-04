@@ -8,7 +8,6 @@ import core.common.exception.ErrorTypeAdviceException;
 import com.mall.choisinsa.common.secret.ConstData;
 import com.mall.choisinsa.enumeration.authority.AuthorizationType;
 import core.common.exception.ErrorType;
-import io.reactivex.rxjava3.functions.Function;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,7 @@ import org.springframework.web.util.UriBuilder;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Function;
 
 
 @Service
@@ -174,7 +174,6 @@ public class HttpWebClient implements HttpCommunication {
             Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
             Function<UriBuilder, URI> uriBuilderFunction;
                 uriBuilderFunction = uriBuilder -> {
-                    System.out.println("---test---");
                     while (fields.hasNext()) {
                         Map.Entry<String, JsonNode> next = fields.next();
                         uriBuilder.queryParam(next.getKey(), next.getValue().asText());
@@ -183,7 +182,6 @@ public class HttpWebClient implements HttpCommunication {
                     return build;
                 };
 
-            System.out.println("test2: " + uriBuilderFunction.toString());
             return uriBuilderFunction.toString();
 
         } catch (JsonProcessingException e) {

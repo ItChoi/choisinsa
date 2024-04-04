@@ -3,6 +3,5 @@ include 'module-api-admin'
 include 'module-api-batch'
 include 'module-api-client'
 include 'module-common'
-include 'module-configuration'
 include 'module-core'
-
+include 'module-redis'
