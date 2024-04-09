@@ -2,7 +2,7 @@ package com.mall.choisinsa;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.choisinsa.enumeration.authority.AuthorityType;
-import com.mall.choisinsa.web.LoginUserArgResolver;
+import com.mall.choisinsa.web.resolver.LoginUserArgResolver;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;

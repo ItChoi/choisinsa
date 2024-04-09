@@ -1,8 +1,10 @@
 package com.mall.choisinsa.web.dto;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JwtTokenDto {
     private String accessToken;
