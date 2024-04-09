@@ -5,13 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReissueTokenDto {
 
-    @NotBlank
     private String expiredAccessToken;
 }

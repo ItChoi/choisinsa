@@ -6,15 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class AdminItemDetailRequestDto {
-    @NotNull
     private Long companyId;
-    @NotNull
     private Long brandId;
     private Long itemDetailId;
     private String itemNumber; // 품목 번호
