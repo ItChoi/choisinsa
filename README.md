@@ -14,3 +14,7 @@
 - 무신사 사이트 클론 토이프로젝트
 - 멀티 모듈 구조
 
+## 멀티 모듈 구조 의존 방향
+<img src="./markdown/multi-module-structure.png" alt="alt text">
+
+[멀티 모듈](file:./markdown/multi-module-structure.png)
