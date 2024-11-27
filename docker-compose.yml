@@ -1,35 +1,37 @@
-# TEST CODE
-version: '3'
+version: '3.8'
+
 services:
   choisinsa-admin-app:
+    build:
+      context: .
+      dockerfile: module-app-admin/Dockerfile
     ports:
       - 8081:8081
     image: itchoi0429/choisinsa-admin-app:latest
     container_name: choisinsa-admin-app
-    build:
-      context: .
-      dockerfile: module-app-admin/Dockerfile
     depends_on:
       - choisinsa-mysql
+      - choisinsa-redis
     networks:
       - choisinsa-app-network
 
   choisinsa-client-app:
+    build:
+      context: .
+      dockerfile: module-app-choisinsa/Dockerfile
     ports:
       - 8080:8080
     image: itchoi0429/choisinsa-client-app:latest
     container_name: choisinsa-client-app
-    build:
-      context: .
-      dockerfile: ./module-api-client/Dockerfile
     depends_on:
       - choisinsa-mysql
+      - choisinsa-redis
     networks:
       - choisinsa-app-network
 
   choisinsa-mysql:
     image: itchoi0429/choisinsa-mysql:latest
-    container_name: choisinsa-mysql
+    container_name: choisinsa-mysql-test
 #    container_name: choisinsa-mysql-1
     volumes:
       - choisinsa-db-volume:/var/lib/mysql
@@ -48,7 +50,7 @@ services:
 
   choisinsa-redis:
     image: redis
-    container_name: choisinsa-redis
+    container_name: choisinsa-redis-test
     ports:
       - ${REDIS_CLIENT_PORT}:${REDIS_SERVER_PORT}
     command: redis-server /usr/local/conf/redis.conf

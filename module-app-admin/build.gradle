@@ -1,4 +1,7 @@
 plugins {
+    id 'org.springframework.boot' version '2.7.2' // Spring Boot 플러그인 추가
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE' // Dependency Management 플러그인 추가
+    id 'java' // Java 플러그인 추가
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
@@ -66,6 +69,14 @@ test {
 asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
 }
 
 bootJar { // SpringBoot 1.5 이하일 경우 jar

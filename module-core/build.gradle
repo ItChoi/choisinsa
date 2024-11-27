@@ -1,4 +1,8 @@
 plugins {
+    id 'org.springframework.boot' version '2.7.2' // Spring Boot 플러그인 추가
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE' // Dependency Management 플러그인 추가
+    id 'java' // Java 플러그인 추가
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
     // QueryDSL 플러그인 추가
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
@@ -17,6 +21,7 @@ jar { enabled = true }
 dependencies {
     implementation project(":module-common")
     implementation project(":module-redis")
+//    implementation project(":module-data")
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'

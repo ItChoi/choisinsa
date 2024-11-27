@@ -1,8 +1,17 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.2' // Spring Boot 플러그인 추가
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE' // Dependency Management 플러그인 추가
+    id 'java' // Java 플러그인 추가
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+}
+
 bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    implementation project(":module-common")
-    implementation project(":module-core")
+//    implementation project(":module-common")
+//    implementation project(":module-core")
+//    implementation project(":module-data")
+
     implementation 'org.springframework.boot:spring-boot-starter-batch'
 }
