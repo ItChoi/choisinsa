@@ -10,8 +10,17 @@ ENV PROFILE "client"
 WORKDIR ${APP_HOME}
 
 COPY . .
+
+COPY ./module-app-choisinsa/src/main/resources/application-database.yml .module-app-choisinsa/src/main/resources/application-database.yml
+COPY ./module-app-choisinsa/src/main/resources/application-oauth.yml .module-app-choisinsa/src/main/resources/application-oauth.yml
+COPY ./module-redis/src/main/resources/application-redis.yml .module-app-choisinsa/src/main/resources/application-redis.yml
+
+RUN chmod +x gradlew
 RUN ./gradlew clean build
 
-COPY ./module-app-choisinsa/build/libs/*.jar ./module-app-choisinsa/build/libs/module-app-choisinsa.jar
+RUN ls -la module-app-admin/
+RUN ls -al module-app-admin/build/
+RUN ls -al module-app-admin/build/libs
 
-ENTRYPOINT ["java", "-Dspring.profiles.active=client", "-jar", "module-app-choisinsa/build/libs/module-app-choisinsa.jar"]
+
+ENTRYPOINT ["java", "-Dspring.profiles.active=client", "-jar", "module-app-choisinsa/build/libs/module-app-choisinsa-0.0.1-SNAPSHOT.jar"]

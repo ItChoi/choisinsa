@@ -51,6 +51,8 @@ services:
   choisinsa-redis:
     image: redis
     container_name: choisinsa-redis-test
+    env_file:
+      - .env
     ports:
       - ${REDIS_CLIENT_PORT}:${REDIS_SERVER_PORT}
     command: redis-server /usr/local/conf/redis.conf
@@ -67,14 +69,3 @@ networks:
       name: choisinsa-app-network
 volumes:
   choisinsa-db-volume: {}
-
-#  wordpress:
-#    image: adoptopenjdk16
-#    volumes:
-#      - ./wp:/var/www/html
-#    ports:
-#      - "8000:80"
-#    restart: always
-#    environment:
-#      WORDPRESS_DB_HOST: db:3306
-#      WORDPRESS_DB_PASSWORD: wp

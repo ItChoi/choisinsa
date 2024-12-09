@@ -10,8 +10,15 @@ ENV PROFILE "admin"
 WORKDIR ${APP_HOME}
 
 COPY . .
+
+COPY ./module-app-admin/src/main/resources/application-database.yml .module-app-admin/src/main/resources/application-database.yml
+COPY ./module-redis/src/main/resources/application-redis.yml .module-app-admin/src/main/resources/application-redis.yml
+
+RUN chmod +x gradlew
 RUN ./gradlew clean build
 
-COPY ./module-app-admin/build/libs/*.jar ./module-app-admin/build/libs/module-app-admin.jar
+RUN ls -la module-app-admin/
+RUN ls -al module-app-admin/build/
+RUN ls -al module-app-admin/build/libs
 
-ENTRYPOINT ["java", "-Dspring.profiles.active=client", "-jar", "module-app-admin/build/libs/module-app-admin.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=admin", "-jar", "module-app-admin/build/libs/module-app-admin-0.0.1-SNAPSHOT.jar"]
