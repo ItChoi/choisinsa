@@ -17,8 +17,4 @@ COPY ./module-redis/src/main/resources/application-redis.yml .module-app-admin/s
 RUN chmod +x gradlew
 RUN ./gradlew clean build
 
-RUN ls -la module-app-admin/
-RUN ls -al module-app-admin/build/
-RUN ls -al module-app-admin/build/libs
-
 ENTRYPOINT ["java", "-Dspring.profiles.active=admin", "-jar", "module-app-admin/build/libs/module-app-admin-0.0.1-SNAPSHOT.jar"]

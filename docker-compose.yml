@@ -2,13 +2,13 @@ version: '3.8'
 
 services:
   choisinsa-admin-app:
+    container_name: choisinsa-admin-app
     build:
       context: .
       dockerfile: module-app-admin/Dockerfile
     ports:
       - 8081:8081
     image: itchoi0429/choisinsa-admin-app:latest
-    container_name: choisinsa-admin-app
     depends_on:
       - choisinsa-mysql
       - choisinsa-redis
@@ -16,13 +16,13 @@ services:
       - choisinsa-app-network
 
   choisinsa-client-app:
+    container_name: choisinsa-client-app
     build:
       context: .
       dockerfile: module-app-choisinsa/Dockerfile
     ports:
       - 8080:8080
     image: itchoi0429/choisinsa-client-app:latest
-    container_name: choisinsa-client-app
     depends_on:
       - choisinsa-mysql
       - choisinsa-redis

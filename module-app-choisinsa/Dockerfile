@@ -18,9 +18,4 @@ COPY ./module-redis/src/main/resources/application-redis.yml .module-app-choisin
 RUN chmod +x gradlew
 RUN ./gradlew clean build
 
-RUN ls -la module-app-admin/
-RUN ls -al module-app-admin/build/
-RUN ls -al module-app-admin/build/libs
-
-
 ENTRYPOINT ["java", "-Dspring.profiles.active=client", "-jar", "module-app-choisinsa/build/libs/module-app-choisinsa-0.0.1-SNAPSHOT.jar"]

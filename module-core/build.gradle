@@ -37,7 +37,7 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // mysql
-    runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'mysql:mysql-connector-java'
 
     // Querydsl 추가 시작
     implementation 'com.querydsl:querydsl-jpa'
