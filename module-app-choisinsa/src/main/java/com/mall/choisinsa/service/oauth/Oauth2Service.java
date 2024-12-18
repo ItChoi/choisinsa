@@ -1,6 +1,6 @@
 package com.mall.choisinsa.service.oauth;
 
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import com.mall.choisinsa.service.MemberService;
 import core.common.exception.ErrorType;
 import core.common.exception.ErrorTypeAdviceException;

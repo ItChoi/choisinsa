@@ -1,6 +1,6 @@
 package core.dto.admin.request.item;
 
-import com.mall.choisinsa.enumeration.item.ItemEditorContentType;
+import core.common.enumeration.item.ItemEditorContentType;
 import lombok.Getter;
 import lombok.Setter;
 

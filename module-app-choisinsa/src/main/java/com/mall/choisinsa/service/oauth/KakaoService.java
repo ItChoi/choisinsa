@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.choisinsa.service.MemberService;
 import core.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.SnsType;
-import com.mall.choisinsa.enumeration.authority.AuthorizationType;
+import core.common.enumeration.SnsType;
+import core.common.enumeration.authority.AuthorizationType;
 import core.common.exception.ErrorType;
 import core.dto.client.request.oauth2.Oauth2LoginRequestDto;
 import core.dto.general.KakaoOauthTokenDto;
@@ -26,7 +26,7 @@ import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.mall.choisinsa.common.secret.ConstData.*;
+import static core.common.secret.ConstData.*;
 
 @Profile("client")
 @RequiredArgsConstructor

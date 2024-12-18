@@ -1,7 +1,7 @@
 package core.domain.item;
 
-import com.mall.choisinsa.enumeration.item.ItemStatus;
-import com.mall.choisinsa.enumeration.item.TargetType;
+import core.common.enumeration.item.ItemStatus;
+import core.common.enumeration.item.TargetType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 

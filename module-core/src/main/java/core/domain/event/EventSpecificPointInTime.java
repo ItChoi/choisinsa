@@ -1,7 +1,7 @@
 package core.domain.event;
 
 import core.domain.common.BaseDateTimeEntity;
-import com.mall.choisinsa.enumeration.DayOfWeekType;
+import core.common.enumeration.DayOfWeekType;
 import lombok.Getter;
 
 import javax.persistence.*;

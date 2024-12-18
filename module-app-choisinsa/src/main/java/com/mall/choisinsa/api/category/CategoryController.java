@@ -1,8 +1,8 @@
 package com.mall.choisinsa.api.category;
 
 import core.dto.ResponseWrapper;
-import com.mall.choisinsa.enumeration.category.CategoryAreaType;
-import com.mall.choisinsa.enumeration.category.CategoryType;
+import core.common.enumeration.category.CategoryAreaType;
+import core.common.enumeration.category.CategoryType;
 import core.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

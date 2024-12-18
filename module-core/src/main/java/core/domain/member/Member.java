@@ -1,8 +1,8 @@
 package core.domain.member;
 
-import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.enumeration.member.MemberType;
 import core.domain.common.BaseDateTimeEntity;
-import com.mall.choisinsa.enumeration.member.MemberStatus;
+import core.common.enumeration.member.MemberStatus;
 import lombok.*;
 
 import javax.persistence.*;

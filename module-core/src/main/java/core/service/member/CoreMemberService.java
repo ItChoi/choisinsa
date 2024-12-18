@@ -1,6 +1,6 @@
 package core.service.member;
 
-import com.mall.choisinsa.common.redis.RedisKeyGenerator;
+import core.common.redis.RedisKeyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package core.common.http;
 
-import com.mall.choisinsa.enumeration.authority.AuthorizationType;
+import core.common.enumeration.authority.AuthorizationType;
 import org.springframework.http.MediaType;
 
 public interface HttpCommunication {

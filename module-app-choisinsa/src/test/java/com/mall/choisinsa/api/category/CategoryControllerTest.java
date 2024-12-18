@@ -1,8 +1,8 @@
 package com.mall.choisinsa.api.category;
 
 import com.mall.choisinsa.ClientApplicationBaseTest;
-import com.mall.choisinsa.enumeration.category.CategoryAreaType;
-import com.mall.choisinsa.enumeration.category.CategoryType;
+import core.common.enumeration.category.CategoryAreaType;
+import core.common.enumeration.category.CategoryType;
 import core.domain.category.Category;
 import core.dto.client.response.category.CategoryResponseDto;
 import core.dto.client.response.category.CategoryTypeResponseDto;

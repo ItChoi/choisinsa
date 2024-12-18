@@ -2,8 +2,8 @@ package core.service.item;
 
 import core.common.exception.ErrorTypeAdviceException;
 import core.common.exception.ErrorType;
-import com.mall.choisinsa.enumeration.hashtag.ItemHashTagType;
-import com.mall.choisinsa.enumeration.item.ItemStatus;
+import core.common.enumeration.hashtag.ItemHashTagType;
+import core.common.enumeration.item.ItemStatus;
 import core.domain.item.Item;
 import core.dto.client.request.item.ItemDetailRequestDto;
 import core.dto.client.response.item.*;

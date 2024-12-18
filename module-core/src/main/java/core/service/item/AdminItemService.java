@@ -2,7 +2,7 @@ package core.service.item;
 
 import core.common.exception.ErrorTypeAdviceException;
 import core.common.exception.ErrorType;
-import com.mall.choisinsa.enumeration.item.ItemStatus;
+import core.common.enumeration.item.ItemStatus;
 import core.aws.s3.AwsS3Support;
 import core.aws.s3.S3FolderType;
 import core.domain.item.Item;

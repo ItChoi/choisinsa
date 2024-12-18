@@ -1,7 +1,7 @@
 package core.service.member;
 
 import core.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import core.common.exception.ErrorType;
 import core.domain.member.MemberSnsConnect;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;

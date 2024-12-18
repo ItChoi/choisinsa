@@ -1,7 +1,7 @@
 package core.dto.client.request.member;
 
-import com.mall.choisinsa.enumeration.member.GenderType;
-import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.enumeration.member.GenderType;
+import core.common.enumeration.member.MemberType;
 import core.common.util.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;

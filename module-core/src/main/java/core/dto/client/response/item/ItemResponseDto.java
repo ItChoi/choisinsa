@@ -1,8 +1,7 @@
 package core.dto.client.response.item;
 
-import com.mall.choisinsa.enumeration.item.ItemStatus;
-import com.mall.choisinsa.enumeration.item.TargetType;
-import lombok.AllArgsConstructor;
+import core.common.enumeration.item.ItemStatus;
+import core.common.enumeration.item.TargetType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

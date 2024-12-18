@@ -1,7 +1,7 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.annotation.LoginUser;
-import com.mall.choisinsa.common.secret.ApiUri;
+import core.common.secret.ApiUri;
 import core.dto.ResponseWrapper;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;

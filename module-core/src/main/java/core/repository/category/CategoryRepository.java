@@ -1,7 +1,6 @@
 package core.repository.category;
 
-import com.mall.choisinsa.enumeration.category.CategoryAreaType;
-import com.mall.choisinsa.enumeration.category.CategoryType;
+import core.common.enumeration.category.CategoryAreaType;
 import core.domain.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 

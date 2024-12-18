@@ -1,9 +1,9 @@
 package core.service.authority.admin;
 
 import core.annotation.AuthMenuDirtyCheckListener;
-import core.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.authority.AuthorityType;
+import core.common.enumeration.authority.AuthorityType;
 import core.common.exception.ErrorType;
+import core.common.exception.ErrorTypeAdviceException;
 import core.domain.authority.AuthorityMenu;
 import core.domain.menu.Menu;
 import core.dto.admin.request.authority.AdminAuthorityMenuInsertRequestDto;

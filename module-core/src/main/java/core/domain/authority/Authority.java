@@ -1,7 +1,7 @@
 package core.domain.authority;
 
 import core.domain.common.BaseDateTimeEntity;
-import com.mall.choisinsa.enumeration.authority.AuthorityType;
+import core.common.enumeration.authority.AuthorityType;
 import lombok.*;
 
 import javax.persistence.*;

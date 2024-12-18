@@ -1,6 +1,6 @@
 package core.repository.member;
 
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import core.domain.member.MemberSnsConnect;
 import org.springframework.data.jpa.repository.JpaRepository;
 

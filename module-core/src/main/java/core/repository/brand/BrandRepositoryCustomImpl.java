@@ -1,6 +1,6 @@
 package core.repository.brand;
 
-import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.enumeration.member.MemberType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import core.domain.member.Member;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.mall.choisinsa.api.oauth2;
 
 import com.mall.choisinsa.ClientApplicationBaseTest;
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import core.dto.client.response.oauth2.Oauth2LoginResponseDto;
 import core.dto.client.response.oauth2.Oauth2ResponseDto;
 import core.dto.client.response.oauth2.Oauth2UserResponseDto;

@@ -1,9 +1,8 @@
 package core.repository.hashtag;
 
-import com.mall.choisinsa.enumeration.hashtag.ItemHashTagType;
+import core.common.enumeration.hashtag.ItemHashTagType;
 import core.domain.hashtag.ItemHashTagMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 

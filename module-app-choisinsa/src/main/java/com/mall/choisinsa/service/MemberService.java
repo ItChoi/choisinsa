@@ -1,11 +1,11 @@
 package com.mall.choisinsa.service;
 
-import com.mall.choisinsa.common.redis.RedisKeyGenerator;
+import core.common.redis.RedisKeyGenerator;
 import com.mall.choisinsa.dto.LoginUserDto;
 import com.mall.choisinsa.dto.SecurityMemberDto;
-import com.mall.choisinsa.enumeration.SnsType;
-import com.mall.choisinsa.enumeration.member.MemberStatus;
-import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.enumeration.SnsType;
+import core.common.enumeration.member.MemberStatus;
+import core.common.enumeration.member.MemberType;
 import core.common.exception.ErrorType;
 import core.common.exception.ErrorTypeAdviceException;
 import core.common.validator.MemberValidator;

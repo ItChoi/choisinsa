@@ -2,7 +2,7 @@ package com.mall.choisinsa.web.exception.advice;
 
 import core.common.exception.ErrorTypeAdviceException;
 import core.dto.ResponseWrapper;
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import core.common.exception.ErrorType;
 import jdk.jshell.spi.ExecutionControl.UserException;
 import lombok.extern.slf4j.Slf4j;

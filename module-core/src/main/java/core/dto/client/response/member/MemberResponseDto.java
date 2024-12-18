@@ -1,6 +1,6 @@
 package core.dto.client.response.member;
 
-import com.mall.choisinsa.enumeration.member.MemberStatus;
+import core.common.enumeration.member.MemberStatus;
 import core.common.util.EncryptionUtil;
 import core.domain.member.Member;
 import core.domain.member.MemberDetail;

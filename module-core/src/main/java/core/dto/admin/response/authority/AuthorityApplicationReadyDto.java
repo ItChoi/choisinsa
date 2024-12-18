@@ -1,7 +1,7 @@
 package core.dto.admin.response.authority;
 
-import com.mall.choisinsa.enumeration.authority.AuthorityType;
-import com.mall.choisinsa.enumeration.authority.UserDetailAuthorityType;
+import core.common.enumeration.authority.AuthorityType;
+import core.common.enumeration.authority.UserDetailAuthorityType;
 import core.domain.authority.Authority;
 import core.domain.authority.AuthorityMenu;
 import core.domain.authority.MenuDetailAuthority;

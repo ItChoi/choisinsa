@@ -1,6 +1,6 @@
 package core.service.item;
 
-import com.mall.choisinsa.enumeration.item.ItemImageType;
+import core.common.enumeration.item.ItemImageType;
 import core.domain.item.Item;
 import core.domain.item.ItemImage;
 import core.dto.admin.request.item.AdminItemThumbnailImageRequestDto;

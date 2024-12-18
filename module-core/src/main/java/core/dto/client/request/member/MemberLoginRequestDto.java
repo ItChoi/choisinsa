@@ -1,6 +1,6 @@
 package core.dto.client.request.member;
 
-import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.enumeration.member.MemberType;
 import lombok.Getter;
 import lombok.Setter;
 

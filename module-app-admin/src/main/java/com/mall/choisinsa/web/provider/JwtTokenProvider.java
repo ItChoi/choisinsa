@@ -1,6 +1,6 @@
 package com.mall.choisinsa.web.provider;
 
-import com.mall.choisinsa.common.secret.ConstData;
+import core.common.secret.ConstData;
 import com.mall.choisinsa.dto.SecurityMemberDto;
 import com.mall.choisinsa.service.UserDetailsService;
 import core.common.exception.ErrorType;

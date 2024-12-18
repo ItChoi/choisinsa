@@ -1,8 +1,8 @@
 package core.domain.event;
 
 import core.domain.common.BaseDateTimeEntity;
-import com.mall.choisinsa.enumeration.BenefitType;
-import com.mall.choisinsa.enumeration.ConditionType;
+import core.common.enumeration.BenefitType;
+import core.common.enumeration.ConditionType;
 import lombok.Getter;
 
 import javax.persistence.*;

@@ -1,6 +1,6 @@
 package core.common.util;
 
-import com.mall.choisinsa.common.secret.ConstData;
+import core.common.secret.ConstData;
 import core.common.exception.ErrorType;
 import core.common.exception.ErrorTypeAdviceException;
 import lombok.extern.slf4j.Slf4j;

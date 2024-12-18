@@ -1,10 +1,10 @@
 package core.domain.event;
 
 import core.domain.common.BaseDateTimeEntity;
-import com.mall.choisinsa.enumeration.ActiveStatus;
-import com.mall.choisinsa.enumeration.EntryFeeType;
-import com.mall.choisinsa.enumeration.event.EventMethod;
-import com.mall.choisinsa.enumeration.event.EventType;
+import core.common.enumeration.ActiveStatus;
+import core.common.enumeration.EntryFeeType;
+import core.common.enumeration.event.EventMethod;
+import core.common.enumeration.event.EventType;
 import lombok.Getter;
 
 import javax.persistence.*;

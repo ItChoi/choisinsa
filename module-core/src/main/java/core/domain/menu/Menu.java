@@ -1,9 +1,7 @@
 package core.domain.menu;
 
-import core.domain.authority.MenuDetailAuthority;
 import core.domain.common.BaseDateTimeEntity;
-import com.mall.choisinsa.enumeration.menu.MenuType;
-import core.domain.event.Event;
+import core.common.enumeration.menu.MenuType;
 import lombok.*;
 
 import javax.persistence.*;

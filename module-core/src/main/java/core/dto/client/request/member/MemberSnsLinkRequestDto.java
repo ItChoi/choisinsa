@@ -1,6 +1,6 @@
 package core.dto.client.request.member;
 
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;

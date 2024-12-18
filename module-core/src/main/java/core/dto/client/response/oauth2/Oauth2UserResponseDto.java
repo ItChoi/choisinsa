@@ -1,7 +1,7 @@
 package core.dto.client.response.oauth2;
 
-import com.mall.choisinsa.enumeration.SnsType;
-import com.mall.choisinsa.enumeration.member.GenderType;
+import core.common.enumeration.SnsType;
+import core.common.enumeration.member.GenderType;
 import lombok.Getter;
 
 @Getter

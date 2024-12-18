@@ -1,10 +1,10 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.ClientApplicationBaseTest;
-import com.mall.choisinsa.enumeration.SnsType;
-import com.mall.choisinsa.enumeration.member.GenderType;
-import com.mall.choisinsa.enumeration.member.MemberStatus;
-import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.enumeration.SnsType;
+import core.common.enumeration.member.GenderType;
+import core.common.enumeration.member.MemberStatus;
+import core.common.enumeration.member.MemberType;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.client.request.member.MemberRegisterRequestDto;
 import core.dto.client.request.member.MemberSnsConnectRegisterRequestDto;

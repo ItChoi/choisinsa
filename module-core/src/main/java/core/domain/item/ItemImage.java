@@ -1,6 +1,6 @@
 package core.domain.item;
 
-import com.mall.choisinsa.enumeration.item.ItemImageType;
+import core.common.enumeration.item.ItemImageType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 

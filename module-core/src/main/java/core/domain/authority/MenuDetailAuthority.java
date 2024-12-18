@@ -1,6 +1,6 @@
 package core.domain.authority;
 
-import com.mall.choisinsa.enumeration.authority.UserDetailAuthorityType;
+import core.common.enumeration.authority.UserDetailAuthorityType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 

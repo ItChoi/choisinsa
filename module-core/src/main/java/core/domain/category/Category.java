@@ -1,7 +1,7 @@
 package core.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mall.choisinsa.enumeration.category.CategoryAreaType;
+import core.common.enumeration.category.CategoryAreaType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.mall.choisinsa.dto;
 
-import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.enumeration.member.MemberType;
 import core.domain.member.Member;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package core.dto.admin.request.item;
 
-import com.mall.choisinsa.enumeration.item.ItemOptionType;
+import core.common.enumeration.item.ItemOptionType;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.CollectionUtils;

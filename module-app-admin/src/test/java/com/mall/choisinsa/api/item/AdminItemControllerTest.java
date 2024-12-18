@@ -1,9 +1,9 @@
 package com.mall.choisinsa.api.item;
 
 import com.mall.choisinsa.AdminApplicationBaseTest;
-import com.mall.choisinsa.enumeration.item.ItemEditorContentType;
-import com.mall.choisinsa.enumeration.item.ItemOptionType;
-import com.mall.choisinsa.enumeration.item.TargetType;
+import core.common.enumeration.item.ItemEditorContentType;
+import core.common.enumeration.item.ItemOptionType;
+import core.common.enumeration.item.TargetType;
 import core.dto.admin.request.item.*;
 import core.service.item.AdminItemService;
 import org.junit.jupiter.api.DisplayName;

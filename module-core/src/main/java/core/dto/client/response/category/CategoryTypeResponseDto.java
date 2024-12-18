@@ -1,6 +1,6 @@
 package core.dto.client.response.category;
 
-import com.mall.choisinsa.enumeration.category.CategoryType;
+import core.common.enumeration.category.CategoryType;
 import lombok.Getter;
 
 @Getter

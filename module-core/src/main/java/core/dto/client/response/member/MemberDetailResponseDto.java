@@ -1,6 +1,6 @@
 package core.dto.client.response.member;
 
-import com.mall.choisinsa.enumeration.member.GenderType;
+import core.common.enumeration.member.GenderType;
 import core.domain.member.MemberDetail;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

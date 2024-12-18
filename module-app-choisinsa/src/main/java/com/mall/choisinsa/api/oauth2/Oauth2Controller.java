@@ -1,7 +1,7 @@
 package com.mall.choisinsa.api.oauth2;
 
 import core.dto.ResponseWrapper;
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import core.dto.client.request.oauth2.Oauth2LoginRequestDto;
 import com.mall.choisinsa.service.oauth.Oauth2Service;
 import lombok.RequiredArgsConstructor;

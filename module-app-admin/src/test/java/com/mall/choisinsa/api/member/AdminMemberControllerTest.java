@@ -1,7 +1,7 @@
 package com.mall.choisinsa.api.member;
 
 import com.mall.choisinsa.AdminApplicationBaseTest;
-import com.mall.choisinsa.enumeration.member.MemberType;
+import core.common.enumeration.member.MemberType;
 import com.mall.choisinsa.service.MemberService;
 import core.dto.client.request.member.MemberLoginRequestDto;
 import core.dto.general.JwtTokenDto;

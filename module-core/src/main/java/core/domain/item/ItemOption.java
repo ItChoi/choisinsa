@@ -1,6 +1,6 @@
 package core.domain.item;
 
-import com.mall.choisinsa.enumeration.item.ItemOptionType;
+import core.common.enumeration.item.ItemOptionType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 

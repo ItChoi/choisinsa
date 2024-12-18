@@ -1,7 +1,7 @@
 package com.mall.choisinsa.web.listener;
 
 import core.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.authority.AuthorityType;
+import core.common.enumeration.authority.AuthorityType;
 import core.common.exception.ErrorType;
 import core.dto.admin.response.authority.AuthorityApplicationReadyDto;
 import core.service.authority.admin.AdminAuthorityService;

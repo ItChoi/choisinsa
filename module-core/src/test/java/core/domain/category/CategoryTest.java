@@ -1,6 +1,6 @@
 package core.domain.category;
 
-import com.mall.choisinsa.enumeration.category.CategoryAreaType;
+import core.common.enumeration.category.CategoryAreaType;
 
 import java.util.Set;
 

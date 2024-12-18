@@ -1,6 +1,6 @@
 package core.domain.authority;
 
-import com.mall.choisinsa.enumeration.authority.MemberCertificationType;
+import core.common.enumeration.authority.MemberCertificationType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 

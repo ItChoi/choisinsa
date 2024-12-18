@@ -1,12 +1,10 @@
 package core.domain.item;
 
-import com.mall.choisinsa.enumeration.item.ItemEditorContentType;
+import core.common.enumeration.item.ItemEditorContentType;
 import core.domain.common.BaseDateTimeEntity;
-import core.domain.menu.Menu;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 /**
  * 상품 에디터 내용

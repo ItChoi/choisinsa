@@ -1,7 +1,7 @@
 package com.mall.choisinsa.service;
 
 import com.mall.choisinsa.dto.SecurityMemberDto;
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import core.common.exception.ErrorType;
 import core.common.exception.ErrorTypeAdviceException;
 import core.domain.member.Member;

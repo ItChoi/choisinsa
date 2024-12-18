@@ -1,7 +1,7 @@
 package com.mall.choisinsa.web.resolver;
 
 import com.mall.choisinsa.annotation.LoginUser;
-import com.mall.choisinsa.common.secret.ConstData;
+import core.common.secret.ConstData;
 import com.mall.choisinsa.dto.LoginUserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.websocket.Constants;

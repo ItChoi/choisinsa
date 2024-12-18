@@ -1,10 +1,10 @@
 package com.mall.choisinsa.api.item;
 
 import com.mall.choisinsa.ClientApplicationBaseTest;
-import com.mall.choisinsa.enumeration.item.ItemEditorContentType;
-import com.mall.choisinsa.enumeration.item.ItemOptionType;
-import com.mall.choisinsa.enumeration.item.ItemStatus;
-import com.mall.choisinsa.enumeration.item.TargetType;
+import core.common.enumeration.item.ItemEditorContentType;
+import core.common.enumeration.item.ItemOptionType;
+import core.common.enumeration.item.ItemStatus;
+import core.common.enumeration.item.TargetType;
 import core.dto.client.request.item.ItemDetailRequestDto;
 import core.dto.client.response.item.*;
 import core.dto.client.response.stats.ItemSalesStatsWrapperResponseDto;

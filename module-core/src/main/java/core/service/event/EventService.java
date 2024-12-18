@@ -2,8 +2,8 @@ package core.service.event;
 
 import core.domain.event.Event;
 import core.repository.event.EventRepository;
-import com.mall.choisinsa.enumeration.ActiveStatus;
-import com.mall.choisinsa.enumeration.event.EventType;
+import core.common.enumeration.ActiveStatus;
+import core.common.enumeration.event.EventType;
 import core.repository.event.EventParticipantRepository;
 import com.mall.choisinsa.util.date.DateUtil;
 import lombok.RequiredArgsConstructor;

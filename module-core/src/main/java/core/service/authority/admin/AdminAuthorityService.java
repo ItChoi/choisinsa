@@ -1,7 +1,7 @@
 package core.service.authority.admin;
 
 import core.common.exception.ErrorTypeAdviceException;
-import com.mall.choisinsa.enumeration.authority.AuthorityType;
+import core.common.enumeration.authority.AuthorityType;
 import core.common.exception.ErrorType;
 import core.domain.authority.Authority;
 import core.domain.authority.AuthorityMenu;

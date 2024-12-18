@@ -1,6 +1,6 @@
 package core.dto.client.response.oauth2;
 
-import com.mall.choisinsa.enumeration.SnsType;
+import core.common.enumeration.SnsType;
 import core.dto.general.JwtTokenDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

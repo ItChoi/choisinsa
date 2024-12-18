@@ -1,6 +1,6 @@
 package core.dto.client.response.category;
 
-import com.mall.choisinsa.enumeration.category.CategoryAreaType;
+import core.common.enumeration.category.CategoryAreaType;
 import core.domain.category.Category;
 import lombok.Getter;
 import lombok.Setter;

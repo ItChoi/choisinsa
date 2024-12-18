@@ -1,6 +1,6 @@
 package core.domain.hashtag;
 
-import com.mall.choisinsa.enumeration.hashtag.ItemHashTagType;
+import core.common.enumeration.hashtag.ItemHashTagType;
 import core.domain.common.BaseDateTimeEntity;
 import lombok.*;
 
